@@ -1,5 +1,6 @@
 body {
     background-color: lightblue;
+    padding: 0px 10% 0px 10%;
 }
 
 h1 {
@@ -10,4 +11,7 @@ h1 {
 p {
     font-family: verdana;
     font-size: 20px;
+}
+.container {
+    padding-top: 10%;
 }

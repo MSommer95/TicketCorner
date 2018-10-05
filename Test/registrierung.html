@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+
+    <link rel="stylesheet" href="css\bootstrap.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css\styles.css">
+
+</head>
+<body>
+<form action="action_page.php">
+    <div class="container">
+        <div class="row">
+            <h1>Register</h1>
+        </div>
+        <div class="row">
+            <p>Please fill in this form to create an account.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name_reg">Email *</label>
+                    <input id="name_reg" type="email" name="email" class="form-control" placeholder="Trage deine Emailadresse ein *" required="required" data-error="Emailadresse wird benötigt.">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="email_reg">Email *</label>
+                    <input id="email_reg" type="email" name="email" class="form-control" placeholder="Trage deine Emailadresse ein *" required="required" data-error="Emailadresse wird benötigt.">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="psw_form">Email *</label>
+                    <input id="psw_form" type="email" name="email" class="form-control" placeholder="Trage deine Emailadresse ein *" required="required" data-error="Emailadresse wird benötigt.">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="psw_repeat_form">Email *</label>
+                    <input id="psw_repeat_form" type="email" name="email" class="form-control" placeholder="Trage deine Emailadresse ein *" required="required" data-error="Emailadresse wird benötigt.">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" class="registerbtn">Register</button>
+        </div>
+    </div>
+
+    <div class="container signin">
+        <p>Already have an account? <a href="#">Sign in</a>.</p>
+    </div>
+</form>
+</body>
+</html>
