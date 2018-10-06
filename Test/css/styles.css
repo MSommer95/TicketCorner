@@ -3,15 +3,20 @@ body {
     padding: 0px 10% 0px 10%;
 }
 
-h1 {
-    color: white;
-    text-align: center;
-}
-
 p {
     font-family: verdana;
     font-size: 20px;
 }
 .container {
     padding-top: 10%;
+}
+
+h1{
+    text-align: center;
+    color: white;
+}
+
+#reg_h1 {
+    text-align: left;
+    color: white;
 }
