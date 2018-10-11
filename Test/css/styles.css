@@ -124,3 +124,8 @@ h1{
 .input li a {
     color: #fff;
 }
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 80%;
+}
