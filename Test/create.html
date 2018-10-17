@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Event</title>
+    <link rel="stylesheet" href="css\bootstrap.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css\styles.css">
+    <link rel="icon" href="icons/favicon.ico" type=image/x-icon">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">TicketCorner</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="kontakt.html">Kontakt</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Account
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="signIn.html">Anmelden</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="registrierung.html">Registrieren</a>
+                </div>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-xl-8 offset-xl-2 py-5">
+
+            <input type="file" onchange="previewFile()"><br>
+            <img src="" height="200" alt="Image preview...">
+
+            <form id="create-form" method="post" role="form" action="">
+                <div class="controls">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="form_name">Name *</label>
+                                <input id="form_name" type="text" name="name" class="form-control" placeholder="Trage einen Event Namen ein *" required="required" data-error="Event Name wird benötigt.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="form_preis">Preis *</label>
+                                <input id="form_preis" type="text" name="name" class="form-control" placeholder="Trage einen Event Preis ein *" required="required" data-error="Event Preis wird benötigt.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="form_tickets">Ticketanzahl *</label>
+                                <input id="form_tickets" type="text" name="name" class="form-control" placeholder="Trage eine Ticketanzahl ein *" required="required" data-error="Ticketanzahl wird benötigt.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="form_message">Beschreibung *</label>
+                                <textarea id="form_message" name="message" class="form-control" placeholder="Trage eine Event Beschreibung ein *" rows="4" required="required" data-error="Event Beschreibung wird benötigt."></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="col-md-6">
+                <input type="submit" id="submitBtn" class="btn btn-success btn-send" value="Event erstellen" onclick="getName()">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-muted"> <br>
+                        <strong>*</strong> Gehe sicher, dass du alle Felder mit einem * ausgefüllt hast.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="JS\Eventpage.js"></script>
+<script src="JS\EventManager.js"></script>
+</body>
+</html>
