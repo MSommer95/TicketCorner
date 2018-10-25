@@ -10,7 +10,7 @@ $dbname = "db758436568";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
-$varifyAcc = $conn->prepare("SELECT Email,Passwort FROM users WHERE Email= '$email';");
+$varifyAcc = $conn->prepare("SELECT Email,Passwort FROM users WHERE Email= $email;");
 
 if($varifyAcc->execute()){
     $result=$varifyAcc->fetchAll(PDO::FETCH_ASSOC);
@@ -20,22 +20,14 @@ if($varifyAcc->execute()){
     else {
         foreach ($result as $row){
             foreach ($row as $key => $value){
-                $returnHash = $value;
+                $returnName = $value;
             }
-        }
-        if(crypt($passwort, $returnHash) == $returnHash) {
-            echo "valid";
-
-
-        }
-        else{
-            echo "not valid";
         }
     }
 }
 else{
     echo "Error";
 }
-
+echo "UserData"." : ".$returnName;
 $conn = null;
 ?>
