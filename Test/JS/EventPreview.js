@@ -1,5 +1,5 @@
 
-var eventVar = {
+let eventVar = {
     name: null,
     beschreibung: null,
     bild: null,
