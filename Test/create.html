@@ -1,6 +1,8 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src = "PHP\redirect.php"></script>
     <meta charset="UTF-8">
     <title>Create Event</title>
     <link rel="stylesheet" href="css\bootstrap.css">
@@ -9,6 +11,7 @@
     <link rel="stylesheet" href="css\styles.css">
     <link rel="icon" href="icons/favicon.ico" type=image/x-icon">
 </head>
+
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand">TicketCorner</a>
@@ -19,23 +22,35 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="kontakt.html">Kontakt</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" id="LoggedOutAcc" >
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="signIn.html">Anmelden</a>
+                <div class="dropdown-menu"  aria-labelledby="navbarDropdown" >
+                    <a class="dropdown-item"   href="signIn.html">Anmelden</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="registrierung.html">Registrieren</a>
                 </div>
+            </li>
+            <li class="nav-item dropdown" id="LoggedInAcc" >
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Account
+                </a>
+                <div class="dropdown-menu"  aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item"   href="accountManagement.html">Einstellungen</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" onclick="logout()">Abmelden</a>
+                </div>
+            </li>
         </ul>
     </div>
 </nav>
+
 <div class="container">
 
     <div class="row">
@@ -100,5 +115,7 @@
 
 <script src="JS\Eventpage.js"></script>
 <script src="JS\EventManager.js"></script>
+<script src="JS\loginCheck.js"></script>
 </body>
+
 </html>

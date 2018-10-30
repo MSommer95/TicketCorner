@@ -23,67 +23,127 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="kontakt.html">Kontakt</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="signIn.html">Anmelden</a>
+                <a class="nav-link" href="index.html" onclick="logout()">Abmelden</a>
             </li>
         </ul>
     </div>
 </nav>
-
-<div class="col-md-9">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>Your Profile</h4>
-                    <hr>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <form>
-                        <div class="form-group row">
-                            <label for="vorname" class="col-4 col-form-label">Vorname</label>
-                            <div class="col-8">
-                                <input id="vorname" name="vorname" placeholder="Vorname" class="form-control here" required="required" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="nachname" class="col-4 col-form-label">Nachname</label>
-                            <div class="col-8">
-                                <input id="nachname" name="nachname" placeholder="Nachname" class="form-control here" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="email" class="col-4 col-form-label">Emailadresse</label>
-                            <div class="col-8">
-                                <input id="email" name="email" placeholder="Email" class="form-control here" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="passwort" class="col-4 col-form-label">Neues Passwort</label>
-                            <div class="col-8">
-                                <input id="passwort" name="passwort" placeholder="Neues Passwort" class="form-control here" required="required" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="passwortwdh" class="col-4 col-form-label">Passwort wiederholen</label>
-                            <div class="col-8">
-                                <input id="passwortwdh" name="passwortwdh" placeholder="Neues Passwort wiederholen" class="form-control here" required="required" type="text">
-                            </div>
-                        </div>
-                    </form>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 ">
+            <div class="list-group ">
+                <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
+                <a href="#" class="list-group-item list-group-item-action">User Management</a>
             </div>
         </div>
+
+        <div class="col-md-9">
+            <div class="card">
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <h4>Your Profile</h4>
+
+                            <hr>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <form>
+
+                                <div class="form-group row">
+
+                            <label for="vorname" class="col-4 col-form-label">Vorname</label>
+
+                            <div class="col-8">
+
+                                <input id="vorname" name="vorname" placeholder="Vorname" class="form-control here" required="required" type="text">
+
+                            </div>
+
+                                </div>
+
+                                <div class="form-group row">
+
+                                    <label for="nachname" class="col-4 col-form-label">Nachname</label>
+
+                                    <div class="col-8">
+
+                                <input id="nachname" name="nachname" placeholder="Nachname" class="form-control here" type="text">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+
+                            <label for="email" class="col-4 col-form-label">Emailadresse</label>
+
+                                    <div class="col-8">
+
+                                        <input id="email" name="email" placeholder="Email" class="form-control here" type="text" value="">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+
+                                    <label for="passwort" class="col-4 col-form-label">Neues Passwort</label>
+
+                                    <div class="col-8">
+
+                                        <input id="passwort" name="passwort" placeholder="Neues Passwort" class="form-control here" required="required" type="text">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+
+                                    <label for="passwortwdh" class="col-4 col-form-label">Passwort wiederholen</label>
+
+                            <div class="col-8">
+
+                                <input id="passwortwdh" name="passwortwdh" placeholder="Neues Passwort wiederholen" class="form-control here" required="required" type="text">
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="JS\changeAcc.js"></script>
+<script src="JS\loginCheck.js"></script>
 </body>
 </html>

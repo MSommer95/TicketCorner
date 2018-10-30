@@ -28,8 +28,8 @@ $requestStory= $conn->prepare("SELECT * FROM users WHERE Email = '$email';");
 if($requestStory->execute()){
     $result=$requestStory->fetchAll(PDO::FETCH_ASSOC);
     if(count($result)>0){
-        $updateStory = "UPDATE users SET Vorname = '$vorname', Nachname = '$nachname', Email='$email', Passwort='$hashedPW' WHERE Email='$email'";
-        $conn->exec($updateStory);
+        $updateAccount = "UPDATE users SET Vorname = '$vorname', Nachname = '$nachname', Email='$email', Passwort='$hashedPW' WHERE Email='$email'";
+        $conn->exec($updateAccount);
         echo "Updated User.";
     }
     else{
