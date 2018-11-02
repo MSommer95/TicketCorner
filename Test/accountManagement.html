@@ -38,108 +38,71 @@
     <div class="row">
         <div class="col-md-3 ">
             <div class="list-group ">
-                <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action">User Management</a>
+                <a href="" class="list-group-item list-group-item-action active" onclick="enablePData()" id="btn-pdata">Persönliche Daten</a>
+                <a href="#" class="list-group-item list-group-item-action" onclick="enablePW()" id="btn-pwchange">Passwort ändern</a>
             </div>
         </div>
-
         <div class="col-md-9">
             <div class="card">
-
                 <div class="card-body">
-
                     <div class="row">
-
                         <div class="col-md-12">
-
                             <h4>Your Profile</h4>
-
                             <hr>
-
                         </div>
-
                     </div>
-
                     <div class="row">
-
                         <div class="col-md-12">
-
-                            <form>
-
-                                <div class="form-group row">
-
-                            <label for="vorname" class="col-4 col-form-label">Vorname</label>
-
-                            <div class="col-8">
-
-                                <input id="vorname" name="vorname" placeholder="Vorname" class="form-control here" required="required" type="text">
-
+                            <form id="pdata">
+                                <div class="form-group row ">
+                            <label for="vorname" class="col-4 col-form-label pdata">Vorname</label>
+                            <div class="col-8 ">
+                                <input id="vorname" name="vorname" placeholder="Vorname" class="form-control here pdata" required="required" type="text">
                             </div>
-
                                 </div>
-
-                                <div class="form-group row">
-
-                                    <label for="nachname" class="col-4 col-form-label">Nachname</label>
-
-                                    <div class="col-8">
-
-                                <input id="nachname" name="nachname" placeholder="Nachname" class="form-control here" type="text">
-
+                                <div class="form-group row ">
+                                    <label for="nachname" class="col-4 col-form-label pdata">Nachname</label>
+                                    <div class="col-8 ">
+                                        <input id="nachname" name="nachname" placeholder="Nachname" class="form-control here pdata" type="text">
                                     </div>
-
                                 </div>
-
-                                <div class="form-group row">
-
-                            <label for="email" class="col-4 col-form-label">Emailadresse</label>
-
-                                    <div class="col-8">
-
-                                        <input id="email" name="email" placeholder="Email" class="form-control here" type="text" value="">
-
+                                <div class="form-group row ">
+                                    <label for="email" class="col-4 col-form-label pdata">Emailadresse</label>
+                                    <div class="col-8 ">
+                                        <input id="email" name="email" placeholder="Email" class="form-control here pdata" type="text" value="">
                                     </div>
-
                                 </div>
-
                                 <div class="form-group row">
-
-                                    <label for="passwort" class="col-4 col-form-label">Neues Passwort</label>
-
-                                    <div class="col-8">
-
-                                        <input id="passwort" name="passwort" placeholder="Neues Passwort" class="form-control here" required="required" type="text">
-
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary">Persönliche Daten speichern</button>
                                     </div>
-
                                 </div>
-
+                            </form>
+                            <form id="pwchange">
+                                <div class="form-group row ">
+                                    <label for="passwort" class="col-4 col-form-label pwchange">Neues Passwort</label>
+                                    <div class="col-8 ">
+                                        <input id="passwort" name="passwort" placeholder="Neues Passwort" class="form-control here pwchange" required="required" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group row ">
+                                    <label for="passwortwdh" class="col-4 col-form-label pwchange">Passwort wiederholen</label>
+                                    <div class="col-8 ">
+                                        <input id="passwortwdh" name="passwortwdh" placeholder="Neues Passwort wiederholen" class="form-control here pwchange" required="required" type="text">
+                                    </div>
+                                </div>
                                 <div class="form-group row">
-
-                                    <label for="passwortwdh" class="col-4 col-form-label">Passwort wiederholen</label>
-
-                            <div class="col-8">
-
-                                <input id="passwortwdh" name="passwortwdh" placeholder="Neues Passwort wiederholen" class="form-control here" required="required" type="text">
-
-                            </div>
-
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary">Passwort speichern</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-
-                    </form>
-
+                    </div>
                 </div>
-
             </div>
-
-                </div>
-
-            </div>
-
         </div>
-
     </div>
-
 </div>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
