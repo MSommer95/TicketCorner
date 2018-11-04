@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src = "PHP\redirect.php"></script>
     <meta charset="UTF-8">
     <title>Create Event</title>
     <link rel="stylesheet" href="css\bootstrap.css">
@@ -18,26 +17,25 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="kontakt.html">Kontakt</a>
+                <a class="nav-link" href="contact.html">Kontakt</a>
             </li>
-            <li class="nav-item dropdown" id="LoggedOutAcc" >
+            <li class="nav-item dropdown" id="loggedOutAcc" >
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                 </a>
                 <div class="dropdown-menu"  aria-labelledby="navbarDropdown" >
                     <a class="dropdown-item"   href="signIn.html">Anmelden</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="registrierung.html">Registrieren</a>
+                    <a class="dropdown-item" href="registration.html">Registrieren</a>
                 </div>
             </li>
-            <li class="nav-item dropdown" id="LoggedInAcc" >
+            <li class="nav-item dropdown" id="loggedInAcc" >
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                 </a>
@@ -50,23 +48,18 @@
         </ul>
     </div>
 </nav>
-
 <div class="container">
-
     <div class="row">
-
         <div class="col-xl-8 offset-xl-2 py-5">
-
-            <input type="file" onchange="previewFile()"><br>
             <img src="" height="200" alt="Image preview...">
-
-            <form id="create-form" method="post" role="form" action="">
+            <form id="create-form" method="post" role="form" action="PHP\eventCreate.php" enctype="multipart/form-data">
+                <input name="fileToUpload" type="file"  id="fileToUpload"><br>
                 <div class="controls">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="form_name">Name *</label>
-                                <input id="form_name" type="text" name="name" class="form-control" placeholder="Trage einen Event Namen ein *" required="required" data-error="Event Name wird benötigt.">
+                                <input id="form_name" type="text" name="eventName" class="form-control" placeholder="Trage einen Event Namen ein *" required="required" data-error="Event Name wird benötigt.">
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -74,8 +67,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="form_preis">Preis *</label>
-                                <input id="form_preis" type="text" name="name" class="form-control" placeholder="Trage einen Event Preis ein *" required="required" data-error="Event Preis wird benötigt.">
+                                <label for="form_price">Preis *</label>
+                                <input id="form_price" type="text" name="eventPrice" class="form-control" placeholder="Trage einen Event Preis ein *" required="required" data-error="Event Preis wird benötigt.">
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -84,7 +77,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="form_tickets">Ticketanzahl *</label>
-                                <input id="form_tickets" type="text" name="name" class="form-control" placeholder="Trage eine Ticketanzahl ein *" required="required" data-error="Ticketanzahl wird benötigt.">
+                                <input id="form_tickets" type="text" name="eventTickets" class="form-control" placeholder="Trage eine Ticketanzahl ein *" required="required" data-error="Ticketanzahl wird benötigt.">
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -92,17 +85,17 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="form_message">Beschreibung *</label>
-                                <textarea id="form_message" name="message" class="form-control" placeholder="Trage eine Event Beschreibung ein *" rows="4" required="required" data-error="Event Beschreibung wird benötigt."></textarea>
+                                <label for="form_description">Beschreibung *</label>
+                                <textarea id="form_description" name="eventDescription" class="form-control" placeholder="Trage eine Event Beschreibung ein *" rows="4" required="required" data-error="Event Beschreibung wird benötigt."></textarea>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <input type="submit" id="submitBtn" class="btn btn-success btn-send" value="Event erstellen" >
+                </div>
             </form>
-            <div class="col-md-6">
-                <input type="submit" id="submitBtn" class="btn btn-success btn-send" value="Event erstellen" onclick="getName()">
-            </div>
             <div class="row">
                 <div class="col-md-12">
                     <p class="text-muted"> <br>
@@ -113,8 +106,8 @@
     </div>
 </div>
 
-<script src="JS\Eventpage.js"></script>
-<script src="JS\EventManager.js"></script>
+<script src="JS\eventpage.js"></script>
+<script src="JS\eventManager.js"></script>
 <script src="JS\loginCheck.js"></script>
 </body>
 

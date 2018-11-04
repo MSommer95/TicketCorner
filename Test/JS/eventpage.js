@@ -6,7 +6,7 @@ function getFieldValue(field) {
 
 function getName(){
     let name = getFieldValue("form_name");
-    let preis = getFieldValue("form_preis");
+    let preis = getFieldValue("form_price");
     let tickets = getFieldValue("form_tickets");
     let beschreibung = getFieldValue("form_message");
     eventArray = {eventName: name, eventPreis: preis, eventTickets: tickets, eventBeschreibung: beschreibung};

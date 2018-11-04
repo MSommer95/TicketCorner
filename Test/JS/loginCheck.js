@@ -1,6 +1,6 @@
-document.getElementById("LoggedOutAcc").style.display = "block";
-document.getElementById("LoggedInAcc").style.display="none";
-document.getElementById("LoggedInCreate").style.display="none";
+document.getElementById("loggedOutAcc").style.display = "block";
+document.getElementById("loggedInAcc").style.display= "none";
+document.getElementById("loggedInCreate").style.display= "none";
 
 window.getCookie = function(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -8,24 +8,23 @@ window.getCookie = function(name) {
 };
 
 function checkForLogin(){
-    if (getCookie("Email") == null){
-        document.getElementById("LoggedOutAcc").style.display = "block";
-        document.getElementById("LoggedInAcc").style.display="none";
-        document.getElementById("LoggedInCreate").style.display="none";
+    if (getCookie("email") == null){
+        document.getElementById("loggedOutAcc").style.display = "block";
+        document.getElementById("loggedInAcc").style.display= "none";
+        document.getElementById("loggedInCreate").style.display= "none";
     }
     else {
-        document.getElementById("LoggedOutAcc").style.display = "none";
-        document.getElementById("LoggedInAcc").style.display="block";
-        document.getElementById("LoggedInCreate").style.display="block";
+        document.getElementById("loggedOutAcc").style.display = "none";
+        document.getElementById("loggedInAcc").style.display= "block";
+        document.getElementById("loggedInCreate").style.display= "block";
     }
 }
 
 function logout(){
-    document.cookie = "Email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "ID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "Vorname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "Nachname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
+    document.cookie = "forename=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "surname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     checkForLogin();
 }
 

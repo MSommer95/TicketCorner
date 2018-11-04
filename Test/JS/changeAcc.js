@@ -2,9 +2,9 @@ window.getCookie = function(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) return match[2];
 };
-document.getElementById("email").setAttribute("value",getCookie("Email"));
-document.getElementById("vorname").setAttribute("value",getCookie("Vorname"));
-document.getElementById("nachname").setAttribute("value",getCookie("Nachname"));
+document.getElementById("email").setAttribute("value",getCookie("email"));
+document.getElementById("forename").setAttribute("value",getCookie("forename"));
+document.getElementById("surname").setAttribute("value",getCookie("surname"));
 
 document.getElementById("pwchange").style.display = "none";
 document.getElementById("pdata").style.display = "block";

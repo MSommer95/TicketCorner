@@ -25,17 +25,17 @@
             <li class="nav-item active">
                 <a class="nav-link" href="index.html">Home</a>
             </li>
-            <li class="nav-item dropdown" id="LoggedOutAcc" >
+            <li class="nav-item dropdown" id="loggedOutAcc" >
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                 </a>
                 <div class="dropdown-menu"  aria-labelledby="navbarDropdown" >
                     <a class="dropdown-item"   href="signIn.html">Anmelden</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="registrierung.html">Registrieren</a>
+                    <a class="dropdown-item" href="registration.html">Registrieren</a>
                 </div>
             </li>
-            <li class="nav-item dropdown" id="LoggedInAcc" >
+            <li class="nav-item dropdown" id="loggedInAcc" >
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                 </a>
@@ -45,33 +45,25 @@
                     <a class="dropdown-item" href="#" onclick="logout()">Abmelden</a>
                 </div>
             </li>
-            <li class="nav-item active" id="LoggedInCreate">
-                <a class="nav-link" href="create.html.html">Home</a>
+            <li class="nav-item active" id="loggedInCreate">
+                <a class="nav-link" href="create.html">Event erstellen</a>
             </li>
         </ul>
     </div>
 </nav>
 <div class="container">
-
     <div class="row">
-
         <div class="col-xl-8 offset-xl-2 py-5">
-
             <h1>Kontakt-Page für unseren TicketCorner</a></h1>
-
             <p align="center" class="lead">Wenn du Anmerkungen hast, Ideen, Verbesserungen oder dir Bugs auffallen, Dann lass uns doch eine Nachricht da.</p>
-
             <form id="contact-form" method="post" action="contact.php" role="form">
-
                 <div class="messages"></div>
-
                 <div class="controls">
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="form_name">Vorname *</label>
-                                <input id="form_name" type="text" name="name" class="form-control" placeholder="Trage deinen Vornamen ein *" required="required" data-error="Vorname wird benötigt.">
+                                <input id="form_name" type="text" name="forename" class="form-control" placeholder="Trage deinen Vornamen ein *" required="required" data-error="Vorname wird benötigt.">
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>

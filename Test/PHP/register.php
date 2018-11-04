@@ -1,10 +1,10 @@
 <?php
 
 $id = time();
-$vorname = $_POST["vorname"];
-$nachname = $_POST["nachname"];
+$forename = $_POST["forename"];
+$surname = $_POST["surname"];
 $email = $_POST["email"];
-$passwort = $_POST["passwort"];
+$userPassword = $_POST["password"];
 
 
 $servername = "db758436568.db.1and1.com";
@@ -12,11 +12,11 @@ $username = "dbo758436568";
 $password = "M9OitgiOLq4&4j9";
 $dbname = "db758436568";
 
-$hashedPW = password_hash($passwort, PASSWORD_BCRYPT);
+$hashedPW = password_hash($userPassword, PASSWORD_BCRYPT);
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE Email = '$email';");
+$stmt = $conn->prepare("SELECT * FROM users WHERE email = '$email';");
 
 if ($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -24,8 +24,8 @@ if ($stmt->execute()){
         try {
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO users (ID, Vorname, Nachname, Email, Passwort)
-            VALUES ($id, '$vorname', '$nachname', '$email', '$hashedPW')";
+            $sql = "INSERT INTO users (ID, forename, surname, email, password)
+            VALUES ($id, '$forename', '$surname', '$email', '$hashedPW')";
             // use exec() because no results are returned
             $conn->exec($sql);
             header("Location: http://intranet-secure.de/TicketCorner/signIn");

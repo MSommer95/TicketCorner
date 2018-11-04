@@ -1,7 +1,7 @@
 <?php
 
 $email = $_POST["email"];
-$passwort = $_POST["passwort"];
+$userPassword = $_POST["password"];
 
 $servername = "db758436568.db.1and1.com";
 $username = "dbo758436568";
@@ -10,9 +10,9 @@ $dbname = "db758436568";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
-$varifyAcc = $conn->prepare("SELECT Email,Passwort FROM users WHERE Email= '$email' AND LoggedIn = 0;");
-$prepareLogin = $conn->prepare("UPDATE  users SET LoggedIn = 1 WHERE Email= '$email';");
-$getUserData = $conn ->prepare("SELECT ID, Vorname, Nachname, Email FROM users WHERE Email = '$email';");
+$varifyAcc = $conn->prepare("SELECT email,password FROM users WHERE email= '$email' AND loggedIn = 0;");
+$prepareLogin = $conn->prepare("UPDATE  users SET loggedIn = 1 WHERE email= '$email';");
+$getUserData = $conn ->prepare("SELECT ID, forename, surname, email FROM users WHERE email = '$email';");
 
 if($varifyAcc->execute()){
     $result=$varifyAcc->fetchAll(PDO::FETCH_ASSOC);
@@ -26,7 +26,7 @@ if($varifyAcc->execute()){
             }
         }
 
-        if(crypt($passwort, $returnHash) == $returnHash) {
+        if(crypt($userPassword, $returnHash) == $returnHash) {
 
 
 
@@ -41,9 +41,9 @@ if($varifyAcc->execute()){
 
             $splitData = explode(":", $data);
             setcookie("ID", $splitData[1], time() + (86400*30), "/");
-            setcookie("Vorname", $splitData[2], time() + (86400*30), "/");
-            setcookie("Nachname", $splitData[3], time() + (86400*30), "/");
-            setcookie("Email", $splitData[4], time() + (86400*30), "/");
+            setcookie("forename", $splitData[2], time() + (86400*30), "/");
+            setcookie("surname", $splitData[3], time() + (86400*30), "/");
+            setcookie("email", $splitData[4], time() + (86400*30), "/");
             session_start();
 
 
@@ -55,7 +55,7 @@ if($varifyAcc->execute()){
             //echo "valid";
         }
         else{
-            echo $passwort.":".$returnHash;
+            echo $userPassword.":".$returnHash;
         }
 
     }
