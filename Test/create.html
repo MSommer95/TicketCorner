@@ -19,13 +19,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="contact.html">Kontakt</a>
             </li>
-            <li class="nav-item dropdown" id="loggedOutAcc" >
+            <li class="nav-item dropdown loggedOutAcc">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                 </a>
@@ -35,7 +35,7 @@
                     <a class="dropdown-item" href="registration.html">Registrieren</a>
                 </div>
             </li>
-            <li class="nav-item dropdown" id="loggedInAcc" >
+            <li class="nav-item dropdown loggedInAcc">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                 </a>
@@ -48,12 +48,15 @@
         </ul>
     </div>
 </nav>
-<div class="container">
+<div class="container loggedOutAcc">
+    <a href="signIn.html">Melde dich an, um ein Event zu erstellen</a>
+</div>
+<div class="container loggedInAcc">
     <div class="row">
         <div class="col-xl-8 offset-xl-2 py-5">
             <img src="" height="200" alt="Image preview...">
             <form id="create-form" method="post" role="form" action="PHP\eventCreate.php" enctype="multipart/form-data">
-                <input name="fileToUpload" type="file"  id="fileToUpload"><br>
+                <input name="fileToUpload" type="file"  id="fileToUpload" onchange="previewFile()"><br>
                 <div class="controls">
                     <div class="row">
                         <div class="col-md-6">

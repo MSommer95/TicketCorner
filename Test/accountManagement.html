@@ -22,23 +22,27 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="contact.html">Kontakt</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item loggedOutAcc">
                 <a class="nav-link" href="index.html" onclick="logout()">Abmelden</a>
             </li>
         </ul>
     </div>
 </nav>
-<div class="container">
+<div class="container loggedOutAcc">
+    <a href="signIn.html">Melde dich an, um diesen Inhalt zu sehen.</a>
+</div>
+
+<div class="container loggedInAcc">
     <div class="row">
         <div class="col-md-3 ">
             <div class="list-group ">
-                <a href="" class="list-group-item list-group-item-action active" onclick="enablePData()" id="btn-pdata">Persönliche Daten</a>
+                <a href="#" class="list-group-item list-group-item-action active" onclick="enablePData()" id="btn-pdata">Persönliche Daten</a>
                 <a href="#" class="list-group-item list-group-item-action" onclick="enablePW()" id="btn-pwchange">Passwort ändern</a>
             </div>
         </div>

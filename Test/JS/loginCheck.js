@@ -1,6 +1,5 @@
-document.getElementById("loggedOutAcc").style.display = "block";
-document.getElementById("loggedInAcc").style.display= "none";
-document.getElementById("loggedInCreate").style.display= "none";
+
+computeLogout();
 
 window.getCookie = function(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -9,14 +8,10 @@ window.getCookie = function(name) {
 
 function checkForLogin(){
     if (getCookie("email") == null){
-        document.getElementById("loggedOutAcc").style.display = "block";
-        document.getElementById("loggedInAcc").style.display= "none";
-        document.getElementById("loggedInCreate").style.display= "none";
+        computeLogout();
     }
     else {
-        document.getElementById("loggedOutAcc").style.display = "none";
-        document.getElementById("loggedInAcc").style.display= "block";
-        document.getElementById("loggedInCreate").style.display= "block";
+        computeLogin();
     }
 }
 
@@ -28,5 +23,26 @@ function logout(){
     checkForLogin();
 }
 
+function computeLogout(){
+    let lout = document.getElementsByClassName(" loggedOutAcc");
+    let lin = document.getElementsByClassName(" loggedInAcc");
+    for(i=0; i<lout.length;i++){
+        lout.item(i).style.display = "block";
+    }
+    for(i=0; i<lin.length;i++){
+        lin.item(i).style.display = "none";
+    }
+}
+
+function computeLogin(){
+    let lout = document.getElementsByClassName(" loggedOutAcc");
+    let lin = document.getElementsByClassName(" loggedInAcc");
+    for(i=0; i<lout.length;i++){
+        lout.item(i).style.display = "none";
+    }
+    for(i=0; i<lin.length;i++){
+        lin.item(i).style.display = "block";
+    }
+}
 
 checkForLogin();
