@@ -1,5 +1,10 @@
 let eventArray;
 
+window.getCookie = function(name) {
+    let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return match[2];
+};
+
 function getFieldValue(field) {
     return document.getElementById(field).value;
 }
@@ -30,3 +35,8 @@ function previewFile(){
         preview.src = "";
     }
 }
+
+let input = $("<input>")
+    .attr("type", "hidden")
+    .attr("name", "ID").val(getCookie("ID"));
+$('#create-form').append(input);

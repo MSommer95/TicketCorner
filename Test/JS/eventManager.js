@@ -1,7 +1,13 @@
 
 let arrayEventName = [];
 let arrayImagePath = [];
-
+function loopIt(arr){
+    for(i=0;i<arr.length;i++){
+        createPost(arrayImagePath[i],arrayEventName[i]);
+        console.log(arrayEventName[i]);
+        console.log(arrayImagePath[i]);
+    }
+}
 function getEvents() {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -14,39 +20,37 @@ function getEvents() {
             console.log(split);
             console.log(arrayEventName);
             console.log(arrayImagePath);
+            loopIt(arrayImagePath);
         }
     };
     xmlhttp.open("GET", "PHP/getEvents.php", true);
     xmlhttp.send();
 }
-
 function clearString(str){
     console.log(str);
-    str = str.replace(/{|}|"/g,"");
+    str = str.replace(/{|}|"|imageSrc|:|eventName/g,"");
     console.log(str);
-    str = str.slice(1,-3);
+    str = str.slice(1,-2);
     console.log(str);
     return str;
 }
-
 function breakArray(arr){
     for(i=0; i<arr.length;i += 2){
         arrayEventName.push(arr[i]);
         arrayImagePath.push(arr[i+1]);
-        createPost(arrayImagePath[i],arrayEventName[i]);
     }
-
-
 }
-
 function createPost(img, name){
+    let cleanImgID = img.replace("uploads/","");
     let eventName = document.createElement("h1");
     eventName.textContent = name;
+    let eventLink = document.createElement("a");
+    eventLink.href = "http://intranet-secure.de/TicketCorner/PHP/" + cleanImgID.replace(".jpg",".html");
     let imgElement = document.createElement("img");
-    imgElement.src = img;
+    imgElement.src = "PHP/" + img;
     imgElement.height = 400;
     imgElement.width = 800;
     document.getElementById("maintext").appendChild(eventName);
-    document.getElementById("maintext").appendChild(imgElement);
+    document.getElementById("maintext").appendChild(eventLink);
+    eventLink.appendChild(imgElement);
 }
-
