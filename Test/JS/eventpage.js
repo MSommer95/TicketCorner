@@ -8,7 +8,6 @@ window.getCookie = function(name) {
 function getFieldValue(field) {
     return document.getElementById(field).value;
 }
-
 function getName(){
     let name = getFieldValue("form_name");
     let preis = getFieldValue("form_price");
@@ -19,6 +18,7 @@ function getName(){
     console.log(eventArray);
     localStorage.setItem("liste", JSON.stringify(eventList));
 }
+
 
 function previewFile(){
     let preview = document.querySelector('img'); //selects the query named img
