@@ -41,13 +41,13 @@ function breakArray(arr){
     }
 }
 function createPost(img, name){
-    let cleanImgID = img.replace("uploads/","");
+    let cleanImgID = img.replace("../Events/img/","");
     let eventName = document.createElement("h1");
     eventName.textContent = name;
     let eventLink = document.createElement("a");
-    eventLink.href = "http://intranet-secure.de/TicketCorner/PHP/" + cleanImgID.replace(".jpg",".html");
+    eventLink.href = "http://intranet-secure.de/TicketCorner/Events/html/" + cleanImgID.replace(".jpg",".html");
     let imgElement = document.createElement("img");
-    imgElement.src = "PHP/" + img;
+    imgElement.src = "http://intranet-secure.de/TicketCorner/Events/img/"+cleanImgID;
     imgElement.height = 400;
     imgElement.width = 800;
     document.getElementById("maintext").appendChild(eventName);

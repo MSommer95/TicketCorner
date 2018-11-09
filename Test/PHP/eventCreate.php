@@ -7,7 +7,7 @@ $eventTickets = $_POST["eventTickets"];
 $description = $_POST["eventDescription"];
 $creatorID = $_POST["ID"];
 
-$target_dir = "uploads/";
+$target_dir = "../Events/img/";
 $target_file = $target_dir . "$id".".jpg";
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -92,7 +92,7 @@ else{
 }
 $conn = null;
 
-$newHTML = fopen("$id".".html", "w") or die ("Unable to create.");
+$newHTML = fopen("../Events/html/"."$id".".html", "w") or die ("Unable to create.");
 $htmlData =
     "<!DOCTYPE html>
 <html lang=\"en\">
