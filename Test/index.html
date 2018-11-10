@@ -6,6 +6,7 @@
     <meta name="keywords" content="asta, tickets, ticketcorner, veranstaltungen, studentenpary, studentenpartys, party, feiern, eintritskarten">
     <meta name="author" content="Gruppe A2">
     <title>Willkommen im AStA-Ticketshop der Hochschule Hamm-Lippstadt</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css\bootstrap.css">
     <link rel="stylesheet" href="css\styles.css">
     <link rel="icon" href="icons/favicon.ico" type=image/x-icon">
@@ -30,8 +31,8 @@
                     Sortieren
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Neuste</a>
-                    <a class="dropdown-item" href="#">Älteste</a>
+                    <a class="dropdown-item" href="#" onclick="sortEvents(1)">Neuste</a>
+                    <a class="dropdown-item" href="#" onclick="sortEvents(2)">Älteste</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Größtes Interesse</a>
                 </div>
