@@ -153,6 +153,7 @@ $htmlData =
     <p>Preis: $price</P>
     <p>Anzahl der Tickets: $eventTickets</p>
     <p>Beschreibung: $description</p>
+    <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\">Ticket bestellen</button>
 </div>
 
 <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\"></script>

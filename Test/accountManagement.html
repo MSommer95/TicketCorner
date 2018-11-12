@@ -28,7 +28,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="contact.html">Kontakt</a>
             </li>
-            <li class="nav-item loggedOutAcc">
+            <li class="nav-item loggedInAcc">
                 <a class="nav-link" href="index.html" onclick="logout()">Abmelden</a>
             </li>
         </ul>
@@ -57,47 +57,47 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <form id="pdata">
+                            <form id="pdata" method="post" role="form" action="PHP\changeAccPersonalData.php" onsubmit="changeAccData()">
                                 <div class="form-group row ">
-                            <label for="forename" class="col-4 col-form-label pdata">Vorname</label>
+                            <label for="change-forename" class="col-4 col-form-label pdata">Vorname</label>
                             <div class="col-8 ">
-                                <input id="forename" name="forename" placeholder="Vorname" class="form-control here pdata" required="required" type="text">
+                                <input id="change-forename" name="change-forename" placeholder="Vorname" class="form-control here pdata" required="required" type="text">
                             </div>
                                 </div>
                                 <div class="form-group row ">
-                                    <label for="surname" class="col-4 col-form-label pdata">Nachname</label>
+                                    <label for="change-surname" class="col-4 col-form-label pdata">Nachname</label>
                                     <div class="col-8 ">
-                                        <input id="surname" name="surname" placeholder="Nachname" class="form-control here pdata" type="text">
+                                        <input id="change-surname" name="change-surname" placeholder="Nachname" class="form-control here pdata" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row ">
-                                    <label for="email" class="col-4 col-form-label pdata">Emailadresse</label>
+                                    <label for="change-email" class="col-4 col-form-label pdata">Emailadresse</label>
                                     <div class="col-8 ">
-                                        <input id="email" name="email" placeholder="Email" class="form-control here pdata" type="text" value="">
+                                        <input id="change-email" name="change-email" placeholder="Email" class="form-control here pdata" type="text" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="offset-4 col-8">
-                                        <button name="submit" type="submit" class="btn btn-primary">Persönliche Daten speichern</button>
+                                        <button name="submit" type="submit" class="btn btn-primary" >Persönliche Daten speichern</button>
                                     </div>
                                 </div>
                             </form>
-                            <form id="pwchange">
+                            <form id="pwchange" method="post" role="form" action="PHP\changeAccPassword.php" onsubmit="changePW()">
                                 <div class="form-group row ">
-                                    <label for="password" class="col-4 col-form-label pwchange">Neues Passwort</label>
+                                    <label for="change-password" class="col-4 col-form-label pwchange">Neues Passwort</label>
                                     <div class="col-8 ">
-                                        <input id="password" name="password" placeholder="Neues Passwort" class="form-control here pwchange" required="required" type="text">
+                                        <input id="change-password" name="change-password" placeholder="Neues Passwort eingeben" class="form-control here pwchange" required="required" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row ">
-                                    <label for="passwordrepeat" class="col-4 col-form-label pwchange">Passwort wiederholen</label>
+                                    <label for="oldPassword" class="col-4 col-form-label pwchange">Altes Passwort</label>
                                     <div class="col-8 ">
-                                        <input id="passwordrepeat" name="passwordrepeat" placeholder="Neues Passwort wiederholen" class="form-control here pwchange" required="required" type="text">
+                                        <input id="oldPassword" name="oldPassword" placeholder="Altes Passwort eingeben" class="form-control here pwchange" required="required" type="text">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="offset-4 col-8">
-                                        <button name="submit" type="submit" class="btn btn-primary">Passwort speichern</button>
+                                        <button name="submit" type="submit" class="btn btn-primary" >Passwort speichern</button>
                                     </div>
                                 </div>
                             </form>

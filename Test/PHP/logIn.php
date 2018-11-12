@@ -41,9 +41,9 @@ if($varifyAcc->execute()){
 
             $splitData = explode(":", $data);
             setcookie("ID", $splitData[1], time() + (86400*30), "/");
-            setcookie("forename", $splitData[2], time() + (86400*30), "/");
-            setcookie("surname", $splitData[3], time() + (86400*30), "/");
-            setcookie("email", $splitData[4], time() + (86400*30), "/");
+            setrawcookie("forename", $splitData[2], time() + (86400*30), "/");
+            setrawcookie("surname", $splitData[3], time() + (86400*30), "/");
+            setrawcookie("email", $splitData[4], time() + (86400*30), "/");
             session_start();
 
 
