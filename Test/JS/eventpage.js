@@ -36,7 +36,7 @@ function previewFile(){
     }
 }
 
-let input = $("<input>")
+let id = $("<input>")
     .attr("type", "hidden")
     .attr("name", "ID").val(getCookie("ID"));
-$('#create-form').append(input);
+$('#create-form').append(id);

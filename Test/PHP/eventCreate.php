@@ -1,5 +1,4 @@
 <?php
-
 $id = time();
 $eventName = $_POST["eventName"];
 $price = $_POST["eventPrice"];
@@ -41,60 +40,10 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
     $uploadOk = 0;
 }
 
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        //echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-}
-
-$servername = "db758436568.db.1and1.com";
-$username = "dbo758436568";
-$password = "M9OitgiOLq4&4j9";
-$dbname = "db758436568";
-
-$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-
-$stmt = $conn->prepare("SELECT * FROM events WHERE eventName = '$eventName';");
-
-move_uploaded_file($_FILES["fileUpload"]["tmp_name"],$path.$_FILES["fileUpload"]["name"]);
-
-if ($stmt->execute()){
-    $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
-    if(count($result)==0){
-        try {
-            // set the PDO error mode to exception
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, eventDescription, imageSrc, creatorID)
-            VALUES ($id, '$eventName', '$price', $eventTickets, '$description', '$target_file', $creatorID)";
-            // use exec() because no results are returned
-            $conn->exec($sql);
-
-        }
-        catch(PDOException $e)
-        {
-            echo $sql . "<br>" . $e->getMessage();
-        }
-
-
-    }
-    else{
-        echo "Not_ok" ;
-    }
-}
-else{
-    echo "Error2";
-}
-$conn = null;
-
-$newHTML = fopen("../Events/html/"."$id".".html", "w") or die ("Unable to create.");
-$htmlData =
-    "<!DOCTYPE html>
+function createHTML($id, $eventName, $target_file, $price, $eventTickets, $description){
+    $newHTML = fopen("../Events/html/"."$id".".html", "w") or die ("Unable to create.");
+    $htmlData =
+        "<!DOCTYPE html>
 <html lang=\"en\">
 <head>
     <meta charset=\"UTF-8\">
@@ -165,9 +114,62 @@ $htmlData =
 </body>
 </html>";
 
-fwrite($newHTML,$htmlData);
-fclose($newHTML);
+    fwrite($newHTML,$htmlData);
+    fclose($newHTML);
 
-header("Location: http://intranet-secure.de/TicketCorner/Events/html/".$id.".html");
+    header("Location: http://intranet-secure.de/TicketCorner/Events/html/".$id.".html");
+}
 
+$servername = "db758436568.db.1and1.com";
+$username = "dbo758436568";
+$password = "M9OitgiOLq4&4j9";
+$dbname = "db758436568";
+
+$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+
+$stmt = $conn->prepare("SELECT * FROM events WHERE eventName = '$eventName';");
+$controllStmt = $conn->prepare("SELECT * FROM users WHERE ID = $creatorID AND creatorStatus = 1 ;");
+
+if ($stmt->execute()){
+    $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    if(count($result)==0){
+        if($controllStmt->execute()){
+            $controllResult = $controllStmt->fetchAll(PDO::FETCH_ASSOC);
+            if(count($controllResult)>0){
+                try {
+                    // set the PDO error mode to exception
+                    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, eventDescription, imageSrc, creatorID)
+                             VALUES ($id, '$eventName', '$price', $eventTickets, '$description', '$target_file', $creatorID)";
+                    // use exec() because no results are returned
+                    $conn->exec($sql);
+                    // Check if $uploadOk is set to 0 by an error
+                    if ($uploadOk == 0) {
+                        echo "Sorry, your file was not uploaded.";
+                        // if everything is ok, try to upload file
+                    } else {
+                        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                            //echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+                        } else {
+                            echo "Sorry, there was an error uploading your file.";
+                        }
+                    }
+                    move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $_FILES["fileUpload"]["name"]);
+                    createHTML($id, $eventName, $target_file, $price, $eventTickets, $description);
+                }
+                catch(PDOException $e)
+                {
+                    echo $sql . "<br>" . $e->getMessage();
+                }
+            }
+        }
+    }
+    else{
+        echo "Not_ok" ;
+    }
+}
+else{
+    echo "Error2";
+}
+$conn = null;
 ?>

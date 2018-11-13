@@ -20,6 +20,7 @@ function logout(){
     document.cookie = "ID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "forename=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "surname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "creatorStatus=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
     checkForLogin();
 }
 
@@ -37,11 +38,22 @@ function computeLogout(){
 function computeLogin(){
     let lout = document.getElementsByClassName(" loggedOutAcc");
     let lin = document.getElementsByClassName(" loggedInAcc");
+    let lcreator = document.getElementsByClassName(" creator");
     for(i=0; i<lout.length;i++){
         lout.item(i).style.display = "none";
     }
     for(i=0; i<lin.length;i++){
         lin.item(i).style.display = "block";
+    }
+    if(getCookie("creatorStatus") == 1){
+        for(i=0; i<lcreator.length; i++){
+            lcreator.item(i).style.display = "block";
+        }
+    }
+    else {
+        for(i=0; i<lcreator.length; i++){
+            lcreator.item(i).style.display = "none";
+        }
     }
 }
 

@@ -18,7 +18,6 @@ function getEvents() {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("pTest").innerHTML = this.responseText;
             let split = this.responseText;
             split = clearString(split);
             split = split.split(",");
@@ -95,3 +94,4 @@ function sortEvents(int){
         }
     }
 }
+getEvents();

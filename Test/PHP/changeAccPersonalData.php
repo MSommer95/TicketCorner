@@ -1,5 +1,4 @@
 <?php
-
 $changeForename = $_POST["change-forename"];
 $changeSurname = $_POST["change-surname"];
 $changeEmail = $_POST["change-email"];
@@ -34,5 +33,4 @@ if($requestPermissionToChange->execute()){
     }
 }
 $conn = null;
-
 ?>

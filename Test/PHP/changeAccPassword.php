@@ -1,5 +1,4 @@
 <?php
-
 $changePassword = $_POST["change-password"];
 $oldPassword = $_POST["oldPassword"];
 
@@ -19,33 +18,24 @@ $requestPermissionToChange= $conn->prepare("SELECT password FROM users WHERE ID 
 if($requestPermissionToChange->execute()){
     $result=$requestPermissionToChange->fetchAll(PDO::FETCH_ASSOC);
     if(count($result)>0){
-
         foreach ($result as $row){
             foreach ($row as $key => $value){
                 $returnHash = $value;
             }
         }
-
         if(crypt($oldPassword, $returnHash) == $returnHash) {
             $newPW = password_hash($changePassword, PASSWORD_BCRYPT);
             $updateAccount = "UPDATE users SET password = '$newPW' WHERE ID=$ID";
             $conn->exec($updateAccount);
-
             header("Location: http://intranet-secure.de/TicketCorner");
-
         }
         else {
             echo "noPasswordGiven";
         }
-
     }
-
-
     }
     else{
         header("Location: http://intranet-secure.de/TicketCorner/accountManagement.html=?NOTOK");
-
 }
 $conn = null;
-
 ?>
