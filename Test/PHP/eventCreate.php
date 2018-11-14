@@ -102,7 +102,7 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
     <p>Preis: $price</P>
     <p>Anzahl der Tickets: $eventTickets</p>
     <p>Beschreibung: $description</p>
-    <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\">Ticket bestellen</button>
+    <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='buyProcess($id, $eventName, $price, $description)'>Ticket bestellen</button>
 </div>
 
 <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\"></script>
@@ -111,6 +111,7 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
 <script src=\"http://intranet-secure.de/TicketCorner/JS/indexJS.js\"></script>
 <script src=\"http://intranet-secure.de/TicketCorner/JS/loginCheck.js\"></script>
 <script src=\"http://intranet-secure.de/TicketCorner/JS/eventManager.js\"></script>
+<script src=\"http://intranet-secure.de/TicketCorner/JS/buyTicket.js\"></script>
 </body>
 </html>";
 
