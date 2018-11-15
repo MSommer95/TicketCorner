@@ -2,7 +2,7 @@ function buyProcess(eventID, eventName, eventPrice, eventDescription ){
     let form = document.createElement("form");
     document.body.appendChild(form);
     form.method = "POST";
-    form.action = "http://intranet-secure.de/TicketCorner/PHP/buyTicket.php"
+    form.action = "https://intranet-secure.de/TicketCorner/PHP/buyTicket.php"
     inputCreate(form, eventID, "ID");
     inputCreate(form, eventName, "eventName");
     inputCreate(form, eventPrice, "eventPrice");

@@ -28,7 +28,7 @@ if ($stmt->execute()){
             VALUES ($id, '$forename', '$surname', '$email', '$hashedPW')";
             // use exec() because no results are returned
             $conn->exec($sql);
-            header("Location: http://intranet-secure.de/TicketCorner/signIn");
+            header("Location: https://intranet-secure.de/TicketCorner/signIn");
         }
         catch(PDOException $e)
         {

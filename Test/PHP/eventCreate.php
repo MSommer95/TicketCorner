@@ -48,9 +48,9 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
 <head>
     <meta charset=\"UTF-8\">
     <title>$eventName</title>
-    <link rel=\"stylesheet\" href=\"http://intranet-secure.de/TicketCorner/css\bootstrap.css\">
-    <link rel=\"stylesheet\" href=\"http://intranet-secure.de/TicketCorner/css\styles.css\">
-    <link rel=\"icon\" href=\"http://intranet-secure.de/TicketCorner/icons/favicon.ico\" type=image/x-icon\">
+    <link rel=\"stylesheet\" href=\"https://intranet-secure.de/TicketCorner/css\bootstrap.css\">
+    <link rel=\"stylesheet\" href=\"https://intranet-secure.de/TicketCorner/css\styles.css\">
+    <link rel=\"icon\" href=\"https://intranet-secure.de/TicketCorner/icons/favicon.ico\" type=image/x-icon\">
 </head>
 <body>
 <div class=\"slider\">
@@ -65,19 +65,19 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
     <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">
         <ul class=\"navbar-nav mr-auto\">
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\"http://intranet-secure.de/TicketCorner/index.html\">Home</a>
+                <a class=\"nav-link\" href=\"https://intranet-secure.de/TicketCorner/index.html\">Home</a>
             </li>
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\"http://intranet-secure.de/TicketCorner/contact.html\">Kontakt</a>
+                <a class=\"nav-link\" href=\"https://intranet-secure.de/TicketCorner/contact.html\">Kontakt</a>
             </li>
             <li class=\"nav-item dropdown loggedOutAcc\" id=\"loggedOutAcc\" >
                 <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
                     Account
                 </a>
                 <div class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >
-                    <a class=\"dropdown-item\"   href=\"http://intranet-secure.de/TicketCorner/signIn.html\">Anmelden</a>
+                    <a class=\"dropdown-item\"   href=\"https://intranet-secure.de/TicketCorner/signIn.html\">Anmelden</a>
                     <div class=\"dropdown-divider\"></div>
-                    <a class=\"dropdown-item\" href=\"http://intranet-secure.de/TicketCorner/registration.html\">Registrieren</a>
+                    <a class=\"dropdown-item\" href=\"https://intranet-secure.de/TicketCorner/registration.html\">Registrieren</a>
                 </div>
             </li>
             <li class=\"nav-item dropdown loggedInAcc\" id=\"loggedInAcc\" >
@@ -85,13 +85,13 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
                     Account
                 </a>
                 <div class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\">
-                    <a class=\"dropdown-item\"   href=\"http://intranet-secure.de/TicketCorner/accountManagement.html\">Einstellungen</a>
+                    <a class=\"dropdown-item\"   href=\"https://intranet-secure.de/TicketCorner/accountManagement.html\">Einstellungen</a>
                     <div class=\"dropdown-divider\"></div>
                     <a class=\"dropdown-item\" href=\"#\" onclick=\"logout()\">Abmelden</a>
                 </div>
             </li>
             <li class=\"nav-item loggedInAcc\">
-                <a class=\"nav-link\" href=\"http://intranet-secure.de/TicketCorner/create.html\">Event erstellen</a>
+                <a class=\"nav-link\" href=\"https://intranet-secure.de/TicketCorner/create.html\">Event erstellen</a>
             </li>
         </ul>
     </div>
@@ -102,23 +102,21 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
     <p>Preis: $price</P>
     <p>Anzahl der Tickets: $eventTickets</p>
     <p>Beschreibung: $description</p>
-    <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='buyProcess($id, $eventName, $price, $description)'>Ticket bestellen</button>
+    <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='buyProcess(\"$id\", \"$eventName\", \"$price\", \"$description\")'>Ticket bestellen</button>
 </div>
 
 <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\"></script>
 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js\" integrity=\"sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49\" crossorigin=\"anonymous\"></script>
 <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\" integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\" crossorigin=\"anonymous\"></script>
-<script src=\"http://intranet-secure.de/TicketCorner/JS/indexJS.js\"></script>
-<script src=\"http://intranet-secure.de/TicketCorner/JS/loginCheck.js\"></script>
-<script src=\"http://intranet-secure.de/TicketCorner/JS/eventManager.js\"></script>
-<script src=\"http://intranet-secure.de/TicketCorner/JS/buyTicket.js\"></script>
+<script src=\"https://intranet-secure.de/TicketCorner/JS/indexJS.js\"></script>
+<script src=\"https://intranet-secure.de/TicketCorner/JS/loginCheck.js\"></script>
+<script src=\"https://intranet-secure.de/TicketCorner/JS/eventManager.js\"></script>
+<script src=\"https://intranet-secure.de/TicketCorner/JS/buyTicket.js\"></script>
 </body>
 </html>";
 
     fwrite($newHTML,$htmlData);
     fclose($newHTML);
-
-    header("Location: http://intranet-secure.de/TicketCorner/Events/html/".$id.".html");
 }
 
 $servername = "db758436568.db.1and1.com";
@@ -157,6 +155,16 @@ if ($stmt->execute()){
                     }
                     move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $_FILES["fileUpload"]["name"]);
                     createHTML($id, $eventName, $target_file, $price, $eventTickets, $description);
+
+                    $protocol='http';
+                    if (isset($_SERVER['HTTPS']))
+                        if (strtoupper($_SERVER['HTTPS'])=='ON')
+                            $protocol='https';
+
+                    header("location: $protocol://intranet-secure.de/TicketCorner/Events/html/".$id.".html");
+
+
+
                 }
                 catch(PDOException $e)
                 {

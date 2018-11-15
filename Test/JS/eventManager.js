@@ -1,45 +1,80 @@
 
 let eventHolder =  [];
-let start = 0;
 let eventIndexer = [];
-function loopIt(arrayImagePath, arrayEventName){
-    for(i=0;i<arrayImagePath.length;i++){
-        let event = new Event(arrayImagePath[i],arrayEventName[i]);
-        eventHolder.push(event);
-        console.log(arrayEventName[i]);
-        console.log(arrayImagePath[i]);
-        console.log(event);
+let start = 0;
+let loadingIndex = 0;
+let orderMode= 1;
+let eventJson = null;
+
+function loopIt(arrayEvent, sortMode){
+
+    if(sortMode === 1){
+
+        for(i=0;i<=4;i++){
+            let event = new Event(arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName);
+            eventHolder.push(event);
+            console.log(event);
+            loadingIndex++;
+        }
+    }
+    if(sortMode === 2){
+
+        for (i=eventJson.length; i>=eventJson.length-4; i--){
+            let event = new Event(arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName);
+            eventHolder.push(event);
+            console.log(event);
+            loadingIndex--;
+        }
     }
 }
-function getEvents() {
+
+function getEvents(cb) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            eventJson = this.responseText;
+            if(typeof eventJson === 'string'){
+                eventJson = JSON.parse(eventJson);
+                cb(eventJson);
+            }
+        }
+    };
+    xmlhttp.open("GET", "PHP/getEvents.php", true);
+    xmlhttp.send();
+
+}
+
+
+
+/*function getEvents() {
     let arrayEventName = [];
     let arrayImagePath = [];
 
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             let split = this.responseText;
+            let testJson = JSON.parse(split);
+            console.log(testJson);
+            console.log(testJson[0].eventName);
             split = clearString(split);
             split = split.split(",");
             [arrayEventName, arrayImagePath] = breakArray(split);
-            console.log(split);
-            console.log(arrayEventName);
-            console.log(arrayImagePath);
             loopIt(arrayImagePath, arrayEventName);
         }
     };
     xmlhttp.open("GET", "PHP/getEvents.php", true);
     xmlhttp.send();
-}
-function clearString(str){
+}*/
+/*function clearString(str){
     console.log(str);
     str = str.replace(/{|}|"|imageSrc|:|eventName/g,"");
     console.log(str);
     str = str.slice(1,-3);
     console.log(str);
     return str;
-}
-function breakArray(arr){
+}*/
+/*function breakArray(arr){
     let arrayEventName = [];
     let arrayImagePath = [];
 
@@ -48,7 +83,7 @@ function breakArray(arr){
         arrayImagePath.push(arr[i+1]);
     }
     return [arrayEventName,arrayImagePath];
-}
+}*/
 function Event(img, name){
     this.cleanImgID = img.replace("../Events/img/","");
     this.eventDiv = document.createElement("div");
@@ -56,9 +91,9 @@ function Event(img, name){
     this.eventName = document.createElement("h1");
     this.eventName.textContent = name;
     this.eventLink = document.createElement("a");
-    this.eventLink.href = "http://intranet-secure.de/TicketCorner/Events/html/" + this.cleanImgID.replace(".jpg",".html");
+    this.eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + this.cleanImgID.replace(".jpg",".html");
     this.imgElement = document.createElement("img");
-    this.imgElement.src = "http://intranet-secure.de/TicketCorner/Events/img/"+this.cleanImgID;
+    this.imgElement.src = "https://intranet-secure.de/TicketCorner/Events/img/"+this.cleanImgID;
     this.imgElement.height = 400;
     this.imgElement.width = 800;
     this.buyElement = document.createElement("button");
@@ -71,7 +106,7 @@ function Event(img, name){
     this.eventDiv.appendChild(this.buyElement);
 }
 
-function sortEvents(int){
+/*function sortEvents(int){
     if(start == 0){
         eventIndexer = Array.from(Array(eventHolder.length).keys());
         start ++;
@@ -86,8 +121,8 @@ function sortEvents(int){
             eventIndexer.reverse();
 
         }
-    }
-    else if (int == 2){
+    }*/
+    /*else if (int == 2){
         if(eventIndexer[0] == 0){
             let wrapper = $('.container'),
                 items = wrapper.children('.EventContainer'),
@@ -96,5 +131,41 @@ function sortEvents(int){
 
         }
     }
+}*/
+
+getEvents(function(events){
+    loopIt(events, 1);
+});
+
+
+$(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 1) {
+        console.log("Bottom reached");
+        loopIt(eventJson, 1);
+    } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 2) {
+        console.log("Bottom reached");
+        loopIt(eventJson, 2);
+    }
+});
+
+function sortEvents(int){
+    if(start === 0){
+        eventIndexer = Array.from(Array(eventHolder.length).keys());
+        start ++;
+    }
+    if(int===1){
+        $("div").remove(".EventContainer");
+        loadingIndex = 0;
+        loopIt(eventJson, int);
+        orderMode = 1;
+
+    }
+
+    if(int===2){
+        $("div").remove(".EventContainer");
+        loadingIndex = eventJson.length-1;
+        loopIt(eventJson, int);
+        orderMode = 2;
+    }
+
 }
-getEvents();
