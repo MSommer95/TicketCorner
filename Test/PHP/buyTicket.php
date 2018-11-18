@@ -24,16 +24,16 @@ if($requestToBuyTicket->execute()){
             $returnTicket -= 1;
             $updateTickets = "UPDATE events SET eventTickets = $returnTicket WHERE ID=$ID";
             $conn->exec($updateTickets);
-            header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html=?OK");
+            header("Location: https://intranet-secure.de/TicketCorner/Events/html/$ID.html=?OK");
         } else {
 
-            header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html=?NoMoreTickets");
+            header("Location: https://intranet-secure.de/TicketCorner/Events/html/$ID.html=?NoMoreTickets");
         }
 
 
     }
     else{
-        header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html=?NOTOK");
+        header("Location: https://intranet-secure.de/TicketCorner/Events/html/$ID.html=?NOTOK");
     }
 }
 $conn = null;

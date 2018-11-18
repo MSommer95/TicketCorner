@@ -96,14 +96,11 @@ function Event(img, name){
     this.imgElement.src = "https://intranet-secure.de/TicketCorner/Events/img/"+this.cleanImgID;
     this.imgElement.height = 400;
     this.imgElement.width = 800;
-    this.buyElement = document.createElement("button");
-    this.buyElement.textContent = "Ticket bestellen";
 
     document.getElementById("maintext").appendChild(this.eventDiv);
     this.eventDiv.appendChild(this.eventName);
     this.eventDiv.appendChild(this.eventLink);
     this.eventLink.appendChild(this.imgElement);
-    this.eventDiv.appendChild(this.buyElement);
 }
 
 /*function sortEvents(int){

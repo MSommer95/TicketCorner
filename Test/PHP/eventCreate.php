@@ -97,11 +97,11 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
     </div>
 </nav>
 <div class=\"maintext\">
-    <p>Name: $eventName</p>
-    <img src=\"http://intranet-secure.de/TicketCorner/PHP/$target_file\">
-    <p>Preis: $price</P>
-    <p>Anzahl der Tickets: $eventTickets</p>
-    <p>Beschreibung: $description</p>
+    <p id='eventName'>Name: $eventName</p>
+    <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg'>
+    <p id='eventPrice'>Preis: $price</P>
+    <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
+    <p id='eventDescription'>Beschreibung: $description</p>
     <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='buyProcess(\"$id\", \"$eventName\", \"$price\", \"$description\")'>Ticket bestellen</button>
 </div>
 
@@ -110,8 +110,8 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
 <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\" integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\" crossorigin=\"anonymous\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/JS/indexJS.js\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/JS/loginCheck.js\"></script>
-<script src=\"https://intranet-secure.de/TicketCorner/JS/eventManager.js\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/JS/buyTicket.js\"></script>
+<script src=\"https://intranet-secure.de/TicketCorner/JS/eventUpdater.js\"></script>
 </body>
 </html>";
 
