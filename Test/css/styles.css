@@ -130,11 +130,22 @@ h1{
     width: 80%;
 }
 #footerSection {
-    background: #202020;color: white;padding: 10px 0 44px;margin-top: 20px;border-top: 1px solid #444;
+    background: #202020;
+    color: white;
+    border-top: 1px solid #444;
+    position: fixed;
+      left: 0px;
+      bottom: 0px;
+      height: 150px;
+      width: 100%;
 }
 
 #footerSection a{
-    color:#ccc; font-size:11px; padding:0; line-height:24px; display:block;
+    color:#ccc;
+    font-size:11px;
+    padding:0;
+    line-height:28px;
+    display:block;
 }
 
 #footerSection a:hover{
@@ -142,14 +153,31 @@ h1{
 }
 
 #footerSection  #socialMedia a{
-    min-width:25px; display:inline; margin-right:6px; text-align:center; line-height:1.5em;
+    min-width:25px;
+    display:inline;
+    margin-right:6px;
+    text-align:center;
+    line-height:1.5em;
 }
 
 #socialMedia img{
-    max-width:60px;
+    max-width:55px;
+    max-height:55px;
 }
 
 #footerSection  #socialMedia a:hover{
-    background:none;
+    background: none;
 }
 
+.csc-textpic-imagewrap[data-csc-cols='2'] img {
+    width: 100%;
+    height: auto;
+}
+
+.EventContainer {
+    float: left;
+}
+
+.container2 {
+    padding-top: 1.5%;
+}
