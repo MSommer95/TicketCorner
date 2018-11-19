@@ -29,7 +29,7 @@ if (file_exists($target_file)) {
     $uploadOk = 0;
 }
 // Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
+if ($_FILES["fileToUpload"]["size"] > 5000000) {
     echo "Sorry, your file is too large.";
     $uploadOk = 0;
 }
@@ -96,13 +96,23 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
         </ul>
     </div>
 </nav>
-<div class=\"maintext\">
+<div class=\"maintext\" id=\"maintext\">
     <p id='eventName'>Name: $eventName</p>
     <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg'>
     <p id='eventPrice'>Preis: $price</P>
     <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
     <p id='eventDescription'>Beschreibung: $description</p>
     <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='buyProcess(\"$id\", \"$eventName\", \"$price\", \"$description\")'>Ticket bestellen</button>
+    <div class=\"dropdown-divider\"></div>
+    <div class=\"Comments\">
+        <form id=\"commentForm\" method=\"post\" role=\"form\" action=\"https://intranet-secure.de/TicketCorner/PHP/uploadeComments.php\">
+            <div>
+                <label for=\"comment-section\">Comment Section</label>
+                <textarea id=\"comment-section\" name=\"comment-section\" rows=\"5\" cols=\"100\" maxlength=\"234\"></textarea>
+            </div>
+            <input type=\"submit\" value=\"Post Comment\" onclick=\"sendCommentForm()\"/>
+        </form>
+    </div>
 </div>
 
 <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\"></script>
