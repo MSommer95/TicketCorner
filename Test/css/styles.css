@@ -136,7 +136,7 @@ h1{
     position: fixed;
       left: 0px;
       bottom: 0px;
-      height: 150px;
+      height: 120px;
       width: 100%;
 }
 
@@ -179,5 +179,13 @@ h1{
 }
 
 .container2 {
-    padding-top: 1.5%;
+    padding-top: 0.8%;
+}
+
+.row2 {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  text-align:center;
 }
