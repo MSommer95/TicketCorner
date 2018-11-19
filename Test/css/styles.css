@@ -189,3 +189,7 @@ h1{
   flex-wrap: wrap;
   text-align:center;
 }
+
+.signIn {
+    margin-right: 20px;
+}
