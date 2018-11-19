@@ -129,3 +129,27 @@ h1{
     top: 0;
     width: 80%;
 }
+#footerSection {
+    background: #202020;color: white;padding: 10px 0 44px;margin-top: 20px;border-top: 1px solid #444;
+}
+
+#footerSection a{
+    color:#ccc; font-size:11px; padding:0; line-height:24px; display:block;
+}
+
+#footerSection a:hover{
+    color:#fff;
+}
+
+#footerSection  #socialMedia a{
+    min-width:25px; display:inline; margin-right:6px; text-align:center; line-height:1.5em;
+}
+
+#socialMedia img{
+    max-width:60px;
+}
+
+#footerSection  #socialMedia a:hover{
+    background:none;
+}
+
