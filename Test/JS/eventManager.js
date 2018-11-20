@@ -6,21 +6,23 @@ let loadingIndex = 0;
 let orderMode= 1;
 let eventJson = null;
 
-function loopIt(arrayEvent, sortMode){
+function loopIt(arrayEvent, sortMode) {
 
     if(sortMode === 1){
 
-        for(i=0;i<=4;i++){
-            let event = new Event(arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName);
+        for(let i=0; i<=4; i++) {
+            let event = new Event(arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate);
+            event.checkIsExpired();
             eventHolder.push(event);
             console.log(event);
             loadingIndex++;
         }
     }
-    if(sortMode === 2){
+    if(sortMode === 2) {
 
-        for (i=eventJson.length; i>=eventJson.length-4; i--){
-            let event = new Event(arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName);
+        for (let i=eventJson.length; i>=eventJson.length-4; i--) {
+            let event = new Event(arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate);
+            event.checkIsExpired();
             eventHolder.push(event);
             console.log(event);
             loadingIndex--;
@@ -44,7 +46,21 @@ function getEvents(cb) {
 
 }
 
+/*function checkIsEventExpired(event) {
+    if(!event.eventDate)
+        return;
 
+    let currentDate = new Date();
+
+    currentDate.setHours(0, 0, 0, 0);
+
+    if(event.eventDate < currentDate) {
+        let expiredDiv = document.createElement("div");
+        expiredDiv.className = "Centered";
+        expiredDiv.textContent = "ABGELAUFEN";
+        event.imgElement.appendChild(expiredDiv);
+    }
+}*/
 
 /*function getEvents() {
     let arrayEventName = [];
@@ -84,12 +100,14 @@ function getEvents(cb) {
     }
     return [arrayEventName,arrayImagePath];
 }*/
-function Event(img, name){
+function Event(img, name, date) {
     this.cleanImgID = img.replace("../Events/img/","");
     this.eventDiv = document.createElement("div");
     this.eventDiv.className = "EventContainer";
     this.eventName = document.createElement("h1");
     this.eventName.textContent = name;
+    this.eventDate = document.createElement("div");
+    this.eventDate.textContent = date;
     this.eventLink = document.createElement("a");
     this.eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + this.cleanImgID.replace(".jpg",".html");
     this.imgElement = document.createElement("img");
@@ -101,6 +119,40 @@ function Event(img, name){
     this.eventDiv.appendChild(this.eventName);
     this.eventDiv.appendChild(this.eventLink);
     this.eventLink.appendChild(this.imgElement);
+
+    this.checkIsExpired = function() {
+        console.log("checkIsExpired | got called");
+        if(!this.eventDate.textContent) {
+            console.log("checkIsExpired | no date defined, returning");
+            return;
+        }
+
+        let currentDate = new Date();
+
+        currentDate.setHours(0, 0, 0, 0);
+
+        let eventDate = new Date(this.eventDate.textContent);
+
+        console.log("checkIsExpired | eventDate is: " + eventDate);
+
+        if(eventDate < currentDate) {
+
+            console.log("checkIsExpired | event is expired, should mark");
+
+            //let expiredDiv = document.createElement("expiredDiv");
+            //expiredDiv.className = "centered";
+
+            //let text = document.createTextNode("ABGELAUFEN");
+            //expiredDiv.appendChild(text);
+
+            //this.imgElement.appendChild(expiredDiv);
+            this.eventName.textContent += " (ABGELAUFEN)";
+            console.log("checkIsExpired | should be marked as expired: " + this.eventName.textContent);
+        }
+        else{
+            console.log("checkIsExpired | event is not expired, do nothing");
+        }
+    }
 }
 
 /*function sortEvents(int){

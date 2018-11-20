@@ -7,7 +7,7 @@ $dbname = "db758436568";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
-$stmt = $conn->prepare("SELECT eventName, imageSrc  FROM events WHERE 1 ORDER BY ID DESC");
+$stmt = $conn->prepare("SELECT eventName, eventDate, imageSrc  FROM events WHERE 1 ORDER BY ID DESC");
 
 $events = array();
 

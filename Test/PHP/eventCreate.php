@@ -4,6 +4,7 @@ $eventName = $_POST["eventName"];
 $price = $_POST["eventPrice"];
 $eventTickets = $_POST["eventTickets"];
 $description = $_POST["eventDescription"];
+$date = $_POST["eventDate"];
 $creatorID = $_POST["ID"];
 
 $target_dir = "../Events/img/";
@@ -40,7 +41,7 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
     $uploadOk = 0;
 }
 
-function createHTML($id, $eventName, $target_file, $price, $eventTickets, $description){
+function createHTML($id, $eventName, $date, $target_file, $price, $eventTickets, $description){
     $newHTML = fopen("../Events/html/"."$id".".html", "w") or die ("Unable to create.");
     $htmlData =
         "<!DOCTYPE html>
@@ -99,7 +100,8 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
 <div class=\"maintext\" id=\"maintext\">
     <p id='eventName'>Name: $eventName</p>
     <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg'>
-    <p id='eventPrice'>Preis: $price</P>
+    <p id='eventDate'>Datum: $date</p>
+    <p id='eventPrice'>Preis: $price</p>
     <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
     <p id='eventDescription'>Beschreibung: $description</p>
     <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='buyProcess(\"$id\", \"$eventName\", \"$price\", \"$description\")'>Ticket bestellen</button>
@@ -120,8 +122,8 @@ function createHTML($id, $eventName, $target_file, $price, $eventTickets, $descr
 <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\" integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\" crossorigin=\"anonymous\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/JS/indexJS.js\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/JS/loginCheck.js\"></script>
+<script src=\"https://intranet-secure.de/TicketCorner/JS/eventManager.js\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/JS/buyTicket.js\"></script>
-<script src=\"https://intranet-secure.de/TicketCorner/JS/eventUpdater.js\"></script>
 </body>
 </html>";
 
@@ -148,8 +150,8 @@ if ($stmt->execute()){
                 try {
                     // set the PDO error mode to exception
                     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, eventDescription, imageSrc, creatorID)
-                             VALUES ($id, '$eventName', '$price', $eventTickets, '$description', '$target_file', $creatorID)";
+                    $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, eventDescription, eventDate, imageSrc, creatorID)
+                             VALUES ($id, '$eventName', '$price', $eventTickets, '$description', '$date', '$target_file', $creatorID)";
                     // use exec() because no results are returned
                     $conn->exec($sql);
                     // Check if $uploadOk is set to 0 by an error
@@ -164,7 +166,7 @@ if ($stmt->execute()){
                         }
                     }
                     move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $_FILES["fileUpload"]["name"]);
-                    createHTML($id, $eventName, $target_file, $price, $eventTickets, $description);
+                    createHTML($id, $eventName, $date, $target_file, $price, $eventTickets, $description);
 
                     $protocol='http';
                     if (isset($_SERVER['HTTPS']))
@@ -183,7 +185,7 @@ if ($stmt->execute()){
             }
         }
     }
-    else{
+    else {
         echo "Not_ok" ;
     }
 }
