@@ -104,7 +104,7 @@ function createHTML($id, $eventName, $date, $target_file, $price, $eventTickets,
     <p id='eventPrice'>Preis: $price</p>
     <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
     <p id='eventDescription'>Beschreibung: $description</p>
-    <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='buyProcess(\"$id\", \"$eventName\", \"$price\", \"$description\")'>Ticket bestellen</button>
+    <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
     <div class=\"dropdown-divider\"></div>
     <div class=\"Comments\">
         <form id=\"commentForm\" method=\"post\" role=\"form\" action=\"https://intranet-secure.de/TicketCorner/PHP/uploadeComments.php\">

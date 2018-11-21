@@ -4,14 +4,15 @@ let eventIndexer = [];
 let start = 0;
 let loadingIndex = 0;
 let orderMode= 1;
-let eventJson = null;
+let eventJsonObject = null;
 
 function loopIt(arrayEvent, sortMode) {
 
     if(sortMode === 1){
 
         for(let i=0; i<=4; i++) {
-            let event = new Event(arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate);
+            console.log("loopIt | arrayEvent[loadingIndex].ID: " +  arrayEvent[loadingIndex].ID);
+            let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice);
             event.checkIsExpired();
             eventHolder.push(event);
             console.log(event);
@@ -20,8 +21,8 @@ function loopIt(arrayEvent, sortMode) {
     }
     if(sortMode === 2) {
 
-        for (let i=eventJson.length; i>=eventJson.length-4; i--) {
-            let event = new Event(arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate);
+        for (let i=eventJsonObject.length; i>=eventJsonObject.length-4; i--) {
+            let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice);
             event.checkIsExpired();
             eventHolder.push(event);
             console.log(event);
@@ -34,10 +35,10 @@ function getEvents(cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            eventJson = this.responseText;
-            if(typeof eventJson === 'string'){
-                eventJson = JSON.parse(eventJson);
-                cb(eventJson);
+            eventJsonObject = this.responseText;
+            if(typeof eventJsonObject === 'string'){
+                eventJsonObject = JSON.parse(eventJsonObject);
+                cb(eventJsonObject);
             }
         }
     };
@@ -100,7 +101,8 @@ function getEvents(cb) {
     }
     return [arrayEventName,arrayImagePath];
 }*/
-function Event(img, name, date) {
+function Event(id, img, name, date, price) {
+    this.id = id;
     this.cleanImgID = img.replace("../Events/img/","");
     this.eventDiv = document.createElement("div");
     this.eventDiv.className = "EventContainer";
@@ -108,12 +110,14 @@ function Event(img, name, date) {
     this.eventName.textContent = name;
     this.eventDate = document.createElement("div");
     this.eventDate.textContent = date;
+    this.eventPrice = price;
     this.eventLink = document.createElement("a");
     this.eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + this.cleanImgID.replace(".jpg",".html");
     this.imgElement = document.createElement("img");
     this.imgElement.src = "https://intranet-secure.de/TicketCorner/Events/img/"+this.cleanImgID;
     this.imgElement.height = 400;
     this.imgElement.width = 800;
+    this.expired = false;
 
     document.getElementById("maintext").appendChild(this.eventDiv);
     this.eventDiv.appendChild(this.eventName);
@@ -147,6 +151,7 @@ function Event(img, name, date) {
 
             //this.imgElement.appendChild(expiredDiv);
             this.eventName.textContent += " (ABGELAUFEN)";
+            this.expired = true;
             console.log("checkIsExpired | should be marked as expired: " + this.eventName.textContent);
         }
         else{
@@ -155,7 +160,47 @@ function Event(img, name, date) {
     }
 }
 
-/*function sortEvents(int){
+/*function getEventById(eventId) {
+    event.preventDefault();
+    console.log("eventManager | getEventById called with id: " + eventId);
+
+    let foundEvent = null;
+
+
+    getEvents(function(events) {
+        console.log("eventManager | eventHolder.length: " + events.length);
+
+        for (let i = 0; i < events.length; i++) {
+            let currentEvent = events[i];
+            let event = new Event(currentEvent.ID, currentEvent.imageSrc, currentEvent.eventName, currentEvent.eventDate);
+
+            event.checkIsExpired();
+
+            console.log("eventManager | loop | EventId: " + currentEvent.id);
+
+            if(event.id === eventId) {
+
+                console.log("eventManager | event was found in holder");
+
+                if(event.expired) {
+                    console.log("eventManager | event is expired, should show popup");
+                    window.alert("Die Veranstaltung hat bereits stattgefunden");
+                    return;
+                }
+
+                foundEvent = currentEvent;
+            }
+        }
+
+        if(foundEvent) {
+            buyProcess(foundEvent.id, foundEvent.eventName.textContent, foundEvent.eventPrice.textContent, foundEvent.eventDescription.textContent);
+            console.log("eventManager | Ticket should be bought");
+        }
+        else
+            window.alert("FEHLER: Die angegebene Veranstaltung konnte nicht gefunden werden!");
+    });
+}
+function sortEvents(int){
     if(start == 0){
         eventIndexer = Array.from(Array(eventHolder.length).keys());
         start ++;
@@ -180,20 +225,20 @@ function Event(img, name, date) {
 
         }
     }
-}*/
+}
 
-getEvents(function(events){
+getEvents(function(events) {
     loopIt(events, 1);
-});
+});*/
 
 
 $(window).scroll(function() {
     if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 1) {
         console.log("Bottom reached");
-        loopIt(eventJson, 1);
+        loopIt(eventJsonObject, 1);
     } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 2) {
         console.log("Bottom reached");
-        loopIt(eventJson, 2);
+        loopIt(eventJsonObject, 2);
     }
 });
 
@@ -205,15 +250,15 @@ function sortEvents(int){
     if(int===1){
         $("div").remove(".EventContainer");
         loadingIndex = 0;
-        loopIt(eventJson, int);
+        loopIt(eventJsonObject, int);
         orderMode = 1;
 
     }
 
     if(int===2){
         $("div").remove(".EventContainer");
-        loadingIndex = eventJson.length-1;
-        loopIt(eventJson, int);
+        loadingIndex = eventJsonObject.length-1;
+        loopIt(eventJsonObject, int);
         orderMode = 2;
     }
 

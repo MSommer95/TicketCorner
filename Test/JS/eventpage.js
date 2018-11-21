@@ -24,14 +24,24 @@ function previewFile(){
 }
 
 function appendDate() {
+    event.preventDefault();
+
     let form = document.getElementById("create-form");
-
     let dateString = getFieldValue("form_date");
-
     let values = dateString.split("-");
+
     // expected year, month, day;
     window.alert(JSON.stringify(values));
+
     let eventDate = new Date(parseInt(values[0]), parseInt(values[1]) - 1, parseInt(values[2]));
+    let currentDate = new Date();
+
+    currentDate.setHours(0,0,0,0);
+
+    if(eventDate < currentDate) {
+        window.alert("Das Veranstaltungsdatum liegt in der Vergangenheit!");
+        return;
+    }
 
     if(tryChangeValue("form_date", eventDate.toLocaleDateString())) {
         inputCreate(form, getCookie("ID"), "ID");
