@@ -19,7 +19,8 @@ try {
           VALUES ($userID,'$userName',$postID, '$date', '$message')";
 // use exec() because no results are returned
     $conn->exec($sql);
-    header("Location: https://intranet-secure.de/TicketCorner/Events/html/".$postID.".html");
+    //header("Location: https://intranet-secure.de/TicketCorner/Events/html/".$postID.".html");
+    echo "Fine";
 } catch(PDOException $e)
 {
     echo $sql . "<br>" . $e->getMessage();

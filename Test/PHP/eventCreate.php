@@ -106,14 +106,15 @@ function createHTML($id, $eventName, $date, $target_file, $price, $eventTickets,
     <p id='eventDescription'>Beschreibung: $description</p>
     <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
     <div class=\"dropdown-divider\"></div>
-    <div class=\"Comments\">
-        <form id=\"commentForm\" method=\"post\" role=\"form\" action=\"https://intranet-secure.de/TicketCorner/PHP/uploadeComments.php\">
+    <div class=\"Comments loggedInAcc\">
             <div>
                 <label for=\"comment-section\">Comment Section</label>
                 <textarea id=\"comment-section\" name=\"comment-section\" rows=\"5\" cols=\"100\" maxlength=\"234\"></textarea>
             </div>
-            <input type=\"submit\" value=\"Post Comment\" onclick=\"sendCommentForm()\"/>
-        </form>
+        <button onclick=\"sendCommentForm()\">Post Comment</button>
+    </div>
+    <div class=\" loggedOutAcc\">
+        <a href=\"signIn.html\">Logge dich ein und hinterlasse dein Feedback. </a>
     </div>
 </div>
 

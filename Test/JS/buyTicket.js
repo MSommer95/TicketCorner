@@ -96,7 +96,7 @@ function getEventById(eventId) {
         }
 
         if(foundEvent) {
-            buyProcess(foundEvent.id, foundEvent.eventName, foundEvent.eventPrice, foundEvent.eventDescription);
+            buyProcess(foundEvent.ID, foundEvent.eventName, foundEvent.eventPrice, foundEvent.eventDescription);
             console.log("eventManager | Ticket should be bought");
         }
         else

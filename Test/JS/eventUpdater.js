@@ -50,12 +50,16 @@ initProcess();
 setInterval("initProcess()", 10000);
 
 function sendCommentForm(){
-    let form = document.getElementById("comment-section");
-    inputCreate(form, getCookie("ID"), "userID");
-    inputCreate(form, getCookie("forename") + " " + getCookie("surname"), "userName");
-    inputCreate(form, ID, "postID");
-    inputCreate(form, document.getElementById("comment-section").value, "message");
-    form.submit();
+
+    let messageField = document.getElementById("comment-section");
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/uploadeComments.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("postID="+ ID + "&userID=" + getCookie("ID") + "&userName=" + getCookie("forename") + " " + getCookie("surname") + "&message=" + messageField.value);
+    xmlhttp.onload = function () {
+        initProcess();
+        messageField.value = "";
+    }
 }
 
 function inputCreate(form, value ,name) {
