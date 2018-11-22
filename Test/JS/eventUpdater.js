@@ -73,7 +73,7 @@ function inputCreate(form, value ,name) {
 function createCommentSection(commentsJSON) {
     $("div").remove(".commentSection");
     for(i=0;i<=commentsJSON.length-1;i++){
-        let comment = new Comment(commentsJSON[i].userName, commentsJSON[i].datetime, commentsJSON[i].message);
+        let comment = new Comment(commentsJSON[i].userName, commentsJSON[i].datetime, commentsJSON[i].message, i);
         commentHolder.push(comment);
         console.log(comment);
     }
@@ -97,21 +97,31 @@ function getComments(cb) {
     console.log("getUpdateDataCall");
 }
 
-function Comment(userName,datetime,message){
+function Comment(userName,datetime,message, i){
 
+    this.sectionSplitterOne = document.createElement("div");
+    this.sectionSplitterOne.className = "dropdown-divider";
     this.commentDiv = document.createElement("div");
     this.commentDiv.className = "commentSection";
-    this.userNameTag = document.createElement("label");
-    this.userNameTag.textContent = userName;
-    this.datetimeTag = document.createElement("p");
-    this.datetimeTag.textContent = datetime;
     this.messageTag = document.createElement("p");
     this.messageTag.textContent = message;
+    this.messageTag.id = i;
+    this.userNameTag = document.createElement("label");
+    this.userNameTag.textContent = userName;
+    this.userNameTag.htmlFor = i;
+    this.datetimeTag = document.createElement("label");
+    this.datetimeTag.textContent = datetime;
+    this.datetimeTag.htmlFor = i;
+    this.sectionSplitterTwo = document.createElement("div");
+    this.sectionSplitterTwo.className = "dropdown-divider";
+
 
     document.getElementById("maintext").appendChild(this.commentDiv);
+    this.commentDiv.appendChild(this.sectionSplitterOne);
     this.commentDiv.appendChild(this.userNameTag);
     this.commentDiv.appendChild(this.datetimeTag);
     this.commentDiv.appendChild(this.messageTag);
+    this.commentDiv.appendChild(this.sectionSplitterTwo);
 }
 
 
