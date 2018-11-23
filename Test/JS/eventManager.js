@@ -6,36 +6,73 @@ let loadingIndex = 0;
 let orderMode= 1;
 let eventJsonObject = null;
 
-function loopIt(arrayEvent, sortMode) {
+function loopIt(sortMode) {
 
     if(sortMode === 1){
 
         for(let i=0; i<=4; i++) {
-            console.log("loopIt | arrayEvent[loadingIndex].ID: " +  arrayEvent[loadingIndex].ID);
-            let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice);
+            //console.log("loopIt | arrayEvent[loadingIndex].ID: " +  eventHolder[loadingIndex].ID);
+            /*let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice, arrayEvent[loadingIndex].eventTickets, arrayEvent[loadingIndex].maxEventTickets);
             event.checkIsExpired();
             eventHolder.push(event);
-            console.log(event);
+            console.log(event);*/
+            eventHolder[loadingIndex].checkIsExpired();
+            createEventHTMLElements(eventHolder[loadingIndex]);
             loadingIndex++;
         }
     }
     if(sortMode === 2) {
 
-        for (let i=eventJsonObject.length; i>=eventJsonObject.length-4; i--) {
-            let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice);
+        for (let i=eventHolder.length; i>=eventHolder.length-4; i--) {
+
+           /* let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice, arrayEvent[loadingIndex].eventTickets, arrayEvent[loadingIndex].maxEventTickets);
             event.checkIsExpired();
             eventHolder.push(event);
-            console.log(event);
+            console.log(event);*/
+            eventHolder[loadingIndex].checkIsExpired();
+            createEventHTMLElements(eventHolder[loadingIndex]);
             loadingIndex--;
         }
     }
+    if(sortMode === 3) {
+        let eventEndorser = bubbleSort(eventHolder, eventHolder.endorsement).reverse();
+        console.log(eventEndorser);
+        for (let i=0; i<=4; i++) {
+            /*let event = new Event(eventHolder[loadingIndex].ID, eventHolder[loadingIndex].imageSrc, eventHolder[loadingIndex].eventName, eventHolder[loadingIndex].eventDate, eventHolder[loadingIndex].eventPrice, eventHolder[loadingIndex].eventTickets, eventHolder[loadingIndex].maxEventTickets);
+            event.checkIsExpired();
+            eventHolder.push(event);
+            console.log(event);*/
+            eventHolder[loadingIndex].checkIsExpired();
+            if(!eventHolder[loadingIndex].expired){
+                createEventHTMLElements(eventEndorser[loadingIndex]);
+                loadingIndex++;
+            }
+
+
+        }
+        bubbleSort(eventHolder, eventHolder.id).reverse();
+    }
+}
+
+function bubbleSort(arr, sortMedium){
+    let len = arr.length;
+    for (let i = len-1; i>=0; i--){
+        for(let j = 1; j<=i; j++){
+            if(arr[j-1].sortMedium>arr[j].sortMedium){
+                let temp = arr[j-1];
+                arr[j-1] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+    return arr;
 }
 
 function getEvents(cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            eventJsonObject = this.responseText;
+            let eventJsonObject = this.responseText;
             if(typeof eventJsonObject === 'string'){
                 eventJsonObject = JSON.parse(eventJsonObject);
                 cb(eventJsonObject);
@@ -101,32 +138,54 @@ function getEvents(cb) {
     }
     return [arrayEventName,arrayImagePath];
 }*/
-function Event(id, img, name, date, price) {
+
+
+function initEvents(eventJsonObject){
+    for(let i=0; i<=eventJsonObject.length-1; i++){
+        let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
+        eventHolder.push(event);
+        console.log(event);
+
+    }
+    return eventHolder;
+}
+
+function createEventHTMLElements(event){
+    let img = event.img.replace("../Events/img/","");
+    let eventDiv = document.createElement("div");
+    eventDiv.className = "EventContainer";
+    let eventName = document.createElement("h1");
+    eventName.textContent = event.name;
+    let eventDate = document.createElement("div");
+    eventDate.textContent = event.date;
+    let eventPrice = event.price;
+    let eventLink = document.createElement("a");
+    eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + img.replace(".jpg",".html");
+    let imgElement = document.createElement("img");
+    imgElement.src = "https://intranet-secure.de/TicketCorner/Events/img/"+ img;
+    imgElement.height = 400;
+    imgElement.width = 800;
+
+    document.getElementById("maintext").appendChild(eventDiv);
+    eventDiv.appendChild(eventName);
+    eventDiv.appendChild(eventLink);
+    eventLink.appendChild(imgElement);
+}
+
+function Event(id, img, name, date, price, tickets, maxTickets) {
     this.id = id;
-    this.cleanImgID = img.replace("../Events/img/","");
-    this.eventDiv = document.createElement("div");
-    this.eventDiv.className = "EventContainer";
-    this.eventName = document.createElement("h1");
-    this.eventName.textContent = name;
-    this.eventDate = document.createElement("div");
-    this.eventDate.textContent = date;
-    this.eventPrice = price;
-    this.eventLink = document.createElement("a");
-    this.eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + this.cleanImgID.replace(".jpg",".html");
-    this.imgElement = document.createElement("img");
-    this.imgElement.src = "https://intranet-secure.de/TicketCorner/Events/img/"+this.cleanImgID;
-    this.imgElement.height = 400;
-    this.imgElement.width = 800;
+    this.endorsement = (maxTickets - tickets) / maxTickets;
+    this.img = img;
+    this.name = name;
+    this.date = date;
+    this.price = price;
     this.expired = false;
 
-    document.getElementById("maintext").appendChild(this.eventDiv);
-    this.eventDiv.appendChild(this.eventName);
-    this.eventDiv.appendChild(this.eventLink);
-    this.eventLink.appendChild(this.imgElement);
+
 
     this.checkIsExpired = function() {
         console.log("checkIsExpired | got called");
-        if(!this.eventDate.textContent) {
+        if(!this.date) {
             console.log("checkIsExpired | no date defined, returning");
             return;
         }
@@ -135,7 +194,9 @@ function Event(id, img, name, date, price) {
 
         currentDate.setHours(0, 0, 0, 0);
 
-        let eventDate = new Date(this.eventDate.textContent);
+
+        let dateTransformed = this.date.split(".").reverse().join(".");
+        let eventDate = new Date(dateTransformed);
 
         console.log("checkIsExpired | eventDate is: " + eventDate);
 
@@ -150,11 +211,13 @@ function Event(id, img, name, date, price) {
             //expiredDiv.appendChild(text);
 
             //this.imgElement.appendChild(expiredDiv);
-            this.eventName.textContent += " (ABGELAUFEN)";
+            this.name = this.name.replace(" (ABGELAUFEN)","");
+            this.name += " (ABGELAUFEN)";
             this.expired = true;
-            console.log("checkIsExpired | should be marked as expired: " + this.eventName.textContent);
+            console.log("checkIsExpired | should be marked as expired: " + this.name);
         }
         else{
+
             console.log("checkIsExpired | event is not expired, do nothing");
         }
     }
@@ -235,10 +298,13 @@ getEvents(function(events) {
 $(window).scroll(function() {
     if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 1) {
         console.log("Bottom reached");
-        loopIt(eventJsonObject, 1);
+        loopIt(1);
     } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 2) {
         console.log("Bottom reached");
-        loopIt(eventJsonObject, 2);
+        loopIt(2);
+    } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 3) {
+        console.log("Bottom reached");
+        loopIt(3);
     }
 });
 
@@ -250,16 +316,23 @@ function sortEvents(int){
     if(int===1){
         $("div").remove(".EventContainer");
         loadingIndex = 0;
-        loopIt(eventJsonObject, int);
+        loopIt(int);
         orderMode = 1;
 
     }
 
     if(int===2){
         $("div").remove(".EventContainer");
-        loadingIndex = eventJsonObject.length-1;
-        loopIt(eventJsonObject, int);
+        loadingIndex = eventHolder.length-1;
+        loopIt(int);
         orderMode = 2;
+    }
+
+    if(int===3){
+        $("div").remove(".EventContainer");
+        loadingIndex = 0;
+        loopIt(int);
+        orderMode = 3;
     }
 
 }

@@ -1,5 +1,7 @@
 $(function() {
+
     getEvents(function(events) {
-        loopIt(events, 1);
+        initEvents(events);
+        loopIt(1);
     });
 });

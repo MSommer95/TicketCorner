@@ -151,8 +151,8 @@ if ($stmt->execute()){
                 try {
                     // set the PDO error mode to exception
                     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, eventDescription, eventDate, imageSrc, creatorID)
-                             VALUES ($id, '$eventName', '$price', $eventTickets, '$description', '$date', '$target_file', $creatorID)";
+                    $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, maxEventTickets, eventDescription, eventDate, imageSrc, creatorID)
+                             VALUES ($id, '$eventName', '$price', $eventTickets, $eventTickets, '$description', '$date', '$target_file', $creatorID)";
                     // use exec() because no results are returned
                     $conn->exec($sql);
                     // Check if $uploadOk is set to 0 by an error
