@@ -1,5 +1,7 @@
 let eventJson = null;
 let commentsJSON = null;
+let ratingJSON = null;
+let ratingOwnJSON = null;
 let ID = getHTMLname();
 let commentHolder = [];
 
@@ -45,6 +47,11 @@ function initProcess(){
     getComments(function (comments) {
        createCommentSection(comments);
     });
+    getRating(function (events) {
+        updateRating(events);
+    });
+
+
 }
 initProcess();
 setInterval("initProcess()", 10000);
@@ -124,4 +131,104 @@ function Comment(userName,datetime,message, i){
     this.commentDiv.appendChild(this.sectionSplitterTwo);
 }
 
+function getRating(cb) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            ratingJSON = this.responseText;
+            if(typeof ratingJSON === 'string'){
+                ratingJSON = JSON.parse(ratingJSON);
+                cb(ratingJSON);
+                console.log(ratingJSON);
+                console.log("getRatingDataCall");
+            }
+        }
+    };
+    xmlhttp.open("POST", "/../TicketCorner/PHP/getRating.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("postID="+ ID);
+}
 
+function sendRatingForm(){
+    let form = document.getElementById("ratingForm");
+    inputCreate(form, ID, "postID");
+    inputCreate(form, getCookie("ID"), "userID");
+    form.submit();
+}
+
+function getOwnRating(cb) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            ratingOwnJSON = this.responseText;
+            if(typeof ratingOwnJSON === 'string'){
+                ratingOwnJSON = JSON.parse(ratingOwnJSON);
+                cb(ratingOwnJSON);
+                console.log(ratingOwnJSON);
+                console.log("getRatingDataCall");
+            }
+        }
+    };
+    xmlhttp.open("POST", "/../TicketCorner/PHP/getOwnRating.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("postID="+ ID + "&userID=" + getCookie("ID"));
+}
+
+
+function updateRating(ratingJSON){
+    console.log(ratingJSON);
+   if(ratingJSON.length >= 1){
+       let ratingcounts = 0;
+       let one =0;
+       let two =0;
+       let three =0;
+       let four =0;
+       let five =0;
+
+       for(let i=0; i<=ratingJSON.length-1; i++){
+           ratingcounts += parseInt(ratingJSON[i].oneStar) *1;
+           one += parseInt(ratingJSON[i].oneStar);
+           ratingcounts += parseInt(ratingJSON[i].twoStars) *2;
+           two += parseInt(ratingJSON[i].twoStars);
+           ratingcounts += parseInt(ratingJSON[i].threeStars) *3;
+           three += parseInt(ratingJSON[i].threeStars);
+           ratingcounts += parseInt(ratingJSON[i].fourStars) *4;
+           four += parseInt(ratingJSON[i].fourStars);
+           ratingcounts += parseInt(ratingJSON[i].fiveStars) *5;
+           five += parseInt(ratingJSON[i].fiveStars);
+       }
+       ratingcounts = ratingcounts/ratingJSON.length;
+       console.log(ratingcounts);
+       console.log("one "+one);
+       console.log("two "+one);
+       console.log("three "+three);
+       console.log("four "+four);
+       console.log("five "+five);
+       if(ratingJSON>1){
+           document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
+       }else{
+           document.getElementById("rating").textContent ="Es hat eine Person das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
+       }
+
+   } else {
+       document.getElementById("rating").textContent = "Noch keine Bewertungen";
+   }
+}
+
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
+
+function updateOwnRating(ratingOwnJSON){
+    if(ratingOwnJSON.length===1){
+        console.log(ratingOwnJSON);
+        let result = getKeyByValue(ratingOwnJSON[0],"1");
+        document.getElementById(result).checked = true;
+    } else{
+        document.getElementById("fiveStars").checked = true;
+    }
+}
+
+getOwnRating(function (events) {
+    updateOwnRating(events);
+});

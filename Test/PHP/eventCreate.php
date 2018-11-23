@@ -99,13 +99,30 @@ function createHTML($id, $eventName, $date, $target_file, $price, $eventTickets,
 </nav>
 <div class=\"maintext\" id=\"maintext\">
     <p id='eventName'>Name: $eventName</p>
-    <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg'>
+    <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg' height='200' width='500'>
     <p id='eventDate'>Datum: $date</p>
     <p id='eventPrice'>Preis: $price</p>
     <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
     <p id='eventDescription'>Beschreibung: $description</p>
     <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
-    <div class=\"dropdown-divider\"></div>
+     <div class=\"dropdown-divider loggedInAcc\"></div>
+     <div class=\"ratings loggedInAcc\">
+        <form id=\"ratingForm\" action=\"https://intranet-secure.de/TicketCorner/PHP/uploadeRating.php\" method=\"post\">
+            <input type=\"radio\" name=\"rating\" value=\"oneStar\" id=\"oneStar\">
+            <label for=\"oneStar\">Ein Stern</label>
+            <input type=\"radio\" name=\"rating\" value=\"twoStars\" id=\"twoStars\">
+            <label for=\"twoStars\">Zwei Sterne</label>
+            <input type=\"radio\" name=\"rating\" value=\"threeStars\" id=\"threeStars\">
+            <label for=\"threeStars\">Drei Sterne</label>
+            <input type=\"radio\" name=\"rating\" value=\"fourStars\" id=\"fourStars\">
+            <label for=\"fourStars\">Vier Sterne</label>
+            <input type=\"radio\" name=\"rating\" value=\"fiveStars\" id=\"fiveStars\">
+            <label for=\"fiveStars\">Fünf Sterne</label> <br>
+            <button type=\"submit\" onclick=\"sendRatingForm()\">Submit Rating</button>
+        </form>
+    </div>
+    <p id=\"rating\">0</p>
+    <div class=\"dropdown-divider \"></div>
     <div class=\"Comments loggedInAcc\">
             <div>
                 <label for=\"comment-section\">Comment Section</label>

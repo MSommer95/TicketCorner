@@ -1,6 +1,7 @@
 
 let eventHolder =  [];
 let eventIndexer = [];
+let eventEndorser = [];
 let start = 0;
 let loadingIndex = 0;
 let orderMode= 1;
@@ -9,7 +10,8 @@ let eventJsonObject = null;
 function loopIt(sortMode) {
 
     if(sortMode === 1){
-
+        console.log("eventHolder 1: ");
+        console.log(eventHolder);
         for(let i=0; i<=4; i++) {
             //console.log("loopIt | arrayEvent[loadingIndex].ID: " +  eventHolder[loadingIndex].ID);
             /*let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice, arrayEvent[loadingIndex].eventTickets, arrayEvent[loadingIndex].maxEventTickets);
@@ -22,7 +24,8 @@ function loopIt(sortMode) {
         }
     }
     if(sortMode === 2) {
-
+        console.log("eventHolder 2: ");
+        console.log(eventHolder);
         for (let i=eventHolder.length; i>=eventHolder.length-4; i--) {
 
            /* let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice, arrayEvent[loadingIndex].eventTickets, arrayEvent[loadingIndex].maxEventTickets);
@@ -35,37 +38,38 @@ function loopIt(sortMode) {
         }
     }
     if(sortMode === 3) {
-        let eventEndorser = bubbleSort(eventHolder, eventHolder.endorsement).reverse();
+
+        console.log("EventEndorser: ");
         console.log(eventEndorser);
         for (let i=0; i<=4; i++) {
             /*let event = new Event(eventHolder[loadingIndex].ID, eventHolder[loadingIndex].imageSrc, eventHolder[loadingIndex].eventName, eventHolder[loadingIndex].eventDate, eventHolder[loadingIndex].eventPrice, eventHolder[loadingIndex].eventTickets, eventHolder[loadingIndex].maxEventTickets);
             event.checkIsExpired();
             eventHolder.push(event);
             console.log(event);*/
-            eventHolder[loadingIndex].checkIsExpired();
-            if(!eventHolder[loadingIndex].expired){
+            eventEndorser[loadingIndex].checkIsExpired();
+            if(!eventEndorser[loadingIndex].expired){
                 createEventHTMLElements(eventEndorser[loadingIndex]);
-                loadingIndex++;
-            }
 
+            }
+            loadingIndex++;
 
         }
-        bubbleSort(eventHolder, eventHolder.id).reverse();
     }
 }
 
-function bubbleSort(arr, sortMedium){
-    let len = arr.length;
+function bubbleSort(arr){
+    let arrTest = arr;
+    let len = arrTest.length;
     for (let i = len-1; i>=0; i--){
         for(let j = 1; j<=i; j++){
-            if(arr[j-1].sortMedium>arr[j].sortMedium){
-                let temp = arr[j-1];
-                arr[j-1] = arr[j];
-                arr[j] = temp;
+            if(arrTest[j-1].endorsement>arrTest[j].endorsement){
+                let temp = arrTest[j-1];
+                arrTest[j-1] = arrTest[j];
+                arrTest[j] = temp;
             }
         }
     }
-    return arr;
+    return arrTest;
 }
 
 function getEvents(cb) {
@@ -297,13 +301,13 @@ getEvents(function(events) {
 
 $(window).scroll(function() {
     if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 1) {
-        console.log("Bottom reached");
+        console.log("Bottom reached mode 1");
         loopIt(1);
     } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 2) {
-        console.log("Bottom reached");
+        console.log("Bottom reached mode 2");
         loopIt(2);
     } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 3) {
-        console.log("Bottom reached");
+        console.log("Bottom reached mode 3");
         loopIt(3);
     }
 });
@@ -330,6 +334,8 @@ function sortEvents(int){
 
     if(int===3){
         $("div").remove(".EventContainer");
+        eventEndorser = eventHolder.slice();
+        eventEndorser = bubbleSort(eventEndorser).reverse();
         loadingIndex = 0;
         loopIt(int);
         orderMode = 3;
