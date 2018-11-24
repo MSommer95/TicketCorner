@@ -46,11 +46,10 @@ function loopIt(sortMode) {
             event.checkIsExpired();
             eventHolder.push(event);
             console.log(event);*/
-            eventEndorser[loadingIndex].checkIsExpired();
-            if(!eventEndorser[loadingIndex].expired){
-                createEventHTMLElements(eventEndorser[loadingIndex]);
 
-            }
+            createEventHTMLElements(eventEndorser[loadingIndex]);
+
+
             loadingIndex++;
 
         }
@@ -151,6 +150,15 @@ function initEvents(eventJsonObject){
         console.log(event);
 
     }
+
+    for(let i= 0; i<=eventHolder.length-1; i++){
+        eventHolder[i].checkIsExpired();
+        if(!eventHolder[i].expired){
+            eventEndorser.push(eventHolder[i]);
+        }
+    }
+
+    eventEndorser = bubbleSort(eventEndorser).reverse();
     return eventHolder;
 }
 
@@ -334,8 +342,6 @@ function sortEvents(int){
 
     if(int===3){
         $("div").remove(".EventContainer");
-        eventEndorser = eventHolder.slice();
-        eventEndorser = bubbleSort(eventEndorser).reverse();
         loadingIndex = 0;
         loopIt(int);
         orderMode = 3;

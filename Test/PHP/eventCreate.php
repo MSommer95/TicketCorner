@@ -101,7 +101,7 @@ function createHTML($id, $eventName, $date, $target_file, $price, $eventTickets,
     <p id='eventName'>Name: $eventName</p>
     <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg' height='200' width='500'>
     <p id='eventDate'>Datum: $date</p>
-    <p id='eventPrice'>Preis: $price</p>
+    <p id='eventPrice'>Preis in Euro: $price</p>
     <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
     <p id='eventDescription'>Beschreibung: $description</p>
     <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
