@@ -52,8 +52,22 @@ window.onbeforeunload = function() {
     }
 };
 
-function changePW(){
-    let inputForename = $("<input>")
+function inputCreate(form, value ,name){
+    let tag = document.createElement("INPUT");
+    tag.name = name;
+    tag.value = value;
+    tag.type = 'hidden';
+    form.appendChild(tag);
+}
+
+function changeData(formName){
+    let form = document.getElementById(formName);
+    let formDataArray = ["forename", "surname", "email", "ID"];
+    for(let i = 0; i<= formDataArray.length-1; i++){
+        inputCreate(form, getCookie(formDataArray[i]) , formDataArray[i]);
+    }
+
+  /* let inputForename = $("<input>")
         .attr("type", "hidden")
         .attr("name", "forename").val(getCookie("forename"));
     $('#pwchange').append(inputForename);
@@ -68,10 +82,17 @@ function changePW(){
     let inputID = $("<input>")
         .attr("type", "hidden")
         .attr("name", "ID").val(getCookie("ID"));
-    $('#pwchange').append(inputID);
+    $('#pwchange').append(inputID);*/
 }
 
-function changeAccData(){
+/*function changeAccData(){
+
+    let form = document.getElementById("pdata");
+    let formDataArray = ["forename", "surname", "email", "ID"];
+    for(let i = 0; i<= formDataArray.length-1; i++){
+        inputCreate(form, getCookie(formDataArray[i]) , formDataArray[i]);
+    }
+
     let inputForename = $("<input>")
         .attr("type", "hidden")
         .attr("name", "forename").val(getCookie("forename"));
@@ -88,4 +109,4 @@ function changeAccData(){
         .attr("type", "hidden")
         .attr("name", "ID").val(getCookie("ID"));
     $('#pdata').append(inputID);
-}
+}*/
