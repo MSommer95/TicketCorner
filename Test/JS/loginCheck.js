@@ -6,6 +6,14 @@ window.getCookie = function(name) {
     if (match) return match[2];
 };
 
+function inputCreate(form, value ,name){
+    let tag = document.createElement("INPUT");
+    tag.name = name;
+    tag.value = value;
+    tag.type = 'hidden';
+    form.appendChild(tag);
+}
+
 function checkForLogin(){
     if (getCookie("email") == null){
         computeLogout();
@@ -16,6 +24,7 @@ function checkForLogin(){
 }
 
 function logout(){
+    sendLogOut();
     document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "ID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "forename=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -56,5 +65,17 @@ function computeLogin(){
         }
     }
 }
+
+function sendLogOut(){
+    let logoutForm = document.createElement("form");
+    logoutForm.action = "./PHP/logout.php";
+    logoutForm.method = "POST";
+    inputCreate(logoutForm, getCookie("ID"), "ID");
+    inputCreate(logoutForm, getCookie("forename"), "forename");
+    inputCreate(logoutForm, getCookie("surname"), "surname");
+    inputCreate(logoutForm, getCookie("email"), "email");
+    document.body.appendChild(logoutForm);
+    logoutForm.submit();
+    }
 
 checkForLogin();

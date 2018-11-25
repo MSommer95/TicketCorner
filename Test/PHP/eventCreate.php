@@ -171,7 +171,7 @@ $dbname = "db758436568";
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
 $stmt = $conn->prepare("SELECT * FROM events WHERE eventName = '$eventName';");
-$controllStmt = $conn->prepare("SELECT * FROM users WHERE ID = $creatorID AND creatorStatus = 1 ;");
+$controllStmt = $conn->prepare("SELECT * FROM users WHERE ID = $creatorID AND creatorStatus = 1 AND loggedIn = 1;");
 
 if ($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -214,6 +214,9 @@ if ($stmt->execute()){
                 {
                     echo $sql . "<br>" . $e->getMessage();
                 }
+            }
+            else{
+                header("location: https://intranet-secure.de/TicketCorner/signIn.html");
             }
         }
     }

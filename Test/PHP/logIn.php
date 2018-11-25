@@ -38,6 +38,7 @@ if($varifyAcc->execute()){
             setrawcookie("email", $splitData[4], time() + (86400*30), "/");
             setcookie("creatorStatus", $splitData[5], time() + (86400*30), "/");
             session_start();
+            $prepareLogin->execute();
             header("Location: https://intranet-secure.de/TicketCorner/");
         }
         else{

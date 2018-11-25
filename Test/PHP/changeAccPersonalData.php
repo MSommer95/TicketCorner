@@ -14,7 +14,7 @@ $password = "M9OitgiOLq4&4j9";
 $dbname = "db758436568";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-$requestPermissionToChange= $conn->prepare("SELECT * FROM users WHERE ID = $ID AND forename = '$forename' AND surname = '$surname' AND email = '$email';");
+$requestPermissionToChange= $conn->prepare("SELECT * FROM users WHERE ID = $ID AND forename = '$forename' AND surname = '$surname' AND email = '$email' AND loggedIn = 1;");
 
 if($requestPermissionToChange->execute()){
     $result=$requestPermissionToChange->fetchAll(PDO::FETCH_ASSOC);
