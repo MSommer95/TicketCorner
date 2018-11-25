@@ -1,7 +1,7 @@
 
 let eventHolder =  [];
-let eventIndexer = [];
 let eventEndorser = [];
+let eventIndexer = [];
 let start = 0;
 let loadingIndex = 0;
 let orderMode= 1;

@@ -54,8 +54,22 @@ function createHTML($id, $eventName, $date, $target_file, $price, $eventTickets,
     <link rel=\"icon\" href=\"https://intranet-secure.de/TicketCorner/icons/favicon.ico\" type=image/x-icon\">
 </head>
 <body>
-<div class=\"slider\">
-    <div class=\"load\">
+<div id=\"carouselExampleIndicators\" class=\"carousel slide\" data-ride=\"carousel\">
+    <ol class=\"carousel-indicators\">
+        <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>
+        <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"1\"></li>
+        <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"2\"></li>
+    </ol>
+    <div class=\"carousel-inner\">
+        <div class=\"carousel-item active\">
+            <a href=\"Events/html/test.html\" id=\"firstSlideshowLink\"><img class=\"d-block w-100\" id=\"firstSliderImg\" src=\"slideshow/slideshow1.jpg\" alt=\"First slide\" height=\"500\" width=\"1530\"></a>
+        </div>
+        <div class=\"carousel-item\">
+            <a href=\"Events/html/test.html\" id=\"secondSlideshowLink\"><img class=\"d-block w-100\" id=\"secondSliderImg\" src=\"slideshow/slideshow2.jpg\" alt=\"Second slide\" height=\"500\" width=\"1530\"></a>
+        </div>
+        <div class=\"carousel-item\">
+            <a href=\"Events/html/test.html\" id=\"thirdSlideshowLink\"> <img class=\"d-block w-100\"id=\"thirdSliderImg\" src=\"slideshow/slideshow3.jpg\" alt=\"Third slide\" height=\"500\" width=\"1530\"></a>
+        </div>
     </div>
 </div>
 <nav class=\"navbar navbar-expand-lg navbar-light bg-light\" id=\"navbarIndex\">
@@ -101,7 +115,7 @@ function createHTML($id, $eventName, $date, $target_file, $price, $eventTickets,
     <p id='eventName'>Name: $eventName</p>
     <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg' height='200' width='500'>
     <p id='eventDate'>Datum: $date</p>
-    <p id='eventPrice'>Preis in Euro: $price</p>
+    <p id='eventPrice'>Preis: $price €</p>
     <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
     <p id='eventDescription'>Beschreibung: $description</p>
     <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
