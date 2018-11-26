@@ -4,19 +4,20 @@ let ratingJSON = null;
 let ratingOwnJSON = null;
 let ID = getHTMLname();
 let commentHolder = [];
-
+//Funktion zur Cookie Findung (Über den Namen als String)
 window.getCookie = function(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) return match[2];
 };
-
+//Funktion zur ID Seperierung der Event Page
 function getHTMLname(){
     let path = window.location.pathname;
     let page = path.split("/").pop();
     page = page.replace(".html", "");
     return page;
 }
-
+//Get Funtion an PHP getUpdateData.php für den Event String
+//Konvertiert Event String in ein Objekt Array
 function getUpdatedData(cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -33,29 +34,34 @@ function getUpdatedData(cb) {
     xmlhttp.send("ID="+ ID);
     console.log("getUpdateDataCall");
 }
-
+//Updated die Ticket Anazhl in der DOM
 function updateHTML(ticketUpdate){
     document.getElementById("eventTickets").textContent = "Anzahl der Tickets: " + ticketUpdate[0].eventTickets;
     console.log("UpdateHTMLCall");
 }
-
+//Initialisiert drei Callback Funktionen mit PHP Aufrufen
 function initProcess(){
     console.log("setInterval");
+    //Ruft CallBackFunktion zur Aktualisierung der Tickets auf
     getUpdatedData(function(events){
         updateHTML(events);
     });
+    //Ruft CallBackFunktion zur Aktualisierung der Kommentare auf
     getComments(function (comments) {
        createCommentSection(comments);
     });
+    //Ruft CallBackFunktion zur Aktualisierung der Ratings auf
     getRating(function (events) {
         updateRating(events);
     });
 
 
 }
+//startet die erste Initialisierung
 initProcess();
+//startet ein Intervall, welches alle 10 Sekunden die InitProcess() Funktion aufruft
 setInterval("initProcess()", 10000);
-
+//Funktion zum Senden eines Kommentars an ein PHP uploadeComments.php Script auf dem Server
 function sendCommentForm(){
 
     let messageField = document.getElementById("comment-section");
@@ -68,7 +74,7 @@ function sendCommentForm(){
         messageField.value = "";
     }
 }
-
+//Funktion zur schnellen Generierung von form Tags
 function inputCreate(form, value ,name) {
     let tag = document.createElement("INPUT");
     tag.name = name;
@@ -76,7 +82,7 @@ function inputCreate(form, value ,name) {
     tag.type = 'hidden';
     form.appendChild(tag);
 }
-
+//Funktion zur Erstellung der Kommentar Felder
 function createCommentSection(commentsJSON) {
     $("div").remove(".commentSection");
     for(i=0;i<=commentsJSON.length-1;i++){
@@ -85,7 +91,7 @@ function createCommentSection(commentsJSON) {
         console.log(comment);
     }
 }
-
+//Funktion zum Fetchen der Kommentare des jeweiligen Events
 function getComments(cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -103,7 +109,7 @@ function getComments(cb) {
     xmlhttp.send("postID="+ ID);
     console.log("getUpdateDataCall");
 }
-
+//Objekt Comment ist dafür zuständig, die Felder und Attribute eines Kommentarfeldes zu pflegen
 function Comment(userName,datetime,message, i){
 
     this.sectionSplitterOne = document.createElement("div");
@@ -130,7 +136,7 @@ function Comment(userName,datetime,message, i){
     this.commentDiv.appendChild(this.messageTag);
     this.commentDiv.appendChild(this.sectionSplitterTwo);
 }
-
+//Funktion zum Fetchen des Ratings, des jeweiligen Events
 function getRating(cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -148,7 +154,7 @@ function getRating(cb) {
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("postID="+ ID);
 }
-
+//Funktion zum Absenden einer vergebenen Bewertung
 function sendRatingForm(){
     let form = document.getElementById("ratingForm");
     inputCreate(form, ID, "postID");
@@ -156,25 +162,7 @@ function sendRatingForm(){
     form.submit();
 }
 
-function getOwnRating(cb) {
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            ratingOwnJSON = this.responseText;
-            if(typeof ratingOwnJSON === 'string'){
-                ratingOwnJSON = JSON.parse(ratingOwnJSON);
-                cb(ratingOwnJSON);
-                console.log(ratingOwnJSON);
-                console.log("getRatingDataCall");
-            }
-        }
-    };
-    xmlhttp.open("POST", "/../TicketCorner/PHP/getOwnRating.php", true);
-    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xmlhttp.send("postID="+ ID + "&userID=" + getCookie("ID"));
-}
-
-
+//Funktion mit der Logik zum Aufspalten des RatingsArray (Hält alle Bewertungen in einer Matrix) und zur Berechnung des Ratings
 function updateRating(ratingJSON){
     console.log(ratingJSON);
    if(ratingJSON.length >= 1){
@@ -196,6 +184,14 @@ function updateRating(ratingJSON){
            four += parseInt(ratingJSON[i].fourStars);
            ratingcounts += parseInt(ratingJSON[i].fiveStars) *5;
            five += parseInt(ratingJSON[i].fiveStars);
+
+           if(ratingJSON[i].userID == getCookie("ID")){
+               console.log(ratingJSON);
+               let result = getKeyByValue(ratingJSON[i],"1");
+               document.getElementById(result).checked = true;
+           } else if(i<=ratingJSON.length-1){
+               document.getElementById("threeStars").checked = true;
+           }
        }
        ratingcounts = ratingcounts/ratingJSON.length;
        console.log(ratingcounts);
@@ -214,21 +210,7 @@ function updateRating(ratingJSON){
        document.getElementById("rating").textContent = "Noch keine Bewertungen";
    }
 }
-
+//Funktion zum Lokalisierung eines bestimmten Keys in einem Array, nach seinem Value
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
 }
-
-function updateOwnRating(ratingOwnJSON){
-    if(ratingOwnJSON.length===1){
-        console.log(ratingOwnJSON);
-        let result = getKeyByValue(ratingOwnJSON[0],"1");
-        document.getElementById(result).checked = true;
-    } else{
-        document.getElementById("fiveStars").checked = true;
-    }
-}
-
-getOwnRating(function (events) {
-    updateOwnRating(events);
-});

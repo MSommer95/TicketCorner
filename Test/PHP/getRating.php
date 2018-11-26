@@ -8,7 +8,7 @@ $dbname = "db758436568";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
-$stmt = $conn->prepare("SELECT oneStar, twoStars, threeStars, fourStars, fiveStars  FROM ratings WHERE eventID = $postID");
+$stmt = $conn->prepare("SELECT userID, oneStar, twoStars, threeStars, fourStars, fiveStars  FROM ratings WHERE eventID = $postID");
 
 if($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
