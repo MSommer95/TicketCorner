@@ -89,6 +89,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label for="form_location">Veranstaltungsort *</label>
+                                <input id="form_location" type="text" name="eventLocation" class="form-control" placeholder="Trage die Adresse ein *" required="required" data-error="Veranstaltungsort wird benötigt">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label for="form_description">Beschreibung *</label>
                                 <textarea id="form_description" name="eventDescription" class="form-control" placeholder="Trage eine Event Beschreibung ein *" rows="4" required="required" data-error="Event Beschreibung wird benötigt."></textarea>
                                 <div class="help-block with-errors"></div>
@@ -99,13 +108,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="form_date">Ereignisdatum *</label>
-                                <input type="date" id="form_date">
+                                <input type="datetime-local" id="form_date" name="eventDate" class="form-control" required="required" data-error="Datum des Events wird benötigt">
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <input type="submit" id="submitBtn" class="btn btn-success btn-send" value="Event erstellen" onclick="appendDate()">
+                    <input type="submit" id="submitBtn" class="btn btn-success btn-send" value="Event erstellen" onclick="appendDateAndLocation()">
                 </div>
             </form>
             <div class="row">

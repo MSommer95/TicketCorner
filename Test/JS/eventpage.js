@@ -23,31 +23,48 @@ function previewFile(){
     }
 }
 
-function appendDate() {
+function appendDateAndLocation() {
     event.preventDefault();
 
     let form = document.getElementById("create-form");
     let dateString = getFieldValue("form_date");
-    let values = dateString.split("-");
-
-    // expected year, month, day;
-    window.alert(JSON.stringify(values));
-
-    let eventDate = new Date(parseInt(values[0]), parseInt(values[1]) - 1, parseInt(values[2]));
+    let eventDate = reformatDate(dateString);
     let currentDate = new Date();
-
-    currentDate.setHours(0,0,0,0);
 
     if(eventDate < currentDate) {
         window.alert("Das Veranstaltungsdatum liegt in der Vergangenheit!");
         return;
     }
 
-    if(tryChangeValue("form_date", eventDate.toLocaleDateString())) {
+    let displayDate = eventDate.toLocaleTimeString([], {year: "numeric", month: "numeric", day: "numeric", hour: '2-digit', minute:'2-digit', hour12: false}).concat(" Uhr");
+    console.log(displayDate);
+
+    let location = getFieldValue("form_location");
+
+    if(tryChangeValue("form_date", displayDate)) {
         inputCreate(form, getCookie("ID"), "ID");
-        inputCreate(form, eventDate.toLocaleDateString(), "eventDate");
+        inputCreate(form, displayDate, "eventDate");
+        inputCreate(form, location, "eventLocation");
         form.submit();
     }
+}
+
+function reformatDate(dateString) {
+    // Year and month
+    let ym = dateString.split("-");
+    // Day and time
+    let dhm = ym[2].split("T");
+    // Hour and minute
+    let hm = dhm[1].split(":");
+
+    //DateVariables stored for better overview
+    let year = parseInt(ym[0]);
+    let month = parseInt(ym[1]) - 1;
+    let day = parseInt(dhm[0]);
+    let hour = parseInt(hm[0]);
+    let minute = parseInt(hm[1]);
+
+    return new Date(year, month, day, hour, minute);
 }
 
 function inputCreate(form, value ,name){

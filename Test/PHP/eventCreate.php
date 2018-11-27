@@ -5,6 +5,7 @@ $price = $_POST["eventPrice"];
 $eventTickets = $_POST["eventTickets"];
 $description = $_POST["eventDescription"];
 $date = $_POST["eventDate"];
+$location = $_POST["eventLocation"];
 $creatorID = $_POST["ID"];
 
 $target_dir = "../Events/img/";
@@ -41,7 +42,7 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
     $uploadOk = 0;
 }
 
-function createHTML($id, $eventName, $date, $target_file, $price, $eventTickets, $description){
+function createHTML($id, $eventName, $date, $location, $target_file, $price, $eventTickets, $description){
     $newHTML = fopen("../Events/html/"."$id".".html", "w") or die ("Unable to create.");
     $htmlData =
         "<!DOCTYPE html>
@@ -115,6 +116,7 @@ function createHTML($id, $eventName, $date, $target_file, $price, $eventTickets,
     <p id='eventName'>Name: $eventName</p>
     <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg' height='200' width='500'>
     <p id='eventDate'>Datum: $date</p>
+    <p id='eventLocation'>Veranstaltungsort: $location</p>
     <p id='eventPrice'>Preis: $price €</p>
     <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
     <p id='eventDescription'>Beschreibung: $description</p>
@@ -182,8 +184,8 @@ if ($stmt->execute()){
                 try {
                     // set the PDO error mode to exception
                     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, maxEventTickets, eventDescription, eventDate, imageSrc, creatorID)
-                             VALUES ($id, '$eventName', '$price', $eventTickets, $eventTickets, '$description', '$date', '$target_file', $creatorID)";
+                    $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, maxEventTickets, eventDescription, eventDate, eventLocation, imageSrc, creatorID)
+                             VALUES ($id, '$eventName', '$price', $eventTickets, $eventTickets, '$description', '$date', '$location', '$target_file', $creatorID)";
                     // use exec() because no results are returned
                     $conn->exec($sql);
                     // Check if $uploadOk is set to 0 by an error
@@ -198,7 +200,7 @@ if ($stmt->execute()){
                         }
                     }
                     move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $_FILES["fileUpload"]["name"]);
-                    createHTML($id, $eventName, $date, $target_file, $price, $eventTickets, $description);
+                    createHTML($id, $eventName, $date, $location, $target_file, $price, $eventTickets, $description);
 
                     $protocol='http';
                     if (isset($_SERVER['HTTPS']))
