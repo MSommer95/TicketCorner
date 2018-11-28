@@ -1,4 +1,4 @@
-
+//Funktion zum Erstellen eines Event Objekts
 function Event(id, img, name, date, price, description) {
     this.id = id;
     this.eventName = name;
@@ -7,7 +7,7 @@ function Event(id, img, name, date, price, description) {
     this.eventPrice = price;
     this.eventDescription = description;
     this.expired = false;
-
+    //Funktion im Event Objekt zum Kontrollieren, ob das Events schon stattgefunden hat
     this.checkIsExpired = function() {
         console.log("checkIsExpired | got called");
         if(!this.eventDate) {
@@ -44,7 +44,7 @@ function Event(id, img, name, date, price, description) {
         }
     }
 }
-
+//CallBack Aufruf einer http Request zum Fetchen des zu kaufenden Events
 function getEventForPurchase(eventId, cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -104,7 +104,7 @@ function getEventById(eventId) {
             window.alert("FEHLER: Die angegebene Veranstaltung konnte nicht gefunden werden!");
     });
 }
-
+//Funktion zum Erstellen einer Form, um die Bestellung eines Tickets aufzurufen
 function buyProcess(eventID, eventName, eventPrice, eventDescription) {
     event.preventDefault();
     let form = document.createElement("form");
