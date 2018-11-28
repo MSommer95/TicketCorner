@@ -189,8 +189,6 @@ function updateRating(ratingJSON){
                console.log(ratingJSON);
                let result = getKeyByValue(ratingJSON[i],"1");
                document.getElementById(result).checked = true;
-           } else if(i<=ratingJSON.length-1){
-               document.getElementById("threeStars").checked = true;
            }
        }
        ratingcounts = ratingcounts/ratingJSON.length;
@@ -208,6 +206,7 @@ function updateRating(ratingJSON){
 
    } else {
        document.getElementById("rating").textContent = "Noch keine Bewertungen";
+       document.getElementById("threeStars").checked = true;
    }
 }
 //Funktion zum Lokalisierung eines bestimmten Keys in einem Array, nach seinem Value

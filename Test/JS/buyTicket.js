@@ -1,5 +1,5 @@
 
-/*function Event(id, img, name, date, price, description) {
+function Event(id, img, name, date, price, description) {
     this.id = id;
     this.eventName = name;
     this.img = img;
@@ -43,7 +43,7 @@
             console.log("checkIsExpired | event is not expired, do nothing");
         }
     }
-}*/
+}
 
 function getEventForPurchase(eventId, cb) {
     let xmlhttp = new XMLHttpRequest();

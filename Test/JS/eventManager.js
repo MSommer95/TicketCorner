@@ -56,7 +56,7 @@ function loopIt(sortMode) {
     }
 }
 
-function bubbleSort(arr){
+/*function bubbleSort(arr){
     let arrTest = arr;
     let len = arrTest.length;
     for (let i = len-1; i>=0; i--){
@@ -69,7 +69,7 @@ function bubbleSort(arr){
         }
     }
     return arrTest;
-}
+}*/
 
 function getEvents(cb) {
     let xmlhttp = new XMLHttpRequest();
@@ -158,7 +158,7 @@ function initEvents(eventJsonObject){
         }
     }
 
-    eventEndorser = bubbleSort(eventEndorser).reverse();
+    eventEndorser = quickSort(eventEndorser, 0, eventEndorser.length-1).reverse();
     return eventHolder;
 }
 
@@ -348,3 +348,41 @@ function sortEvents(int){
     }
 
 }
+
+function quickSort(arr, left, right){
+    let len = arr.length,
+        pivot,
+        partitionIndex;
+
+
+    if(left < right){
+        pivot = right;
+        partitionIndex = partition(arr, pivot, left, right);
+
+        //sort left and right
+        quickSort(arr, left, partitionIndex - 1);
+        quickSort(arr, partitionIndex + 1, right);
+    }
+    return arr;
+}
+
+function partition(arr, pivot, left, right){
+    let pivotValue = arr[pivot].endorsement,
+        partitionIndex = left;
+
+    for(let i = left; i < right; i++){
+        if(arr[i].endorsement < pivotValue){
+            swap(arr, i, partitionIndex);
+            partitionIndex++;
+        }
+    }
+    swap(arr, right, partitionIndex);
+    return partitionIndex;
+}
+
+function swap(arr, i, j){
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
