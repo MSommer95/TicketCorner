@@ -69,7 +69,7 @@ function getEventById(eventId) {
 
 
     getEventForPurchase(eventId, function(events) {
-        console.log("eventManager | eventHolder.length: " + events.length);
+        console.log("buyTicket | events.length: " + events.length);
 
         if(typeof events === 'string')
             events = JSON.parse(events);
@@ -80,14 +80,14 @@ function getEventById(eventId) {
 
             event.checkIsExpired();
 
-            console.log("eventManager | loop | EventId: " + event.id);
+            console.log("buyTicket | loop | EventId: " + event.id);
 
             if(event.id === eventId) {
 
-                console.log("eventManager | event was found in holder");
+                console.log("buyTicket | event was found in holder");
 
                 if(event.expired) {
-                    console.log("eventManager | event is expired, should show popup");
+                    console.log("buyTicket | event is expired, should show popup");
                     window.alert("Die Veranstaltung hat bereits stattgefunden");
                     return;
                 }
@@ -98,7 +98,7 @@ function getEventById(eventId) {
 
         if(foundEvent) {
             buyProcess(foundEvent.ID, foundEvent.eventName, foundEvent.eventPrice, foundEvent.eventDescription);
-            console.log("eventManager | Ticket should be bought");
+            console.log("buyTicket | Ticket should be bought");
         }
         else
             window.alert("FEHLER: Die angegebene Veranstaltung konnte nicht gefunden werden!");
