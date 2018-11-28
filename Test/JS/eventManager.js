@@ -6,7 +6,7 @@ let start = 0;
 let loadingIndex = 0;
 let orderMode= 1;
 let eventJsonObject = null;
-
+//loopIt(sortMode) kümmert sich um die korrekte Reihenfolge der Events, je nachdem welche Art der User gewählt hat
 function loopIt(sortMode) {
 
     if(sortMode === 1){

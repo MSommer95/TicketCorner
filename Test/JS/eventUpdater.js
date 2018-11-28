@@ -59,6 +59,7 @@ function initProcess(){
 }
 //startet die erste Initialisierung
 initProcess();
+document.getElementById("threeStars").checked = true;
 //startet ein Intervall, welches alle 10 Sekunden die InitProcess() Funktion aufruft
 setInterval("initProcess()", 10000);
 //Funktion zum Senden eines Kommentars an ein PHP uploadeComments.php Script auf dem Server
@@ -206,7 +207,7 @@ function updateRating(ratingJSON){
 
    } else {
        document.getElementById("rating").textContent = "Noch keine Bewertungen";
-       document.getElementById("threeStars").checked = true;
+
    }
 }
 //Funktion zum Lokalisierung eines bestimmten Keys in einem Array, nach seinem Value
