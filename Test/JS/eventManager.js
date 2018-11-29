@@ -349,12 +349,17 @@ function sortEvents(int){
     }
 
 }
-
+//Search Funktion zum Suchen von Events
 function search(){
-    let value = document.getElementById("searchInput").value;
+    $("div").remove(".EventContainer");
+    let value = document.getElementById("searchInput").value.toLowerCase();
     for(let i= 0; i<eventHolder.length-1; i++){
-        if(value == eventHolder[i].name){
-            console.log("gefunden: " + eventHolder[i]);
+        if(eventHolder[i].name.toLowerCase().includes(value)){
+            createEventHTMLElements(eventHolder[i]);
+            orderMode = 4;
+        }
+        else {
+
         }
     }
 }
