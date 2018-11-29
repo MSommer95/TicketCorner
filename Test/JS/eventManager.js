@@ -9,6 +9,7 @@ let eventJsonObject = null;
 //loopIt(sortMode) kümmert sich um die korrekte Reihenfolge der Events, je nachdem welche Art der User gewählt hat
 function loopIt(sortMode) {
 
+    //Sortiert das Event Array chronologisch nach den neusten
     if(sortMode === 1){
         console.log("eventHolder 1: ");
         console.log(eventHolder);
@@ -23,6 +24,7 @@ function loopIt(sortMode) {
             loadingIndex++;
         }
     }
+    //Sortiert das Event Array chronologisch nach den ältesten
     if(sortMode === 2) {
         console.log("eventHolder 2: ");
         console.log(eventHolder);
@@ -37,6 +39,7 @@ function loopIt(sortMode) {
             loadingIndex--;
         }
     }
+    //Sortiert das Event Array chronologisch nach den meist verkauften
     if(sortMode === 3) {
 
         console.log("EventEndorser: ");
@@ -48,8 +51,6 @@ function loopIt(sortMode) {
             console.log(event);*/
 
             createEventHTMLElements(eventEndorser[loadingIndex]);
-
-
             loadingIndex++;
 
         }
@@ -70,7 +71,7 @@ function loopIt(sortMode) {
     }
     return arrTest;
 }*/
-
+//Funktion zum Fetchen der Events
 function getEvents(cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -142,7 +143,7 @@ function getEvents(cb) {
     return [arrayEventName,arrayImagePath];
 }*/
 
-
+//CallBack Funktion zum Initialisieren der Event Arrays
 function initEvents(eventJsonObject){
     for(let i=0; i<=eventJsonObject.length-1; i++){
         let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
@@ -161,7 +162,7 @@ function initEvents(eventJsonObject){
     eventEndorser = quickSort(eventEndorser, 0, eventEndorser.length-1).reverse();
     return eventHolder;
 }
-
+//Funktion zum Erstellen der DOM Elemente für Events
 function createEventHTMLElements(event){
     let img = event.img.replace("../Events/img/","");
     let eventDiv = document.createElement("div");
@@ -183,7 +184,7 @@ function createEventHTMLElements(event){
     eventDiv.appendChild(eventLink);
     eventLink.appendChild(imgElement);
 }
-
+//Constructor für die Events
 function Event(id, img, name, date, price, tickets, maxTickets) {
     this.id = id;
     this.endorsement = (maxTickets - tickets) / maxTickets;
@@ -194,7 +195,7 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
     this.expired = false;
 
 
-
+    //Funktion zum Überprüfen des Datums
     this.checkIsExpired = function() {
         console.log("checkIsExpired | got called");
         if(!this.date) {
@@ -306,7 +307,7 @@ getEvents(function(events) {
     loopIt(events, 1);
 });*/
 
-
+//Scroll Funktion zum Nachladen der Events
 $(window).scroll(function() {
     if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 1) {
         console.log("Bottom reached mode 1");
@@ -319,7 +320,7 @@ $(window).scroll(function() {
         loopIt(3);
     }
 });
-
+//Funktion zum Aufrufen der jeweiligen Sortier Funktion
 function sortEvents(int){
     if(start === 0){
         eventIndexer = Array.from(Array(eventHolder.length).keys());
@@ -349,6 +350,17 @@ function sortEvents(int){
 
 }
 
+function search(){
+    let value = document.getElementById("searchInput").value;
+    for(let i= 0; i<eventHolder.length-1; i++){
+        if(value == eventHolder[i].name){
+            console.log("gefunden: " + eventHolder[i]);
+        }
+    }
+}
+
+
+//Implementierung des QuickSort Algorithmus
 function quickSort(arr, left, right){
     let len = arr.length,
         pivot,

@@ -16,7 +16,6 @@ function stickyFunction() {
     }
 }
 //TestArea
-
 function indexInit() {
     let eventHolderIndex =  [];
     let eventEndorserIndex = [];
@@ -124,16 +123,14 @@ function indexInit() {
     function updateSlideshow() {
         let firstSliderPath = "/TicketCorner"+ eventEndorserIndex[0].img.replace("..","");
         let secondSliderPath = "/TicketCorner"+eventEndorserIndex[1].img.replace("..","");
-        let thirdliderPath = "/TicketCorner"+eventEndorserIndex[2].img.replace("..","");
-
-
+        let thirdSliderPath = "/TicketCorner"+eventEndorserIndex[2].img.replace("..","");
 
         document.getElementById("firstSliderImg").src = firstSliderPath;
         document.getElementById("firstSlideshowLink").href = firstSliderPath.replace(/jpg|img/g,"html");
         document.getElementById("secondSliderImg").src = secondSliderPath;
         document.getElementById("secondSlideshowLink").href = secondSliderPath.replace(/jpg|img/g,"html");
-        document.getElementById("thirdSliderImg").src = thirdliderPath;
-        document.getElementById("thirdSlideshowLink").href = thirdliderPath.replace(/jpg|img/g,"html");
+        document.getElementById("thirdSliderImg").src = thirdSliderPath;
+        document.getElementById("thirdSlideshowLink").href = thirdSliderPath.replace(/jpg|img/g,"html");
 
     }
 

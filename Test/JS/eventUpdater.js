@@ -4,6 +4,7 @@ let ratingJSON = null;
 let ratingOwnJSON = null;
 let ID = getHTMLname();
 let commentHolder = [];
+let initPage = 1;
 //Funktion zur Cookie Findung (Über den Namen als String)
 window.getCookie = function(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -59,7 +60,6 @@ function initProcess(){
 }
 //startet die erste Initialisierung
 initProcess();
-document.getElementById("threeStars").checked = true;
 //startet ein Intervall, welches alle 10 Sekunden die InitProcess() Funktion aufruft
 setInterval("initProcess()", 10000);
 //Funktion zum Senden eines Kommentars an ein PHP uploadeComments.php Script auf dem Server
@@ -186,10 +186,14 @@ function updateRating(ratingJSON){
            ratingcounts += parseInt(ratingJSON[i].fiveStars) *5;
            five += parseInt(ratingJSON[i].fiveStars);
 
-           if(ratingJSON[i].userID == getCookie("ID")){
+           if(ratingJSON[i].userID == getCookie("ID") && initPage === 1){
                console.log(ratingJSON);
                let result = getKeyByValue(ratingJSON[i],"1");
                document.getElementById(result).checked = true;
+               initPage++;
+           } else if(ratingJSON[i].userID != getCookie("ID") && initPage === 1){
+               document.getElementById("threeStars").checked = true;
+               initPage++;
            }
        }
        ratingcounts = ratingcounts/ratingJSON.length;

@@ -1,6 +1,6 @@
 
 computeLogout();
-
+//Funktion um Cookies via Namen abzurufen
 window.getCookie = function(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) return match[2];
@@ -13,7 +13,7 @@ function inputCreate(form, value ,name){
     tag.type = 'hidden';
     form.appendChild(tag);
 }
-
+//Funktion zum Kontrrollieren des Login Status
 function checkForLogin(){
     if (getCookie("email") == null){
         computeLogout();
@@ -22,17 +22,17 @@ function checkForLogin(){
         computeLogin();
     }
 }
-
+//Funktion zum Ausloggen (Löscht die Cookies, des Users)
 function logout(){
     sendLogOut();
     document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "ID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "forename=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "surname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "creatorStatus=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    document.cookie = "creatorStatus=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     checkForLogin();
 }
-
+//Blendet Elemente ein, die nur angezeigt werden sollen, wenn der User ausgeloggt ist
 function computeLogout(){
     let lout = document.getElementsByClassName(" loggedOutAcc");
     let lin = document.getElementsByClassName(" loggedInAcc");
@@ -43,7 +43,7 @@ function computeLogout(){
         lin.item(i).style.display = "none";
     }
 }
-
+//Blendet Elemente ein, die nur angezeigt werden sollen, wenn der User eingeloggt ist
 function computeLogin(){
     let lout = document.getElementsByClassName(" loggedOutAcc");
     let lin = document.getElementsByClassName(" loggedInAcc");
@@ -65,7 +65,7 @@ function computeLogin(){
         }
     }
 }
-
+//Sendet ein Form, um den user auszuloggen
 function sendLogOut(){
     let logoutForm = document.createElement("form");
     logoutForm.action = "./PHP/logout.php";
