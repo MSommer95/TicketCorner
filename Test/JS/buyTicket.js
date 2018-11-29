@@ -7,7 +7,7 @@ function Event(id, img, name, date, price, description) {
     this.eventPrice = price;
     this.eventDescription = description;
     this.expired = false;
-    //Funktion im Event Objekt zum Kontrollieren, ob das Events schon stattgefunden hat
+    // Funktion im Event Objekt zum Kontrollieren, ob das Events schon stattgefunden hat
     this.checkIsExpired = function() {
         console.log("checkIsExpired | got called");
         if(!this.eventDate) {
@@ -44,7 +44,8 @@ function Event(id, img, name, date, price, description) {
         }
     }
 }
-//CallBack Aufruf einer http Request zum Fetchen des zu kaufenden Events
+
+// Funktion zum Auslesen eines per ID bestimmten Events aus der Datenbank
 function getEventForPurchase(eventId, cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -61,41 +62,47 @@ function getEventForPurchase(eventId, cb) {
     xmlhttp.send("ID="+ eventId);
 }
 
+// Funktion zum Umwandeln eines Events im HTML Code zur Javascript Eventklasse mit Abfrage, ob das Event noch verfügbar ist
 function getEventById(eventId) {
+    // Verhindern des automatischen Absendens durch HTML Button
     event.preventDefault();
     console.log("eventManager | getEventById called with id: " + eventId);
 
     let foundEvent = null;
 
-
+    // Callback Aufruf der XMLHTTPRequest
     getEventForPurchase(eventId, function(events) {
         console.log("buyTicket | events.length: " + events.length);
 
+        // Umwandlung des Ergebnisses von String in Javascript Objekt
         if(typeof events === 'string')
             events = JSON.parse(events);
 
-        for (let i = 0; i < events.length; i++) {
-            let currentEvent = events[i];
-            let event = new Event(currentEvent.ID, currentEvent.imageSrc, currentEvent.eventName, currentEvent.eventDate, currentEvent.eventPrice);
+        // Erstellen neuer Event Instanz aus Datenbankergebnis
+        let currentEvent = events[0];
+        let event = new Event(currentEvent.ID, currentEvent.imageSrc, currentEvent.eventName, currentEvent.eventDate, currentEvent.eventPrice);
 
-            event.checkIsExpired();
+        // Prüfung, ob Event abgelaufen ist
+        event.checkIsExpired();
 
-            console.log("buyTicket | loop | EventId: " + event.id);
+        console.log("buyTicket | loop | EventId: " + event.id);
 
-            if(event.id === eventId) {
+        // Doppelprüfung zur Sicherstellung
+        if(event.id === eventId) {
 
-                console.log("buyTicket | event was found in holder");
+            console.log("buyTicket | event was found in holder");
 
-                if(event.expired) {
-                    console.log("buyTicket | event is expired, should show popup");
-                    window.alert("Die Veranstaltung hat bereits stattgefunden");
-                    return;
-                }
-
-                foundEvent = currentEvent;
+            // Wenn das Event bereits stattgefunden hat kein Kauf möglich
+            if(event.expired) {
+                console.log("buyTicket | event is expired, should show popup");
+                window.alert("Die Veranstaltung hat bereits stattgefunden");
+                return;
             }
+
+            foundEvent = currentEvent;
         }
 
+        // Wenn das Event korrekt gefunden wurde und nicht abgelaufen ist, kauf initiieren, sonst Fehler ausgeben
         if(foundEvent) {
             buyProcess(foundEvent.ID, foundEvent.eventName, foundEvent.eventPrice, foundEvent.eventDescription);
             console.log("buyTicket | Ticket should be bought");
@@ -104,7 +111,8 @@ function getEventById(eventId) {
             window.alert("FEHLER: Die angegebene Veranstaltung konnte nicht gefunden werden!");
     });
 }
-//Funktion zum Erstellen einer Form, um die Bestellung eines Tickets aufzurufen
+
+// Funktion zum Erstellen einer Form, um die Bestellung eines Tickets aufzurufen
 function buyProcess(eventID, eventName, eventPrice, eventDescription) {
     event.preventDefault();
     let form = document.createElement("form");
@@ -118,6 +126,7 @@ function buyProcess(eventID, eventName, eventPrice, eventDescription) {
     form.submit();
 }
 
+// Helferfunktion zum Anhängen von Daten an ein HTML Formular
 function inputCreate(form, value ,name) {
     let tag = document.createElement("INPUT");
     tag.name = name;

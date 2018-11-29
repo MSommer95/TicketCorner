@@ -1,21 +1,27 @@
+// Hilfsfunktion um den Cookie auszulesen
 window.getCookie = function(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) return match[2];
 };
 
+// Hilfsfunktion um den Wert eines HTML Elements zu erhalten
 function getFieldValue(field) {
     return document.getElementById(field).value;
 }
 
+// Funktion zum darstellen des Vorschaubilds
 function previewFile(){
+    // HTML Elemente auslesen und Filereader erstellen
     let preview = document.querySelector('img'); //selects the query named img
     let file    = document.querySelector('input[type=file]').files[0]; //sames as here
     let reader  = new FileReader();
 
+    // Sobald reader geladen, Vorschaubild setzen
     reader.onloadend = function () {
         preview.src = reader.result;
     };
 
+    // Falls kein Bild gefunden, leeren string setzen, ansonsten URL des Bildes setzen
     if (file) {
         reader.readAsDataURL(file); //reads the data as a URL
     } else {
@@ -23,24 +29,31 @@ function previewFile(){
     }
 }
 
+// Funktion zur Darstellung des Ortes und Datums des Events bei Erstellung des Events
 function appendDateAndLocation() {
+    // Automatisches Absenden durch Buttonclick verhindern
     event.preventDefault();
 
+    // HTML Elemente auslesen und vergleichsgerecht formatieren (Siehe "reformatDate()") - Neues Datum zum Vergleich erstellen (Zeitpunkt: Jetzt)
     let form = document.getElementById("create-form");
     let dateString = getFieldValue("form_date");
     let eventDate = reformatDate(dateString);
     let currentDate = new Date();
 
+    // Vergleich, ob Event in der Vergangenheit liegt - Wenn ja: Erstellung nicht möglich
     if(eventDate < currentDate) {
         window.alert("Das Veranstaltungsdatum liegt in der Vergangenheit!");
         return;
     }
 
+    // Darstellungsgerechte Formatierung des Events
     let displayDate = eventDate.toLocaleTimeString([], {year: "numeric", month: "numeric", day: "numeric", hour: '2-digit', minute:'2-digit', hour12: false}).concat(" Uhr");
     console.log(displayDate);
 
+    // Auslesen des HTML Elements
     let location = getFieldValue("form_location");
 
+    // Verarbeitete Daten an das Formular anhängen und Request an PHP Seite schicken
     if(tryChangeValue("form_date", displayDate)) {
         inputCreate(form, getCookie("ID"), "ID");
         inputCreate(form, displayDate, "eventDate");
@@ -49,24 +62,28 @@ function appendDateAndLocation() {
     }
 }
 
+// Funktion zur Formatierung des eingetragenen Datums zur Verarbeitung als Javascript Date
 function reformatDate(dateString) {
-    // Year and month
+    // Einzelwerte aus dem String lesen
+    // Jahr und Monat
     let ym = dateString.split("-");
-    // Day and time
+    // Tag und Uhrzeit
     let dhm = ym[2].split("T");
-    // Hour and minute
+    // Stunde und Minute
     let hm = dhm[1].split(":");
 
-    //DateVariables stored for better overview
+    // Einzelvariablen zur besseren Übersicht
     let year = parseInt(ym[0]);
-    let month = parseInt(ym[1]) - 1;
+    let month = parseInt(ym[1]) - 1; // Eingetragener Monat -1 -> Javascript Date zählt Monat von 0
     let day = parseInt(dhm[0]);
     let hour = parseInt(hm[0]);
     let minute = parseInt(hm[1]);
 
+    // Neues Javascript Datum als Rückgabewert
     return new Date(year, month, day, hour, minute);
 }
 
+// Hilfsfunktion zum Anhängen von Daten an ein HTML Formular
 function inputCreate(form, value ,name){
     let tag = document.createElement("INPUT");
     tag.name = name;
@@ -75,6 +92,7 @@ function inputCreate(form, value ,name){
     form.appendChild(tag);
 }
 
+// Hilfsfunktion zum Verändern von Werten eines HTML Elements
 function tryChangeValue(name, value) {
     const element = document.getElementById(name);
 
