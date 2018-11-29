@@ -20,8 +20,14 @@ function loopIt(sortMode) {
             event.checkIsExpired();
             eventHolder.push(event);
             console.log(event);*/
-            eventHolder[loadingIndex].checkIsExpired();
-            createEventHTMLElements(eventHolder[loadingIndex]);
+            if(loadingIndex <= eventHolder.length-1) {
+                eventHolder[loadingIndex].checkIsExpired();
+                createEventHTMLElements(eventHolder[loadingIndex]);
+            } else {
+                console.log("out of bound");
+                break;
+            }
+
             loadingIndex++;
         }
     }
@@ -35,8 +41,13 @@ function loopIt(sortMode) {
             event.checkIsExpired();
             eventHolder.push(event);
             console.log(event);*/
-            eventHolder[loadingIndex].checkIsExpired();
-            createEventHTMLElements(eventHolder[loadingIndex]);
+           if(loadingIndex >=0){
+               eventHolder[loadingIndex].checkIsExpired();
+               createEventHTMLElements(eventHolder[loadingIndex]);
+           } else {
+               console.log("out of bound");
+               break;
+           }
             loadingIndex--;
         }
     }
@@ -51,7 +62,13 @@ function loopIt(sortMode) {
             eventHolder.push(event);
             console.log(event);*/
 
-            createEventHTMLElements(eventEndorser[loadingIndex]);
+            if(loadingIndex <= eventPricer.length-1){
+                createEventHTMLElements(eventEndorser[loadingIndex]);
+            }
+            else{
+                console.log("Out of Bound");
+                break;
+            }
             loadingIndex++;
 
         }
@@ -66,8 +83,14 @@ function loopIt(sortMode) {
             event.checkIsExpired();
             eventHolder.push(event);
             console.log(event);*/
+            if(loadingIndex <= eventPricer.length-1){
+                createEventHTMLElements(eventPricer[loadingIndex]);
+            }
+            else{
+                console.log("Out of Bound");
+                break;
+            }
 
-            createEventHTMLElements(eventPricer[loadingIndex]);
             loadingIndex++;
 
         }
@@ -349,27 +372,28 @@ function sortEvents(int){
         eventIndexer = Array.from(Array(eventHolder.length).keys());
         start ++;
     }
+    $("div").remove(".EventContainer");
     switch (int) {
         case 1:
-            $("div").remove(".EventContainer");
+
             loadingIndex = 0;
             loopIt(int);
             orderMode = 1;
             break;
         case 2:
-            $("div").remove(".EventContainer");
+
             loadingIndex = eventHolder.length-1;
             loopIt(int);
             orderMode = 2;
             break;
         case 3:
-            $("div").remove(".EventContainer");
+
             loadingIndex = 0;
             loopIt(int);
             orderMode = 3;
             break;
         case 4:
-            $("div").remove(".EventContainer");
+
             loadingIndex = 0;
             loopIt(int);
             orderMode = 4;
