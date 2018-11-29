@@ -156,8 +156,8 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\" integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\" crossorigin=\"anonymous\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/JS/indexJS.js\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/JS/loginCheck.js\"></script>
-<script src=\"https://intranet-secure.de/TicketCorner/JS/eventUpdater.js\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/JS/buyTicket.js\"></script>
+<script src=\"https://intranet-secure.de/TicketCorner/JS/eventUpdater.js\"></script>
 </body>
 </html>";
 

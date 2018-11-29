@@ -218,3 +218,150 @@ function updateRating(ratingJSON){
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
 }
+
+let eventHolderIndex =  [];
+let eventEndorserIndex = [];
+
+function getEvents(cb) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let eventJsonObject = this.responseText;
+            if(typeof eventJsonObject === 'string'){
+                eventJsonObject = JSON.parse(eventJsonObject);
+                cb(eventJsonObject);
+            }
+        }
+    };
+    xmlhttp.open("GET", "https://intranet-secure.de/TicketCorner/PHP/getEvents.php", true);
+    xmlhttp.send();
+
+}
+function Event(id, img, name, date, price, tickets, maxTickets) {
+    this.id = id;
+    this.endorsement = (maxTickets - tickets) / maxTickets;
+    this.img = img;
+    this.name = name;
+    this.date = date;
+    this.price = price;
+    this.expired = false;
+
+
+
+    this.checkIsExpired = function() {
+        console.log("checkIsExpired | got called");
+        if(!this.date) {
+            console.log("checkIsExpired | no date defined, returning");
+            return;
+        }
+
+        let currentDate = new Date();
+
+        currentDate.setHours(0, 0, 0, 0);
+
+
+        let dateTransformed = this.date.split(".").reverse().join(".");
+        let eventDate = new Date(dateTransformed);
+
+        console.log("checkIsExpired | eventDate is: " + eventDate);
+
+        if(eventDate < currentDate) {
+
+            console.log("checkIsExpired | event is expired, should mark");
+
+            //let expiredDiv = document.createElement("expiredDiv");
+            //expiredDiv.className = "centered";
+
+            //let text = document.createTextNode("ABGELAUFEN");
+            //expiredDiv.appendChild(text);
+
+            //this.imgElement.appendChild(expiredDiv);
+            this.name = this.name.replace(" (ABGELAUFEN)","");
+            this.name += " (ABGELAUFEN)";
+            this.expired = true;
+            console.log("checkIsExpired | should be marked as expired: " + this.name);
+        }
+        else{
+
+            console.log("checkIsExpired | event is not expired, do nothing");
+        }
+    }
+}
+
+function initEvents(eventJsonObject){
+    for(let i=0; i<=eventJsonObject.length-1; i++){
+        let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
+        eventHolderIndex.push(event);
+        console.log(event);
+
+    }
+
+    for(let i= 0; i<=eventHolderIndex.length-1; i++){
+        eventHolderIndex[i].checkIsExpired();
+        if(!eventHolderIndex[i].expired){
+            eventEndorserIndex.push(eventHolderIndex[i]);
+        }
+    }
+
+    eventEndorserIndex = quickSortEndorsement(eventEndorserIndex, 0, eventEndorserIndex.length-1).reverse();
+    updateSlideshow(eventEndorserIndex);
+    return eventHolderIndex;
+}
+
+function updateSlideshow(eventArray) {
+    let firstSliderPath = "/TicketCorner"+ eventArray[0].img.replace("..","");
+    let secondSliderPath = "/TicketCorner"+eventArray[1].img.replace("..","");
+    let thirdSliderPath = "/TicketCorner"+eventArray[2].img.replace("..","");
+
+    document.getElementById("firstSliderImg").src = firstSliderPath;
+    document.getElementById("firstSlideshowLink").href = firstSliderPath.replace(/jpg|img/g,"html");
+    document.getElementById("secondSliderImg").src = secondSliderPath;
+    document.getElementById("secondSlideshowLink").href = secondSliderPath.replace(/jpg|img/g,"html");
+    document.getElementById("thirdSliderImg").src = thirdSliderPath;
+    document.getElementById("thirdSlideshowLink").href = thirdSliderPath.replace(/jpg|img/g,"html");
+
+}
+
+//Implementierung des QuickSort Algorithmus
+function quickSortEndorsement(arr, left, right){
+    let len = arr.length,
+        pivot,
+        partitionIndex;
+
+    if(left < right){
+        pivot = right;
+        partitionIndex = partitionEndorsement(arr, pivot, left, right);
+        //sort left and right
+        quickSortEndorsement(arr, left, partitionIndex - 1);
+        quickSortEndorsement(arr, partitionIndex + 1, right);
+    }
+
+    return arr;
+}
+
+function partitionEndorsement(arr, pivot, left, right){
+    let pivotValue = arr[pivot].endorsement,
+        partitionIndex = left;
+
+    for(let i = left; i < right; i++){
+        if(arr[i].endorsement < pivotValue){
+            swapEndorsement(arr, i, partitionIndex);
+            partitionIndex++;
+        }
+    }
+    swapEndorsement(arr, right, partitionIndex);
+    return partitionIndex;
+}
+
+function swapEndorsement(arr, i, j){
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
+
+
+getEvents(function (events) {
+    initEvents(events);
+
+});

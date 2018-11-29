@@ -2,6 +2,7 @@
 let eventHolder =  [];
 let eventEndorser = [];
 let eventIndexer = [];
+let eventPricer = [];
 let start = 0;
 let loadingIndex = 0;
 let orderMode= 1;
@@ -51,6 +52,22 @@ function loopIt(sortMode) {
             console.log(event);*/
 
             createEventHTMLElements(eventEndorser[loadingIndex]);
+            loadingIndex++;
+
+        }
+    }
+    //Sortiert das Event Array chronologisch nach dem Preis
+    if(sortMode === 4) {
+
+        console.log("EventPricer: ");
+        console.log(eventPricer);
+        for (let i=0; i<=4; i++) {
+            /*let event = new Event(eventHolder[loadingIndex].ID, eventHolder[loadingIndex].imageSrc, eventHolder[loadingIndex].eventName, eventHolder[loadingIndex].eventDate, eventHolder[loadingIndex].eventPrice, eventHolder[loadingIndex].eventTickets, eventHolder[loadingIndex].maxEventTickets);
+            event.checkIsExpired();
+            eventHolder.push(event);
+            console.log(event);*/
+
+            createEventHTMLElements(eventPricer[loadingIndex]);
             loadingIndex++;
 
         }
@@ -156,10 +173,13 @@ function initEvents(eventJsonObject){
         eventHolder[i].checkIsExpired();
         if(!eventHolder[i].expired){
             eventEndorser.push(eventHolder[i]);
+            eventPricer.push(eventHolder[i]);
         }
     }
 
-    eventEndorser = quickSort(eventEndorser, 0, eventEndorser.length-1).reverse();
+    eventEndorser = quickSortEndorsement(eventEndorser, 0, eventEndorser.length-1).reverse();
+    eventPricer = quickSortPrice(eventPricer, 0, eventPricer.length-1);
+    updateSlideshow(eventEndorser);
     return eventHolder;
 }
 //Funktion zum Erstellen der DOM Elemente für Events
@@ -188,10 +208,10 @@ function createEventHTMLElements(event){
 function Event(id, img, name, date, price, tickets, maxTickets) {
     this.id = id;
     this.endorsement = (maxTickets - tickets) / maxTickets;
+    this.price = parseFloat(price);
     this.img = img;
     this.name = name;
     this.date = date;
-    this.price = price;
     this.expired = false;
 
 
@@ -318,6 +338,9 @@ $(window).scroll(function() {
     } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 3) {
         console.log("Bottom reached mode 3");
         loopIt(3);
+    }if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 4) {
+        console.log("Bottom reached mode 4");
+        loopIt(4);
     }
 });
 //Funktion zum Aufrufen der jeweiligen Sortier Funktion
@@ -326,28 +349,32 @@ function sortEvents(int){
         eventIndexer = Array.from(Array(eventHolder.length).keys());
         start ++;
     }
-    if(int===1){
-        $("div").remove(".EventContainer");
-        loadingIndex = 0;
-        loopIt(int);
-        orderMode = 1;
-
+    switch (int) {
+        case 1:
+            $("div").remove(".EventContainer");
+            loadingIndex = 0;
+            loopIt(int);
+            orderMode = 1;
+            break;
+        case 2:
+            $("div").remove(".EventContainer");
+            loadingIndex = eventHolder.length-1;
+            loopIt(int);
+            orderMode = 2;
+            break;
+        case 3:
+            $("div").remove(".EventContainer");
+            loadingIndex = 0;
+            loopIt(int);
+            orderMode = 3;
+            break;
+        case 4:
+            $("div").remove(".EventContainer");
+            loadingIndex = 0;
+            loopIt(int);
+            orderMode = 4;
+            break;
     }
-
-    if(int===2){
-        $("div").remove(".EventContainer");
-        loadingIndex = eventHolder.length-1;
-        loopIt(int);
-        orderMode = 2;
-    }
-
-    if(int===3){
-        $("div").remove(".EventContainer");
-        loadingIndex = 0;
-        loopIt(int);
-        orderMode = 3;
-    }
-
 }
 //Search Funktion zum Suchen von Events
 function search(){
@@ -356,7 +383,7 @@ function search(){
     for(let i= 0; i<eventHolder.length-1; i++){
         if(eventHolder[i].name.toLowerCase().includes(value)){
             createEventHTMLElements(eventHolder[i]);
-            orderMode = 4;
+            orderMode = 5;
         }
         else {
 
@@ -366,40 +393,89 @@ function search(){
 
 
 //Implementierung des QuickSort Algorithmus
-function quickSort(arr, left, right){
+function quickSortEndorsement(arr, left, right){
     let len = arr.length,
         pivot,
         partitionIndex;
 
-
     if(left < right){
         pivot = right;
-        partitionIndex = partition(arr, pivot, left, right);
-
+        partitionIndex = partitionEndorsement(arr, pivot, left, right);
         //sort left and right
-        quickSort(arr, left, partitionIndex - 1);
-        quickSort(arr, partitionIndex + 1, right);
+        quickSortEndorsement(arr, left, partitionIndex - 1);
+        quickSortEndorsement(arr, partitionIndex + 1, right);
     }
+
     return arr;
 }
 
-function partition(arr, pivot, left, right){
+function partitionEndorsement(arr, pivot, left, right){
     let pivotValue = arr[pivot].endorsement,
         partitionIndex = left;
 
     for(let i = left; i < right; i++){
         if(arr[i].endorsement < pivotValue){
-            swap(arr, i, partitionIndex);
+            swapEndorsement(arr, i, partitionIndex);
             partitionIndex++;
         }
     }
-    swap(arr, right, partitionIndex);
+    swapEndorsement(arr, right, partitionIndex);
     return partitionIndex;
 }
 
-function swap(arr, i, j){
+function swapEndorsement(arr, i, j){
     let temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
+}
+
+function quickSortPrice(arr, left, right){
+    let len = arr.length,
+        pivot,
+        partitionIndex;
+
+    if(left < right){
+        pivot = right;
+        partitionIndex = partitionPrice(arr, pivot, left, right);
+        //sort left and right
+        quickSortPrice(arr, left, partitionIndex - 1);
+        quickSortPrice(arr, partitionIndex + 1, right);
+    }
+
+    return arr;
+}
+
+function partitionPrice(arr, pivot, left, right){
+    let pivotValue = arr[pivot].price,
+        partitionIndex = left;
+
+    for(let i = left; i < right; i++){
+        if(arr[i].price < pivotValue){
+            swapPrice(arr, i, partitionIndex);
+            partitionIndex++;
+        }
+    }
+    swapPrice(arr, right, partitionIndex);
+    return partitionIndex;
+}
+
+function swapPrice(arr, i, j){
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
+function updateSlideshow(eventArray) {
+    let firstSliderPath = "/TicketCorner"+ eventArray[0].img.replace("..","");
+    let secondSliderPath = "/TicketCorner"+eventArray[1].img.replace("..","");
+    let thirdSliderPath = "/TicketCorner"+eventArray[2].img.replace("..","");
+
+    document.getElementById("firstSliderImg").src = firstSliderPath;
+    document.getElementById("firstSlideshowLink").href = firstSliderPath.replace(/jpg|img/g,"html");
+    document.getElementById("secondSliderImg").src = secondSliderPath;
+    document.getElementById("secondSlideshowLink").href = secondSliderPath.replace(/jpg|img/g,"html");
+    document.getElementById("thirdSliderImg").src = thirdSliderPath;
+    document.getElementById("thirdSlideshowLink").href = thirdSliderPath.replace(/jpg|img/g,"html");
+
 }
 
