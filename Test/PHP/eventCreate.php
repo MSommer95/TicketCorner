@@ -1,4 +1,6 @@
 <?php
+//PHP Script um die Änderungen eines Passwortes durchzuführen
+//Initialisierung der übergebenen $_POST Werte
 $id = time();
 $eventName = $_POST["eventName"];
 $price = $_POST["eventPrice"];
@@ -8,12 +10,13 @@ $date = $_POST["eventDate"];
 $location = $_POST["eventLocation"];
 $creatorID = $_POST["ID"];
 
+//Initialisiert den Dateipfad für das Image des Events
 $target_dir = "../Events/img/";
 $target_file = $target_dir . "$id".".jpg";
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
-// Check if image file is a actual image or fake image
+//Checked, ob die gesendete Datei wirklich ein Image ist
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
@@ -25,23 +28,23 @@ if(isset($_POST["submit"])) {
     }
 }
 
-// Check if file already exists
+//Checked, ob das Bild schon existiert
 if (file_exists($target_file)) {
     echo "Sorry, file already exists.";
     $uploadOk = 0;
 }
-// Check file size
+//Checked, ob die Größe des Bildes nicht zu groß ist
 if ($_FILES["fileToUpload"]["size"] > 5000000) {
     echo "Sorry, your file is too large.";
     $uploadOk = 0;
 }
-// Allow certain file formats
+//Erlaubt gewisse Bildformate
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
     && $imageFileType != "gif" ) {
     echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
     $uploadOk = 0;
 }
-
+//Funktion zum Erstellen des HTML Dokumentes für das zu erstellende Event und gibt diesem Werte über die Parameter mit
 function createHTML($id, $eventName, $date, $location, $target_file, $price, $eventTickets, $description){
     $newHTML = fopen("../Events/html/"."$id".".html", "w") or die ("Unable to create.");
     $htmlData =
@@ -164,14 +167,14 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
     fwrite($newHTML,$htmlData);
     fclose($newHTML);
 }
-
+//Initialisierung der Server Variablen
 $servername = "db758436568.db.1and1.com";
 $username = "dbo758436568";
 $password = "M9OitgiOLq4&4j9";
 $dbname = "db758436568";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-
+//Select Statements zum Kontrollieren, ob das Event schon existiert und ob der User die Berechtigung zum Erstellen hat
 $stmt = $conn->prepare("SELECT * FROM events WHERE eventName = '$eventName';");
 $controllStmt = $conn->prepare("SELECT * FROM users WHERE ID = $creatorID AND creatorStatus = 1 AND loggedIn = 1;");
 
@@ -183,6 +186,7 @@ if ($stmt->execute()){
             if(count($controllResult)>0){
                 try {
                     // set the PDO error mode to exception
+                    //Insert Befehl, um ein neuen Event Eintrag in die Datenbank zu schreiben
                     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, maxEventTickets, eventDescription, eventDate, eventLocation, imageSrc, creatorID)
                              VALUES ($id, '$eventName', '$price', $eventTickets, $eventTickets, '$description', '$date', '$location', '$target_file', $creatorID)";
@@ -218,12 +222,12 @@ if ($stmt->execute()){
                 }
             }
             else{
-                header("location: https://intranet-secure.de/TicketCorner/signIn.html");
+                header("location: https://intranet-secure.de/TicketCorner/create.html?Message=NotPropLoggedIn");
             }
         }
     }
     else {
-        echo "Not_ok" ;
+        header("location: https://intranet-secure.de/TicketCorner/create.html?Message=EventDouble");
     }
 }
 else{

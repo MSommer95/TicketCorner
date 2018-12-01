@@ -1,16 +1,17 @@
 <?php
+//Initialisierung der übergebenen $_POST Werte
 $userID = $_POST["ID"];
 $forename = $_POST["forename"];
 $surname = $_POST["surname"];
 $email = $_POST["email"];
-
+//Initialisierung der Server Variablen
 $servername = "db758436568.db.1and1.com";
 $username = "dbo758436568";
 $password = "M9OitgiOLq4&4j9";
 $dbname = "db758436568";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-
+//Prepare Logout Statement (Kontrolliert, ob der User existiert und aktualisiert den Login Status
 $stmt = $conn->prepare("SELECT * FROM users WHERE ID = $userID AND forename = '$forename' AND surname = '$surname' AND email = '$email'");
 $prepareLogout = $conn->prepare("UPDATE  users SET loggedIn = 0 WHERE email= '$email';");
 
@@ -20,10 +21,13 @@ if($stmt->execute()){
         $prepareLogout->execute();
         header("Location: https://intranet-secure.de/TicketCorner/");
     }
+    else{
+        echo "Location: https://intranet-secure.de/TicketCorner?Message=UserDoesntExists";
+    }
 }
 
 else{
-    echo "Error";
+    echo "Location: https://intranet-secure.de/TicketCorner?Message=Error";
 }
 $conn = null;
 ?>

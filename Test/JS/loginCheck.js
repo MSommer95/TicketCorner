@@ -68,7 +68,7 @@ function computeLogin(){
 //Sendet ein Form, um den user auszuloggen
 function sendLogOut(){
     let logoutForm = document.createElement("form");
-    logoutForm.action = "./PHP/logout.php";
+    logoutForm.action = "https://intranet-secure.de/TicketCorner/PHP/logout.php";
     logoutForm.method = "POST";
     inputCreate(logoutForm, getCookie("ID"), "ID");
     inputCreate(logoutForm, getCookie("forename"), "forename");
