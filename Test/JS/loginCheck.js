@@ -79,3 +79,19 @@ function sendLogOut(){
     }
 
 checkForLogin();
+
+if(window.location.href.includes("?")){
+    let error = parseURLParams(window.location.href);
+
+    switch (error.Message[0]) {
+        case "UserAlreadyExists":
+            alert("User already exists");
+            break;
+        case "UserDoesntExists":
+            alert("User doesnt exist");
+            break;
+        case "WrongLoginData":
+            alert("Wrong Login Data");
+            break;
+    }
+}

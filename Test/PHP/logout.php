@@ -22,7 +22,7 @@ if($stmt->execute()){
         header("Location: https://intranet-secure.de/TicketCorner/");
     }
     else{
-        header ("Location: https://intranet-secure.de/TicketCorner?Message=UserDoesntExists");
+        header ("Location: https://intranet-secure.de/TicketCorner?Message=UserDoesntExist");
     }
 }
 

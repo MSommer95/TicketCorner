@@ -154,12 +154,11 @@ function parseURLParams(url) {
     }
     return parms;
 }
-
-let error = parseURLParams(window.location.href);
-
-
-if(error.Message[0] == "NoMoreTickets"){
-    alert("No more Tickets");
-} else if(error.Message[0] == "OK"){
-    alert("Ticket gekauft");
+if(window.location.href.includes("?")){
+    let error = parseURLParams(window.location.href);
+    if(error.Message[0] == "NoMoreTickets"){
+        alert("No more Tickets");
+    } else if(error.Message[0] == "OK"){
+        alert("Ticket gekauft");
+    }
 }
