@@ -22,12 +22,12 @@ if($stmt->execute()){
         header("Location: https://intranet-secure.de/TicketCorner/");
     }
     else{
-        echo "Location: https://intranet-secure.de/TicketCorner?Message=UserDoesntExists";
+        header ("Location: https://intranet-secure.de/TicketCorner?Message=UserDoesntExists");
     }
 }
 
 else{
-    echo "Location: https://intranet-secure.de/TicketCorner?Message=Error";
+    header ("Location: https://intranet-secure.de/TicketCorner?Message=Error");
 }
 $conn = null;
 ?>

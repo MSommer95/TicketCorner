@@ -20,6 +20,7 @@ $getUserData = $conn ->prepare("SELECT ID, forename, surname, email, creatorStat
 if($varifyAcc->execute()){
     $result=$varifyAcc->fetchAll(PDO::FETCH_ASSOC);
     if(count($result)==0){
+        header("Location: https://intranet-secure.de/TicketCorner/signIn.html?Message=WrongLoginData");
     }
     else {
         foreach ($result as $row){
@@ -46,12 +47,12 @@ if($varifyAcc->execute()){
             header("Location: https://intranet-secure.de/TicketCorner/");
         }
         else{
-            echo header("Location: https://intranet-secure.de/TicketCorner/signIn.html?Message=WrongLoginData");
+            header("Location: https://intranet-secure.de/TicketCorner/signIn.html?Message=WrongLoginData");
         }
     }
 }
 else{
-    echo "Error";
+    header("Location: https://intranet-secure.de/TicketCorner/signIn.html?Message=WrongLoginData");
 }
 $conn = null;
 ?>
