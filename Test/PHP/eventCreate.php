@@ -150,7 +150,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
         <button onclick=\"sendCommentForm()\">Post Comment</button>
     </div>
     <div class=\" loggedOutAcc\">
-        <a href=\"signIn.html\">Logge dich ein und hinterlasse dein Feedback. </a>
+        <a href=\"https://intranet-secure.de/TicketCorner/signIn.html\">Logge dich ein und hinterlasse dein Feedback. </a>
     </div>
 </div>
 

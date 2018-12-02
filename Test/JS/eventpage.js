@@ -126,12 +126,14 @@ function parseURLParams(url) {
     }
     return parms;
 }
+if(window.location.href.includes("?")){
 
-let error = parseURLParams(window.location.href);
-
-
-if(error.Message[0] == "NotPropLoggedIn"){
-    alert("Not properly logged in");
-} else if(error.Message[0] == "EventDouble"){
-    alert("Event already exists");
+    let error = parseURLParams(window.location.href);
+    if(error.Message[0] == "NotPropLoggedIn"){
+        alert("Not properly logged in");
+    } else if(error.Message[0] == "EventDouble"){
+        alert("Event already exists");
+    }
 }
+
+
