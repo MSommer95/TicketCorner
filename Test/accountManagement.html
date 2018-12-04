@@ -1,118 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Einstellungen</title>
-    <link rel="stylesheet" href="css\bootstrap.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css\styles.css">
-    <link rel="icon" href="icons/favicon.ico" type=image/x-icon">
+	<title>Einstellungen</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/themify/themify-icons.css">
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/elegant-font/html-css/style.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="vendor/slick/slick.css">
+	<link rel="stylesheet" type="text/css" href="vendor/lightbox2/css/lightbox.min.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="icon" href="images/icons/favicon.ico" type=image/x-icon">
 </head>
-<body>
-<div class="slider">
-    <div class="load">
-    </div>
-</div>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand">TicketCorner</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<body class="animsition">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="contact.html">Kontakt</a>
-            </li>
-            <li class="nav-item loggedInAcc">
-                <a class="nav-link" href="index.html" onclick="logout()">Abmelden</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-<div class="container loggedOutAcc">
-    <a href="signIn.html">Melde dich an, um diesen Inhalt zu sehen.</a>
-</div>
+	<header class="header1" id="navbarIndex">
+		<div class="container-menu-header">
+			<div class="topbar">
+				<div class="topbar-social">
+					<a href="https://www.facebook.com/AStAHSHL/" class="topbar-social-item fa fa-facebook"></a>
+					<a href="https://www.instagram.com/asta.hshl/" class="topbar-social-item fa fa-instagram"></a>
+				</div>
+				<div class="topbar-child2  loggedInAcc"> <!-- wenn loggedInAcc dann verschiebt sich das element nach oben -->
+					<span class="topbar-email" id="loggedInAs"> Logged in as... </span>
+				</div>
+				<div class="topbar-pay">
+					<a class="p-b-9">
+						<img class="h-size2" src="images/icons/paypal.png" alt="IMG-PAYPAL">
+					</a>
+				</div>
+			</div>
+			<div class="wrap_header" id="navbarSupportedContent">
+				<a href="index.html" class="logo">
+					<img src="images/icons/logo.png" alt="IMG-LOGO">
+				</a>
+				<div class="wrap_menu">
+					<nav class="menu">
+						<ul class="main_menu">
+							<li>
+								<a href="index.html">Home</a>
+							</li>
+							<li>
+								<a href="about.html">Über uns</a>
+							</li>
+							<li>
+								<a href="contact.html">Kontakt</a>
+							</li>
+							<li style="position: absolute; right: 0; padding-right: 50px; ">
+								<a><img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON" style="height: 32px;"></a>
+								<ul class="sub_menu loggedInAcc" style="margin-left: -100px;">
+									<li><a href="accountManagement.html">Einstellungen</a></li>
+									<li><a href="create.html">Event erstellen</a></li>
+                                    <li><a href="#" onclick="logout()">Abmelden</a></li>
+								</ul>
+								<ul class="sub_menu loggedOutAcc" style="margin-left: -100px;">
+									<li><a href="signIn.html">Anmelden</a></li>
+                                    <li><a href="registration.html">Registrieren</a></li>
+								</ul>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
 
-<div class="container loggedInAcc">
-    <div class="row">
-        <div class="col-md-3 ">
-            <div class="list-group ">
-                <a href="#" class="list-group-item list-group-item-action active" onclick="enablePData()" id="btn-pdata">Persönliche Daten</a>
-                <a href="#" class="list-group-item list-group-item-action" onclick="enablePW()" id="btn-pwchange">Passwort ändern</a>
-            </div>
-        </div>
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Ihr Profil</h4>
-                            <hr>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form id="pdata" method="post" role="form" action="PHP\changeAccPersonalData.php" onsubmit="changeData('pdata')">
-                                <div class="form-group row ">
-                            <label for="change-forename" class="col-4 col-form-label pdata">Vorname</label>
-                            <div class="col-8 ">
-                                <input id="change-forename" name="change-forename" placeholder="Vorname" class="form-control here pdata" required="required" type="text">
-                            </div>
-                                </div>
-                                <div class="form-group row ">
-                                    <label for="change-surname" class="col-4 col-form-label pdata">Nachname</label>
-                                    <div class="col-8 ">
-                                        <input id="change-surname" name="change-surname" placeholder="Nachname" class="form-control here pdata" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group row ">
-                                    <label for="change-email" class="col-4 col-form-label pdata">Emailadresse</label>
-                                    <div class="col-8 ">
-                                        <input id="change-email" name="change-email" placeholder="Email" class="form-control here pdata" type="text" value="">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-4 col-8">
-                                        <button name="submit" type="submit" class="btn btn-primary" >Persönliche Daten speichern</button>
-                                    </div>
-                                </div>
-                            </form>
-                            <form id="pwchange" method="post" role="form" action="PHP\changeAccPassword.php" onsubmit="changeData('pwchange')">
-                                <div class="form-group row ">
-                                    <label for="change-password" class="col-4 col-form-label pwchange">Neues Passwort</label>
-                                    <div class="col-8 ">
-                                        <input id="change-password" name="change-password" placeholder="Neues Passwort eingeben" class="form-control here pwchange" required="required" type="password">
-                                    </div>
-                                </div>
-                                <div class="form-group row ">
-                                    <label for="oldPassword" class="col-4 col-form-label pwchange">Altes Passwort</label>
-                                    <div class="col-8 ">
-                                        <input id="oldPassword" name="oldPassword" placeholder="Altes Passwort eingeben" class="form-control here pwchange" required="required" type="password">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-4 col-8">
-                                        <button name="submit" type="submit" class="btn btn-primary" >Passwort speichern</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+		<section class="bg-title-page p-t-40 p-b-50 flex-col-c-m" style="background-image: url(images/hshl01.jpg);">
+		<h2 class="l-text2 t-center">
+			Einstellungen
+		</h2>
+	</section>
+	<div class="container loggedOutAcc" style="text-align: center;">
+		<a href="signIn.html">Melde dich an, um diesen Inhalt zu sehen.</a>
+	</div>
+	<div class="container loggedInAcc">
+		<div class="row">
+			<div class="col-md-3 ">
+				<div class="list-group ">
+					<a href="#" class="list-group-item list-group-item-action active" onclick="enablePData()" id="btn-pdata">Persönliche Daten</a>
+					<a href="#" class="list-group-item list-group-item-action" onclick="enablePW()" id="btn-pwchange">Passwort ändern</a>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-12">
+								<h4 style="padding-left: 35px;">Ihr Profil</h4>
+								<hr>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<form id="pdata" method="post" role="form" action="PHP\changeAccPersonalData.php" onsubmit="changeData('pdata')" style="display: block;padding-left: 50px;">
+									<div class="form-group row ">
+										<label for="change-forename" class="col-4 col-form-label pdata">Vorname</label>
+										<div class="col-8 ">
+											<input id="change-forename" name="change-forename" placeholder="Vorname" class="form-control here pdata" required="required" type="text">
+										</div>
+									</div>
+									<div class="form-group row ">
+										<label for="change-surname" class="col-4 col-form-label pdata">Nachname</label>
+										<div class="col-8 ">
+											<input id="change-surname" name="change-surname" placeholder="Nachname" class="form-control here pdata" type="text">
+										</div>
+									</div>
+									<div class="form-group row ">
+										<label for="change-email" class="col-4 col-form-label pdata">Emailadresse</label>
+										<div class="col-8 ">
+											<input id="change-email" name="change-email" placeholder="Email" class="form-control here pdata" type="text" value="">
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="offset-4 col-8">
+											<button name="submit" type="submit" class="btn btn-primary" >Persönliche Daten speichern</button>
+										</div>
+									</div>
+								</form>
+								<form id="pwchange" method="post" role="form" action="PHP\changeAccPassword.php" onsubmit="changeData('pwchange')" style="display: block;padding-left: 50px;">
+									<div class="form-group row ">
+										<label for="change-password" class="col-4 col-form-label pwchange">Neues Passwort</label>
+										<div class="col-8 ">
+											<input id="change-password" name="change-password" placeholder="Neues Passwort eingeben" class="form-control here pwchange" required="required" type="password">
+										</div>
+									</div>
+									<div class="form-group row ">
+										<label for="oldPassword" class="col-4 col-form-label pwchange">Altes Passwort</label>
+										<div class="col-8 ">
+											<input id="oldPassword" name="oldPassword" placeholder="Altes Passwort eingeben" class="form-control here pwchange" required="required" type="password">
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="offset-4 col-8">
+											<button name="submit" type="submit" class="btn btn-primary" >Passwort speichern</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<footer class="topbar"></footer> <!-- ans ende der seite -->
+
+	<div class="btn-back-to-top bg0-hov" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
+		</span>
+	</div>
+	<div id="dropDownSelect1"></div>
+	<div id="dropDownSelect2"></div>
+
+	<script type="text/javascript" src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="vendor/animsition/js/animsition.min.js"></script>
+	<script type="text/javascript" src="vendor/bootstrap/js/popper.js"></script>
+	<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="vendor/select2/select2.min.js"></script>
+	<script type="text/javascript">
+		$(".selection-1").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+
+		$(".selection-2").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect2')
+		});
+	</script>
+	<script src="js/main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="JS\changeAcc.js"></script>
 <script src="JS\loginCheck.js"></script>
+
 </body>
 </html>
