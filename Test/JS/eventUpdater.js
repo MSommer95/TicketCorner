@@ -166,7 +166,9 @@ function sendRatingForm(){
 //Funktion mit der Logik zum Aufspalten des RatingsArray (Hält alle Bewertungen in einer Matrix) und zur Berechnung des Ratings
 function updateRating(ratingJSON){
     console.log(ratingJSON);
+
    if(ratingJSON.length >= 1){
+       initRating(ratingJSON);
        let ratingcounts = 0;
        let one =0;
        let two =0;
@@ -185,16 +187,6 @@ function updateRating(ratingJSON){
            four += parseInt(ratingJSON[i].fourStars);
            ratingcounts += parseInt(ratingJSON[i].fiveStars) *5;
            five += parseInt(ratingJSON[i].fiveStars);
-
-           if(ratingJSON[i].userID == getCookie("ID") && initPage === 1){
-               console.log(ratingJSON);
-               let result = getKeyByValue(ratingJSON[i],"1");
-               document.getElementById(result).checked = true;
-               initPage++;
-           } else if(ratingJSON[i].userID != getCookie("ID") && initPage === 1){
-               document.getElementById("threeStars").checked = true;
-               initPage++;
-           }
        }
        ratingcounts = ratingcounts/ratingJSON.length;
        console.log(ratingcounts);
@@ -203,6 +195,7 @@ function updateRating(ratingJSON){
        console.log("three "+three);
        console.log("four "+four);
        console.log("five "+five);
+
        if(ratingJSON>1){
            document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
        }else{
@@ -211,6 +204,10 @@ function updateRating(ratingJSON){
 
    } else {
        document.getElementById("rating").textContent = "Noch keine Bewertungen";
+       if(initPage === 1){
+           document.getElementById("threeStars").checked = true;
+           initPage++;
+       }
 
    }
 }
@@ -359,7 +356,19 @@ function swapEndorsement(arr, i, j){
     arr[j] = temp;
 }
 
-
+function initRating(ratingJSON){
+    for(let i = 0;i < ratingJSON.length; i++){
+        if(ratingJSON[i].userID == getCookie("ID") && initPage === 1){
+            console.log(ratingJSON);
+            let result = getKeyByValue(ratingJSON[i],"1");
+            document.getElementById(result).checked = true;
+            initPage++;
+        } else if(ratingJSON[i].userID != getCookie("ID") && initPage === 1){
+            document.getElementById("threeStars").checked = true;
+            initPage++;
+        }
+    }
+}
 
 getEvents(function (events) {
     initEvents(events);

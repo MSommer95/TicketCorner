@@ -45,6 +45,10 @@ function computeLogout(){
 }
 //Blendet Elemente ein, die nur angezeigt werden sollen, wenn der User eingeloggt ist
 function computeLogin(){
+    if(document.getElementById("loggedInAs")!== null){
+        document.getElementById("loggedInAs").textContent = getCookie("email");
+    }
+
     let lout = document.getElementsByClassName(" loggedOutAcc");
     let lin = document.getElementsByClassName(" loggedInAcc");
     let lcreator = document.getElementsByClassName(" creator");
