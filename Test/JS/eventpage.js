@@ -12,7 +12,7 @@ function getFieldValue(field) {
 // Funktion zum darstellen des Vorschaubilds
 function previewFile(){
     // HTML Elemente auslesen und Filereader erstellen
-    let preview = document.querySelector('img'); //selects the query named img
+    let preview = document.getElementById('previewImg'); //selects the query named img
     let file    = document.querySelector('input[type=file]').files[0]; //sames as here
     let reader  = new FileReader();
 
