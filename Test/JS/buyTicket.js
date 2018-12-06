@@ -6,8 +6,6 @@ function Event(id, img, name, date, price, description) {
     this.eventDate = date;
     this.eventPrice = price;
     this.eventDescription = description;
-    this.expired = this.checkIsExpired();
-    this.soldout = this.checkIsSoldOut();
 
     // Funktion im Event Objekt zum Kontrollieren, ob das Events schon stattgefunden hat
     this.checkIsExpired = function() {
@@ -54,6 +52,8 @@ function Event(id, img, name, date, price, description) {
         }
     };
 
+    this.expired = this.checkIsExpired();
+    this.soldout = this.checkIsSoldOut();
 }
 
 // Funktion zum Auslesen eines per ID bestimmten Events aus der Datenbank

@@ -236,10 +236,6 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
     this.date = date;
     this.maxTickets = parseInt(maxTickets);
     this.currentTickets = parseInt(tickets);
-    this.expired = this.checkIsExpired();
-    this.soldout = this.checkIsSoldOut();
-
-
 
     //Funktion zum Überprüfen des Datums
     this.checkIsExpired = function() {
@@ -289,6 +285,8 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
         }
     };
 
+    this.expired = this.checkIsExpired();
+    this.soldout = this.checkIsSoldOut();
 }
 
 /*function getEventById(eventId) {
