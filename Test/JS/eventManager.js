@@ -212,7 +212,7 @@ function createEventHTMLElements(event){
     let eventName = document.createElement("h1");
     eventName.textContent = event.name;
     let eventDate = document.createElement("div");
-    eventDate.textContent = event.date;
+    eventDate.textContent = "Zeitpunkt: " + event.date;
     let eventPrice = event.price;
     let eventLink = document.createElement("a");
     eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + img.replace(".jpg",".html");
@@ -223,6 +223,7 @@ function createEventHTMLElements(event){
 
     document.getElementById("maintext").appendChild(eventDiv);
     eventDiv.appendChild(eventName);
+    eventDiv.appendChild(eventDate);
     eventDiv.appendChild(eventLink);
     eventLink.appendChild(imgElement);
 }
@@ -249,9 +250,10 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
 
         currentDate.setHours(0, 0, 0, 0);
 
-
-        let dateTransformed = this.date.split(".").reverse().join(".");
-        let eventDate = new Date(dateTransformed);
+        let preDateTranformed = this.date.split(",");
+        preDateTranformed[0] = preDateTranformed[0].split(".").reverse().join(".");
+        let dateTransformed = preDateTranformed.join(" ");
+        let eventDate = new Date(preDateTranformed[0]);
 
         console.log("checkIsExpired | eventDate is: " + eventDate);
 
@@ -500,16 +502,23 @@ function swapPrice(arr, i, j){
 }
 
 function updateSlideshow(eventArray) {
-    let firstSliderPath = "/TicketCorner"+ eventArray[0].img.replace("..","");
-    let secondSliderPath = "/TicketCorner"+eventArray[1].img.replace("..","");
-    let thirdSliderPath = "/TicketCorner"+eventArray[2].img.replace("..","");
+    if(eventArray.length>=3){
+        let firstSliderPath = "/TicketCorner"+ eventArray[0].img.replace("..","");
+        let secondSliderPath = "/TicketCorner"+eventArray[1].img.replace("..","");
+        let thirdSliderPath = "/TicketCorner"+eventArray[2].img.replace("..","");
 
-    document.getElementById("firstSliderImg").src = firstSliderPath;
-    document.getElementById("firstSlideshowLink").href = firstSliderPath.replace(/jpg|img/g,"html");
-    document.getElementById("secondSliderImg").src = secondSliderPath;
-    document.getElementById("secondSlideshowLink").href = secondSliderPath.replace(/jpg|img/g,"html");
-    document.getElementById("thirdSliderImg").src = thirdSliderPath;
-    document.getElementById("thirdSlideshowLink").href = thirdSliderPath.replace(/jpg|img/g,"html");
+        document.getElementById("firstSliderImg").src = firstSliderPath;
+        document.getElementById("firstSlideshowLink").href = firstSliderPath.replace(/jpg|img/g,"html");
+        document.getElementById("secondSliderImg").src = secondSliderPath;
+        document.getElementById("secondSlideshowLink").href = secondSliderPath.replace(/jpg|img/g,"html");
+        document.getElementById("thirdSliderImg").src = thirdSliderPath;
+        document.getElementById("thirdSlideshowLink").href = thirdSliderPath.replace(/jpg|img/g,"html");
+    } else {
+        console.log("RERROR");
+    }
+
+
+
 
 }
 

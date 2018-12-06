@@ -53,68 +53,65 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 <head>
     <meta charset=\"UTF-8\">
     <title>$eventName</title>
-    <link rel=\"stylesheet\" href=\"https://intranet-secure.de/TicketCorner/css\bootstrap.css\">
-    <link rel=\"stylesheet\" href=\"https://intranet-secure.de/TicketCorner/css\styles.css\">
-    <link rel=\"icon\" href=\"https://intranet-secure.de/TicketCorner/icons/favicon.ico\" type=image/x-icon\">
+    
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/bootstrap.min.css\">
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/animsition.min.css\">
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/util.css\">
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/main.css\">
+	<link rel=\"icon\" href=\"https://intranet-secure.de/TicketCorner/images/icons/favicon.ico\" type=image/x-icon\">
 </head>
-<body>
-<div id=\"carouselExampleIndicators\" class=\"carousel slide\" data-ride=\"carousel\">
-    <ol class=\"carousel-indicators\">
-        <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>
-        <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"1\"></li>
-        <li data-target=\"#carouselExampleIndicators\" data-slide-to=\"2\"></li>
-    </ol>
-    <div class=\"carousel-inner\">
-        <div class=\"carousel-item active\">
-            <a href=\"Events/html/test.html\" id=\"firstSlideshowLink\"><img class=\"d-block w-100\" id=\"firstSliderImg\" src=\"slideshow/slideshow1.jpg\" alt=\"First slide\" height=\"500\" width=\"1530\"></a>
-        </div>
-        <div class=\"carousel-item\">
-            <a href=\"Events/html/test.html\" id=\"secondSlideshowLink\"><img class=\"d-block w-100\" id=\"secondSliderImg\" src=\"slideshow/slideshow2.jpg\" alt=\"Second slide\" height=\"500\" width=\"1530\"></a>
-        </div>
-        <div class=\"carousel-item\">
-            <a href=\"Events/html/test.html\" id=\"thirdSlideshowLink\"> <img class=\"d-block w-100\"id=\"thirdSliderImg\" src=\"slideshow/slideshow3.jpg\" alt=\"Third slide\" height=\"500\" width=\"1530\"></a>
-        </div>
-    </div>
-</div>
-<nav class=\"navbar navbar-expand-lg navbar-light bg-light\" id=\"navbarIndex\">
-    <a class=\"navbar-brand\">TicketCorner</a>
-    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">
-        <span class=\"navbar-toggler-icon\"></span>
-    </button>
-    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">
-        <ul class=\"navbar-nav mr-auto\">
-            <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\"https://intranet-secure.de/TicketCorner/index.html\">Home</a>
-            </li>
-            <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\"https://intranet-secure.de/TicketCorner/contact.html\">Kontakt</a>
-            </li>
-            <li class=\"nav-item dropdown loggedOutAcc\" id=\"loggedOutAcc\" >
-                <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                    Account
-                </a>
-                <div class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >
-                    <a class=\"dropdown-item\"   href=\"https://intranet-secure.de/TicketCorner/signIn.html\">Anmelden</a>
-                    <div class=\"dropdown-divider\"></div>
-                    <a class=\"dropdown-item\" href=\"https://intranet-secure.de/TicketCorner/registration.html\">Registrieren</a>
-                </div>
-            </li>
-            <li class=\"nav-item dropdown loggedInAcc\" id=\"loggedInAcc\" >
-                <a class=\"nav-link dropdown-toggle\" href=\"#\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                    Account
-                </a>
-                <div class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\">
-                    <a class=\"dropdown-item\"   href=\"https://intranet-secure.de/TicketCorner/accountManagement.html\">Einstellungen</a>
-                    <div class=\"dropdown-divider\"></div>
-                    <a class=\"dropdown-item\" href=\"#\" onclick=\"logout()\">Abmelden</a>
-                </div>
-            </li>
-            <li class=\"nav-item loggedInAcc\">
-                <a class=\"nav-link\" href=\"https://intranet-secure.de/TicketCorner/create.html\">Event erstellen</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<body class=\"animsition\">
+<header class=\"header1\" id=\"navbarIndex\">
+		<div class=\"container-menu-header\">
+			<div class=\"topbar\">
+				<div class=\"topbar-social\">
+					<a href=\"https://www.facebook.com/AStAHSHL/\" class=\"topbar-social-item fa fa-facebook\"></a>
+					<a href=\"https://www.instagram.com/asta.hshl/\" class=\"topbar-social-item fa fa-instagram\"></a>
+				</div>
+				<div class=\"topbar-child2  loggedInAcc\"> <!-- wenn loggedInAcc dann verschiebt sich das element nach oben -->
+					<span class=\"topbar-email\" id=\"loggedInAs\"> Logged in as... </span>
+				</div>
+				<div class=\"topbar-pay\">
+					<a class=\"p-b-9\">
+						<img class=\"h-size2\" src=\"https://intranet-secure.de/TicketCorner/images/icons/paypal.png\" alt=\"IMG-PAYPAL\">
+					</a>
+				</div>
+			</div>
+			<div class=\"wrap_header\" id=\"navbarSupportedContent\">
+				<a href=\"https://intranet-secure.de/TicketCorner/index.html\" class=\"logo\">
+					<img id=\"payPalLogo\" src=\"https://intranet-secure.de/TicketCorner/images/icons/logo.png\" alt=\"IMG-LOGO\">
+				</a>
+				<div class=\"wrap_menu\">
+					<nav class=\"menu\">
+						<ul class=\"main_menu\">
+							<li>
+								<a href=\"https://intranet-secure.de/TicketCorner/index.html\">Home</a>
+							</li>
+							<li>
+								<a href=\"https://intranet-secure.de/TicketCorner/about.html\">Über uns</a>
+							</li>
+							<li>
+								<a href=\"https://intranet-secure.de/TicketCorner/contact.html\">Kontakt</a>
+							</li>
+							<li style=\"position: absolute; right: 0; padding-right: 50px; \">
+								<a><img src=\"https://intranet-secure.de/TicketCorner/images/icons/icon-header-01.png\" class=\"header-icon1\" alt=\"ICON\" style=\"height: 32px;\"></a>
+								<ul class=\"sub_menu loggedInAcc\" style=\"margin-left: -100px;\">
+									<li><a href=\"https://intranet-secure.de/TicketCorner/accountManagement.html\">Einstellungen</a></li>
+									<li><a href=\"https://intranet-secure.de/TicketCorner/create.html\">Event erstellen</a></li>
+                                    <li><a href=\"#\" onclick=\"logout()\">Abmelden</a></li>
+								</ul>
+								<ul class=\"sub_menu loggedOutAcc\" style=\"margin-left: -100px;\">
+									<li><a href=\"https://intranet-secure.de/TicketCorner/signIn.html\">Anmelden</a></li>
+                                    <li><a href=\"https://intranet-secure.de/TicketCorner/registration.html\">Registrieren</a></li>
+								</ul>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
+	
 <div class=\"maintext\" id=\"maintext\">
     <p id='eventName'>Name: $eventName</p>
     <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg' height='200' width='500'>
@@ -153,7 +150,20 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
         <a href=\"https://intranet-secure.de/TicketCorner/signIn.html\">Logge dich ein und hinterlasse dein Feedback. </a>
     </div>
 </div>
+	<script type=\"text/javascript\" src=\"https://intranet-secure.de/TicketCorner/jquery/jquery-3.2.1.min.js\"></script>
+	<script type=\"text/javascript\" src=\"https://intranet-secure.de/TicketCorner/js/animsition.min.js\"></script>
+	<script type=\"text/javascript\">
+		$(\".selection-1\").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
 
+		$(\".selection-2\").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect2')
+		});
+	</script>
+<script src=\"https://intranet-secure.de/TicketCorner/js/main.js\"></script>
 <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\"></script>
 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js\" integrity=\"sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49\" crossorigin=\"anonymous\"></script>
 <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\" integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\" crossorigin=\"anonymous\"></script>
