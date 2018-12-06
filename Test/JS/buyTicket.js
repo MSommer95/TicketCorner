@@ -1,11 +1,13 @@
 //Funktion zum Erstellen eines Event Objekts
-function Event(id, img, name, date, price, description) {
+/*function Event(id, img, name, date, price, description) {
     this.id = id;
     this.eventName = name;
     this.img = img;
     this.eventDate = date;
     this.eventPrice = price;
     this.eventDescription = description;
+    this.expired = false;
+    this.soldout = false;
 
     // Funktion im Event Objekt zum Kontrollieren, ob das Events schon stattgefunden hat
     this.checkIsExpired = function() {
@@ -52,12 +54,12 @@ function Event(id, img, name, date, price, description) {
         }
     };
 
-    this.expired = this.checkIsExpired();
-    this.soldout = this.checkIsSoldOut();
-}
+    this.checkIsExpired();
+    this.checkIsSoldOut();
+}*/
 
 // Funktion zum Auslesen eines per ID bestimmten Events aus der Datenbank
-function getEventForPurchase(eventId, cb) {
+/*function getEventForPurchase(eventId, cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
@@ -71,7 +73,7 @@ function getEventForPurchase(eventId, cb) {
     xmlhttp.open("POST", "/../TicketCorner/PHP/getEventForPurchase.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("ID="+ eventId);
-}
+}*/
 
 // Funktion zum Umwandeln eines Events im HTML Code zur Javascript Eventklasse mit Abfrage, ob das Event noch verfügbar ist
 function getEventById(eventId) {
@@ -82,7 +84,7 @@ function getEventById(eventId) {
     let foundEvent = null;
 
     // Callback Aufruf der XMLHTTPRequest
-    getEventForPurchase(eventId, function(events) {
+    /*getEventForPurchase(eventId, function(events) {
         console.log("buyTicket | events.length: " + events.length);
 
         // Umwandlung des Ergebnisses von String in Javascript Objekt
@@ -90,43 +92,39 @@ function getEventById(eventId) {
             events = JSON.parse(events);
 
         // Erstellen neuer Event Instanz aus Datenbankergebnis
-        let currentEvent = events[0];
-        let event = new Event(currentEvent.ID, currentEvent.imageSrc, currentEvent.eventName, currentEvent.eventDate, currentEvent.eventPrice);
+        let currentEvent = events[0];*/
 
-        // Prüfung, ob Event abgelaufen ist
-        event.checkIsExpired();
-        event.checkIsSoldOut();
 
-        console.log("buyTicket | loop | EventId: " + event.id);
+        console.log("buyTicket | loop | EventId: " + myEvent.id);
 
         // Doppelprüfung zur Sicherstellung
-        if(event.id === eventId) {
+        if(myEvent.id === eventId) {
 
             console.log("buyTicket | event was found in holder");
 
             // Wenn das Event bereits stattgefunden hat oder ausverkauft ist kein Kauf möglich
-            if(event.expired) {
+            if(myEvent.expired) {
                 console.log("buyTicket | event is expired, should show popup");
                 window.alert("Die Veranstaltung hat bereits stattgefunden");
                 return;
             }
-            else if(event.soldout) {
+            else if(myEvent.soldout) {
                 console.log("buyTicket | event is soldout, should show popup");
                 window.alert("Die Veranstaltung ist bereits ausverkauft");
                 return;
             }
 
-            foundEvent = currentEvent;
+            foundEvent = myEvent;
         }
 
         // Wenn das Event korrekt gefunden wurde und nicht abgelaufen ist, kauf initiieren, sonst Fehler ausgeben
         if(foundEvent) {
-            buyProcess(foundEvent.ID, foundEvent.eventName, foundEvent.eventPrice, foundEvent.eventDescription);
+            buyProcess(foundEvent.id, foundEvent.name, foundEvent.price, foundEvent.description);
             console.log("buyTicket | Ticket should be bought");
         }
         else
             window.alert("FEHLER: Die angegebene Veranstaltung konnte nicht gefunden werden!");
-    });
+    /*});*/
 }
 
 // Funktion zum Erstellen einer Form, um die Bestellung eines Tickets aufzurufen

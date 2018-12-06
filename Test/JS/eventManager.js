@@ -237,6 +237,8 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
     this.date = date;
     this.maxTickets = parseInt(maxTickets);
     this.currentTickets = parseInt(tickets);
+    this.expired = false;
+    this.soldout = false;
 
     //Funktion zum Überprüfen des Datums
     this.checkIsExpired = function() {
@@ -250,10 +252,7 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
 
         currentDate.setHours(0, 0, 0, 0);
 
-        let preDateTranformed = this.date.split(",");
-        preDateTranformed[0] = preDateTranformed[0].split(".").reverse().join(".");
-        let dateTransformed = preDateTranformed.join(" ");
-        let eventDate = new Date(preDateTranformed[0]);
+        let eventDate = new Date(dateTransform(this.date));
 
         console.log("checkIsExpired | eventDate is: " + eventDate);
 
@@ -287,8 +286,15 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
         }
     };
 
-    this.expired = this.checkIsExpired();
-    this.soldout = this.checkIsSoldOut();
+    this.checkIsExpired();
+    this.checkIsSoldOut();
+}
+
+function dateTransform(date){
+    let preDateTranformed = date.split(",");
+    preDateTranformed[0] = preDateTranformed[0].split(".").reverse().join(".");
+    let dateTransformed = preDateTranformed.join(" ");
+    return preDateTranformed[0];
 }
 
 /*function getEventById(eventId) {

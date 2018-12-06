@@ -8,7 +8,7 @@ $dbname = "db758436568";
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
 //Select Statement zum Fetchen aller Events
-$stmt = $conn->prepare("SELECT ID, eventName, eventDate, eventTickets, maxEventTickets, eventPrice, imageSrc  FROM events WHERE 1 ORDER BY ID DESC");
+$stmt = $conn->prepare("SELECT ID, eventName, eventDate, eventTickets, maxEventTickets, eventDescription, eventPrice, imageSrc  FROM events WHERE 1 ORDER BY ID DESC");
 
 if($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);

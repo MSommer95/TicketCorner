@@ -5,6 +5,7 @@ let ratingOwnJSON = null;
 let ID = getHTMLname();
 let commentHolder = [];
 let initPage = 1;
+let myEvent;
 //Funktion zur Cookie Findung (Über den Namen als String)
 window.getCookie = function(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -36,7 +37,7 @@ function getUpdatedData(cb) {
     console.log("getUpdateDataCall");
 }
 //Updated die Ticket Anazhl in der DOM
-function updateHTML(ticketUpdate){
+function updateTicketCount(ticketUpdate){
     document.getElementById("eventTickets").textContent = "Anzahl der Tickets: " + ticketUpdate[0].eventTickets;
     console.log("UpdateHTMLCall");
 }
@@ -45,11 +46,11 @@ function initProcess(){
     console.log("setInterval");
     //Ruft CallBackFunktion zur Aktualisierung der Tickets auf
     getUpdatedData(function(events){
-        updateHTML(events);
+        updateTicketCount(events);
     });
     //Ruft CallBackFunktion zur Aktualisierung der Kommentare auf
     getComments(function (comments) {
-       createCommentSection(comments);
+        createCommentSection(comments);
     });
     //Ruft CallBackFunktion zur Aktualisierung der Ratings auf
     getRating(function (events) {
@@ -167,49 +168,49 @@ function sendRatingForm(){
 function updateRating(ratingJSON){
     console.log(ratingJSON);
 
-   if(ratingJSON.length >= 1){
-       initRating(ratingJSON);
-       let ratingcounts = 0;
-       let one =0;
-       let two =0;
-       let three =0;
-       let four =0;
-       let five =0;
+    if(ratingJSON.length >= 1){
+        initRating(ratingJSON);
+        let ratingcounts = 0;
+        let one =0;
+        let two =0;
+        let three =0;
+        let four =0;
+        let five =0;
 
-       for(let i=0; i<=ratingJSON.length-1; i++){
-           ratingcounts += parseInt(ratingJSON[i].oneStar) *1;
-           one += parseInt(ratingJSON[i].oneStar);
-           ratingcounts += parseInt(ratingJSON[i].twoStars) *2;
-           two += parseInt(ratingJSON[i].twoStars);
-           ratingcounts += parseInt(ratingJSON[i].threeStars) *3;
-           three += parseInt(ratingJSON[i].threeStars);
-           ratingcounts += parseInt(ratingJSON[i].fourStars) *4;
-           four += parseInt(ratingJSON[i].fourStars);
-           ratingcounts += parseInt(ratingJSON[i].fiveStars) *5;
-           five += parseInt(ratingJSON[i].fiveStars);
-       }
-       ratingcounts = ratingcounts/ratingJSON.length;
-       console.log(ratingcounts);
-       console.log("one "+one);
-       console.log("two "+one);
-       console.log("three "+three);
-       console.log("four "+four);
-       console.log("five "+five);
+        for(let i=0; i<=ratingJSON.length-1; i++){
+            ratingcounts += parseInt(ratingJSON[i].oneStar) *1;
+            one += parseInt(ratingJSON[i].oneStar);
+            ratingcounts += parseInt(ratingJSON[i].twoStars) *2;
+            two += parseInt(ratingJSON[i].twoStars);
+            ratingcounts += parseInt(ratingJSON[i].threeStars) *3;
+            three += parseInt(ratingJSON[i].threeStars);
+            ratingcounts += parseInt(ratingJSON[i].fourStars) *4;
+            four += parseInt(ratingJSON[i].fourStars);
+            ratingcounts += parseInt(ratingJSON[i].fiveStars) *5;
+            five += parseInt(ratingJSON[i].fiveStars);
+        }
+        ratingcounts = ratingcounts/ratingJSON.length;
+        console.log(ratingcounts);
+        console.log("one "+one);
+        console.log("two "+one);
+        console.log("three "+three);
+        console.log("four "+four);
+        console.log("five "+five);
 
-       if(ratingJSON>1){
-           document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
-       }else{
-           document.getElementById("rating").textContent ="Es hat eine Person das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
-       }
+        if(ratingJSON>1){
+            document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
+        }else{
+            document.getElementById("rating").textContent ="Es hat eine Person das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
+        }
 
-   } else {
-       document.getElementById("rating").textContent = "Noch keine Bewertungen";
-       if(initPage === 1){
-           document.getElementById("threeStars").checked = true;
-           initPage++;
-       }
+    } else {
+        document.getElementById("rating").textContent = "Noch keine Bewertungen";
+        if(initPage === 1){
+            document.getElementById("threeStars").checked = true;
+            initPage++;
+        }
 
-   }
+    }
 }
 //Funktion zum Lokalisierung eines bestimmten Keys in einem Array, nach seinem Value
 function getKeyByValue(object, value) {
@@ -234,16 +235,17 @@ function getEvents(cb) {
     xmlhttp.send();
 
 }
-function Event(id, img, name, date, price, tickets, maxTickets) {
+function Event(id, img, name, date, price, description, tickets, maxTickets) {
     this.id = id;
     this.endorsement = (maxTickets - tickets) / maxTickets;
     this.img = img;
     this.name = name;
     this.date = date;
     this.price = price;
+    this.description = description;
     this.expired = false;
-
-
+    this.soldout = false;
+    this.currentTickets = parseInt(tickets);
 
     this.checkIsExpired = function() {
         console.log("checkIsExpired | got called");
@@ -257,8 +259,7 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
         currentDate.setHours(0, 0, 0, 0);
 
 
-        let dateTransformed = this.date.split(".").reverse().join(".");
-        let eventDate = new Date(dateTransformed);
+        let eventDate = new Date(dateTransform(this.date));
 
         console.log("checkIsExpired | eventDate is: " + eventDate);
 
@@ -282,19 +283,49 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
 
             console.log("checkIsExpired | event is not expired, do nothing");
         }
+    };
+    this.checkIsSoldOut = function() {
+        if(this.currentTickets <= 0) {
+            this.name = this.name.replace(" (AUSVERKAUFT)","");
+            this.name += " (AUSVERKAUFT)";
+            this.soldout = true;
+        }
+    };
+
+    this.checkIsExpired();
+    this.checkIsSoldOut();
+}
+
+function dateTransform(date){
+    let preDateTranformed = date.split(",");
+    preDateTranformed[0] = preDateTranformed[0].split(".").reverse().join(".");
+    let dateTransformed = preDateTranformed.join(" ");
+    return preDateTranformed[0];
+}
+
+function updateHTML(event){
+    console.log("now update HTML");
+    if(event.soldout){
+        document.getElementById("eventName").textContent += " (AUSVERKAUFT)";
     }
+    if(event.expired){
+        document.getElementById("eventName").textContent += " (ABGELAUFEN)";
+    }
+
 }
 
 function initEvents(eventJsonObject){
     for(let i=0; i<=eventJsonObject.length-1; i++){
-        let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
+        let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventDescription , eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
         eventHolderIndex.push(event);
         console.log(event);
 
     }
 
     for(let i= 0; i<=eventHolderIndex.length-1; i++){
-        eventHolderIndex[i].checkIsExpired();
+        if(eventHolderIndex[i].id === getHTMLname()){
+            myEvent = eventHolderIndex[i];
+        }
         if(!eventHolderIndex[i].expired){
             eventEndorserIndex.push(eventHolderIndex[i]);
         }
@@ -302,6 +333,7 @@ function initEvents(eventJsonObject){
 
     eventEndorserIndex = quickSortEndorsement(eventEndorserIndex, 0, eventEndorserIndex.length-1).reverse();
     updateSlideshow(eventEndorserIndex);
+    updateHTML(myEvent);
     return eventHolderIndex;
 }
 
