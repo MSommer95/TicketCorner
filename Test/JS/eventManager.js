@@ -193,7 +193,6 @@ function initEvents(eventJsonObject){
     }
 
     for(let i= 0; i<=eventHolder.length-1; i++){
-        eventHolder[i].checkIsExpired();
         if(!eventHolder[i].expired){
             eventEndorser.push(eventHolder[i]);
             eventPricer.push(eventHolder[i]);
@@ -235,7 +234,11 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
     this.img = img;
     this.name = name;
     this.date = date;
-    this.expired = false;
+    this.maxTickets = parseInt(maxTickets);
+    this.currentTickets = parseInt(tickets);
+    this.expired = this.checkIsExpired();
+    this.soldout = this.checkIsSoldOut();
+
 
 
     //Funktion zum Überprüfen des Datums
@@ -276,7 +279,16 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
 
             console.log("checkIsExpired | event is not expired, do nothing");
         }
-    }
+    };
+
+    this.checkIsSoldOut = function() {
+        if(this.currentTickets <= 0) {
+            this.name = this.name.replace(" (AUSVERKAUFT)","");
+            this.name += " (AUSVERKAUFT)";
+            this.soldout = true;
+        }
+    };
+
 }
 
 /*function getEventById(eventId) {

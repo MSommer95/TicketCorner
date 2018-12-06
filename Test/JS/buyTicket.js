@@ -6,7 +6,9 @@ function Event(id, img, name, date, price, description) {
     this.eventDate = date;
     this.eventPrice = price;
     this.eventDescription = description;
-    this.expired = false;
+    this.expired = this.checkIsExpired();
+    this.soldout = this.checkIsSoldOut();
+
     // Funktion im Event Objekt zum Kontrollieren, ob das Events schon stattgefunden hat
     this.checkIsExpired = function() {
         console.log("checkIsExpired | got called");
@@ -42,7 +44,16 @@ function Event(id, img, name, date, price, description) {
         else{
             console.log("checkIsExpired | event is not expired, do nothing");
         }
-    }
+    };
+
+    this.checkIsSoldOut = function() {
+        if(this.currentTickets <= 0) {
+            this.name = this.name.replace(" (AUSVERKAUFT)","");
+            this.name += " (AUSVERKAUFT)";
+            this.soldout = true;
+        }
+    };
+
 }
 
 // Funktion zum Auslesen eines per ID bestimmten Events aus der Datenbank
@@ -84,6 +95,7 @@ function getEventById(eventId) {
 
         // Prüfung, ob Event abgelaufen ist
         event.checkIsExpired();
+        event.checkIsSoldOut();
 
         console.log("buyTicket | loop | EventId: " + event.id);
 
@@ -92,10 +104,15 @@ function getEventById(eventId) {
 
             console.log("buyTicket | event was found in holder");
 
-            // Wenn das Event bereits stattgefunden hat kein Kauf möglich
+            // Wenn das Event bereits stattgefunden hat oder ausverkauft ist kein Kauf möglich
             if(event.expired) {
                 console.log("buyTicket | event is expired, should show popup");
                 window.alert("Die Veranstaltung hat bereits stattgefunden");
+                return;
+            }
+            else if(event.soldout) {
+                console.log("buyTicket | event is soldout, should show popup");
+                window.alert("Die Veranstaltung ist bereits ausverkauft");
                 return;
             }
 
