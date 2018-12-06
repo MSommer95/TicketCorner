@@ -95,26 +95,26 @@ function getEventById(eventId) {
         let currentEvent = events[0];*/
 
 
-        console.log("buyTicket | loop | EventId: " + myEvent.id);
+        console.log("buyTicket | loop | EventId: " + currentEvent.id);
 
         // Doppelprüfung zur Sicherstellung
-        if(myEvent.id === eventId) {
+        if(currentEvent.id === eventId) {
 
             console.log("buyTicket | event was found in holder");
 
             // Wenn das Event bereits stattgefunden hat oder ausverkauft ist kein Kauf möglich
-            if(myEvent.expired) {
+            if(currentEvent.expired) {
                 console.log("buyTicket | event is expired, should show popup");
                 window.alert("Die Veranstaltung hat bereits stattgefunden");
                 return;
             }
-            else if(myEvent.soldout) {
+            else if(currentEvent.soldout) {
                 console.log("buyTicket | event is soldout, should show popup");
                 window.alert("Die Veranstaltung ist bereits ausverkauft");
                 return;
             }
 
-            foundEvent = myEvent;
+            foundEvent = currentEvent;
         }
 
         // Wenn das Event korrekt gefunden wurde und nicht abgelaufen ist, kauf initiieren, sonst Fehler ausgeben

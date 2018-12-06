@@ -5,7 +5,7 @@ let ratingOwnJSON = null;
 let ID = getHTMLname();
 let commentHolder = [];
 let initPage = 1;
-let myEvent;
+let currentEvent;
 //Funktion zur Cookie Findung (Über den Namen als String)
 window.getCookie = function(name) {
     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -324,7 +324,7 @@ function initEvents(eventJsonObject){
 
     for(let i= 0; i<=eventHolderIndex.length-1; i++){
         if(eventHolderIndex[i].id === getHTMLname()){
-            myEvent = eventHolderIndex[i];
+            currentEvent = eventHolderIndex[i];
         }
         if(!eventHolderIndex[i].expired){
             eventEndorserIndex.push(eventHolderIndex[i]);
@@ -333,7 +333,7 @@ function initEvents(eventJsonObject){
 
     eventEndorserIndex = quickSortEndorsement(eventEndorserIndex, 0, eventEndorserIndex.length-1).reverse();
     updateSlideshow(eventEndorserIndex);
-    updateHTML(myEvent);
+    updateHTML(currentEvent);
     return eventHolderIndex;
 }
 
