@@ -173,7 +173,7 @@ if(window.location.href.includes("?")){
     let error = parseURLParams(window.location.href);
     if(error.Message[0] == "NoMoreTickets"){
         alert("No more Tickets");
-    } else if(error.Message[0] == "OK"){
-        alert("Ticket gekauft");
+    } else if(error.Message[0] == "SOLD"){
+        window.location = "https://intranet-secure.de/TicketCorner/paypal.html?VerN=" + error.Name[0] + "&VerP=" + error.Price[0];
     }
 }

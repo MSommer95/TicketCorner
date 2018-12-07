@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/animsition.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="icon" href="images/icons/favicon.ico" type=image/x-icon">
@@ -23,9 +24,10 @@
 					<a href="https://www.facebook.com/AStAHSHL/" class="topbar-social-item fa fa-facebook"></a>
 					<a href="https://www.instagram.com/asta.hshl/" class="topbar-social-item fa fa-instagram"></a>
 				</div>
-				<div class="topbar-child2  loggedInAcc"> <!-- wenn loggedInAcc dann verschiebt sich das element nach oben -->
-					<span class="topbar-email" id="loggedInAs"> Logged in as... </span>
-				</div>
+			 <!-- wenn loggedInAcc dann verschiebt sich das element nach oben -->
+                <div style="position: absolute; right: 0;">
+                    <input type="search" placeholder="Search..." class="SearchField" id="searchInput" oninput="search(this.value)">
+                </div>
 				<div class="topbar-pay">
 					<a class="p-b-9">
 						<img class="h-size2" src="images/icons/paypal.png" alt="IMG-PAYPAL">
@@ -56,7 +58,8 @@
 								<a href="contact.html">Kontakt</a>
 							</li>
 							<li style="position: absolute; right: 0; padding-right: 50px;">
-								<a><img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON" style="height: 32px;"></a>
+                                <span class="topbar-email loggedInAcc" id="loggedInAs"> Logged in as... </span>
+                                <a><img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON" style="height: 32px;" id="profilBtn"></a>
 								<ul class="sub_menu loggedInAcc" style="margin-left: -100px;">
 									<li><a href="accountManagement.html">Einstellungen</a></li>
 									<li><a href="create.html">Event erstellen</a></li>

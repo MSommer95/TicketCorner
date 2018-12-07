@@ -30,7 +30,7 @@ if($requestToBuyTicket->execute()){
             $returnTicket -= 1;
             $updateTickets = "UPDATE events SET eventTickets = $returnTicket WHERE ID=$ID";
             $conn->exec($updateTickets);
-            header("Location: https://intranet-secure.de/TicketCorner/Events/html/$ID.html?Message=OK");
+            header("Location: https://intranet-secure.de/TicketCorner/Events/html/$ID.html?Message=SOLD&Name=$eventName&Price=$eventPrice");
         } else {
 
             header("Location: https://intranet-secure.de/TicketCorner/Events/html/$ID.html?Message=NoMoreTickets");

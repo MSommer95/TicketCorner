@@ -3,13 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>PayPal-Zahlung</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/animsition.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="icon" href="images/icons/favicon.ico" type=image/x-icon">
 </head>
-<body>
+<body style="padding-top: 5%">
 <!-- So würde das Logo eingebunden werden: -->
-<!-- PayPal Logo --><table border="0" cellpadding="10" cellspacing="0" align="center"><tbody><tr><td align="center"></td></tr><tr><td align="center"><a href="https://intranet-secure.de/TicketCorner/paypal.html" title="Zurück zum AStA-Shop" onclick="javascript:window.open('https://intranet-secure.de/TicketCorner/paypal.html); return false;"><img src="https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-150px.png" border="0" alt="PayPal Logo" /></a></td></tr></tbody></table><!-- PayPal Logo -->
+<!-- PayPal Logo -->
+<div style="text-align: center; padding: 5% 0 5% 0">
+    <img src="https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-150px.png" border="0" alt="PayPal Logo" />
+</div>
+<!-- PayPal Logo -->
+<div style="padding: 2% 0 1% 1%" id="wrapper">
+    <div class="col-md-6 PaymentForm">
+        <div style="padding: 10% 0 10% 0" class="order-Info">
+            <p style="padding-left: 2%">Ihr Kauf</p>
+            <div class="dropdown-divider"></div>
+            <p style="padding-left: 2%" id="eventName">Veranstaltungsname: </p>
+            <p style="padding-left: 2%" id="eventPrice">Veranstaltungspreis: </p>
+        </div>
+        <div style="padding-top: 5%">
+            <input id="paymentOne" type="radio" value="1" name="payment">
+            <label for="paymentOne">PayPal Wallet 1</label>
+        </div>
+        <div>
+            <input id="paymentTwo" type="radio" value="2" name="payment">
+            <label for="paymentTwo">PayPal Wallet 2 </label>
+        </div>
+        <div style="padding-top: 10%">
+            <a href="https://intranet-secure.de/TicketCorner/index.html?Message=OK"> <button class="btn btn-primary">Kauf Bestätigen</button></a>
+        </div>
 
-<br>Hier würde nun die Zahlung stattfinden. Da unser Shop aber über kein Geschäftskonto bei PayPal verfügt, wird der Bezahlvorgang hier abgebrochen.
-<a href="https://intranet-secure.de/TicketCorner/">Zurück zum Shop</a>.
-
+    </div>
+</div>
+<script src="JS/confirmBuy.js"></script>
 </body>
 </html>

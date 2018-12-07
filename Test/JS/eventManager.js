@@ -419,11 +419,11 @@ function sortEvents(int){
     }
 }
 //Search Funktion zum Suchen von Events
-function search(){
+function search(value){
     $("div").remove(".EventContainer");
-    let value = document.getElementById("searchInput").value.toLowerCase();
-    for(let i= 0; i<eventHolder.length-1; i++){
-        if(eventHolder[i].name.toLowerCase().includes(value)){
+    let searchInput = value.toLowerCase();
+    for(let i= 0; i<=eventHolder.length-1; i++){
+        if(eventHolder[i].name.toLowerCase().includes(searchInput)){
             createEventHTMLElements(eventHolder[i]);
             orderMode = 5;
         }
