@@ -53,6 +53,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 <head>
     <meta charset=\"UTF-8\">
     <title>$eventName</title>
+    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/eventStyles.css\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/styles.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/bootstrap.min.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/animsition.min.css\">
@@ -140,22 +141,29 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
     <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
     <p id='eventDescription'>Beschreibung: $description</p>
     <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
-     <div class=\"dropdown-divider loggedInAcc\"></div>
+          <div class=\"dropdown-divider loggedInAcc\"></div>
+                                              <p>--Deine Bewertung--</p>
      <div class=\"ratings loggedInAcc\">
         <form id=\"ratingForm\" action=\"https://intranet-secure.de/TicketCorner/PHP/uploadeRating.php\" method=\"post\">
-            <input type=\"radio\" name=\"rating\" value=\"oneStar\" id=\"oneStar\">
+    		
+            <span class=\"star-rating\">
+            <input type=\"radio\" name=\"rating\" value=\"oneStar\" id=\"oneStar\"><i></i>
             <label for=\"oneStar\">Ein Stern</label>
-            <input type=\"radio\" name=\"rating\" value=\"twoStars\" id=\"twoStars\">
+            <input type=\"radio\" name=\"rating\" value=\"twoStars\" id=\"twoStars\"><i></i>
             <label for=\"twoStars\">Zwei Sterne</label>
-            <input type=\"radio\" name=\"rating\" value=\"threeStars\" id=\"threeStars\">
+            <input type=\"radio\" name=\"rating\" value=\"threeStars\" id=\"threeStars\"><i></i>
             <label for=\"threeStars\">Drei Sterne</label>
-            <input type=\"radio\" name=\"rating\" value=\"fourStars\" id=\"fourStars\">
+            <input type=\"radio\" name=\"rating\" value=\"fourStars\" id=\"fourStars\"><i></i>
             <label for=\"fourStars\">Vier Sterne</label>
-            <input type=\"radio\" name=\"rating\" value=\"fiveStars\" id=\"fiveStars\">
-            <label for=\"fiveStars\">Fünf Sterne</label> <br>
+            <input type=\"radio\" name=\"rating\" value=\"fiveStars\" id=\"fiveStars\"><i></i>
+            <label for=\"fiveStars\">Fünf Sterne</label> 
+                                  </span>
+                                  <br>
             <button type=\"submit\" onclick=\"sendRatingForm()\">Submit Rating</button>
-        </form>
+            
+          </form>
     </div>
+                                                            <p>--Gesamt Bewertung--</p>
     <p id=\"rating\">0</p>
     <div class=\"dropdown-divider \"></div>
     <div class=\"Comments loggedInAcc\">
