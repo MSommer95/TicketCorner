@@ -197,7 +197,7 @@ function updateRating(ratingJSON){
         console.log("four "+four);
         console.log("five "+five);
 
-        if(ratingJSON>1){
+        if(ratingJSON.length>1){
             document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
         }else{
             document.getElementById("rating").textContent ="Es hat eine Person das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
@@ -389,13 +389,14 @@ function swapEndorsement(arr, i, j){
 }
 
 function initRating(ratingJSON){
+    let userID = getCookie("ID");
     for(let i = 0;i < ratingJSON.length; i++){
-        if(ratingJSON[i].userID == getCookie("ID") && initPage === 1){
+        if(ratingJSON[i].userID == userID && initPage === 1){
             console.log(ratingJSON);
             let result = getKeyByValue(ratingJSON[i],"1");
             document.getElementById(result).checked = true;
             initPage++;
-        } else if(ratingJSON[i].userID != getCookie("ID") && initPage === 1){
+        } else if(i === ratingJSON.length-1 && initPage === 1){
             document.getElementById("threeStars").checked = true;
             initPage++;
         }
