@@ -2630,11 +2630,11 @@
 
 /* ------------------------------------ */
 .flex-c-m {
-	display: -webkit-box;
+	/*display: -webkit-box;
 	display: -webkit-flex;
 	display: -moz-box;
 	display: -ms-flexbox;
-	display: flex;
+	display: flex;*/
 	justify-content: center;
 	-ms-align-items: center;
 	align-items: center;
@@ -3709,7 +3709,7 @@ SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE
 ///////////////////////////////////////////////////////////
 */
 .bg0 {background-color: #e65540;}
-.bg1 {background-color: #222222;}
+.bg1 {background-color: #999999;}
 .bg3 {background-color: rgba(255,255,255,0.95);}
 .bg4 {background-color: #111111;}
 .bg5 {background-color: #f2f2f2;}

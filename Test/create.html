@@ -4,15 +4,14 @@
 	<title>Event erstellen</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/animsition.min.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 	<link rel="icon" href="images/icons/favicon.ico" type=image/x-icon">
 </head>
 <body class="animsition">
-
 	<header class="header1" id="navbarIndex">
 		<div class="container-menu-header">
 			<div class="topbar">
@@ -63,53 +62,49 @@
 			</div>
 		</div>
 	</header>
-
-		<h2 class="l-text2 t-center">
-			Event erstellen
-		</h2>
-	</section>
 	<center>
 		<div class="container loggedOutAcc">
 			<a href="signIn.html">Melde dich an, um ein Event zu erstellen.</a>
 		</div>
-		<div class="container loggedInAcc">
-			<div class="col-xl-8 offset-xl-2 py-5">
-			<img id="previewImg"src="" height="200" alt="Image preview...">
+        <h2 class="loggedInAcc">
+            Event erstellen
+        </h2>
+		<div class="eventForm">
 				<form id="create-form" method="post" role="form" action="PHP\eventCreate.php" enctype="multipart/form-data">
 					<br>
-					<input name="fileToUpload" type="file"  id="fileToUpload" onchange="previewFile()">
-					<br>
-					<br>
-					<br>
+                    <div class="uploadBox">
+                        <label for="fileToUpload"><img id="previewImg"src="images/iconfinder_icon-65-document-image_314523.png" height="512" width="512" alt="Image preview..."></label>
+                        <input name="fileToUpload" type="file"  id="fileToUpload" onchange="previewFile()" accept="image/gif, image/jpeg, image/png, image/jpg" hidden>
+                    </div>
 					<div class="controls">
-						<div class="form-group">
-							<label for="form_name">Name*</label>
-							<br>
-							<input id="form_name" type="text" name="eventName" class="form-control" placeholder="Namen eintragen*" required="required" data-error="Event Name wird benötigt.">
-							<div class="help-block with-errors"></div>
-						</div>
-						<div class="form-group">
-							<label for="form_price">Preis in Euro*</label>
-							<br>
-							<input id="form_price" type="text" name="eventPrice" class="form-control" placeholder="Beispiel 12,00 €*" required="required" data-error="Event Preis wird benötigt.">
-							<div class="help-block with-errors"></div>
-						</div>
-						<div class="form-group">
-							<label for="form_tickets">Ticketanzahl*</label>
-							<br>
-							<input id="form_tickets" type="text" name="eventTickets" class="form-control" placeholder="Ticketanzahl eintragen*" required="required" data-error="Ticketanzahl wird benötigt.">
-							<div class="help-block with-errors"></div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label for="form_location">Veranstaltungsort*</label>
-									<br>
-									<input id="form_location" type="text" name="eventLocation" class="form-control" placeholder="Adresse eintragen*" required="required" data-error="Veranstaltungsort wird benötigt">
-									<div class="help-block with-errors"></div>
-								</div>
-							</div>
-						</div>
+						<div>
+                            <div class="form-group" style="float: left">
+                                <label for="form_name">Name*</label>
+                                <br>
+                                <input id="form_name" type="text" name="eventName" class="form-control" placeholder="Namen eintragen*" required="required" data-error="Event Name wird benötigt.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group" style="float: right">
+                                <label for="form_price">Preis in Euro*</label>
+                                <br>
+                                <input id="form_price" type="text" name="eventPrice" class="form-control" placeholder="Beispiel 12,00 €*" required="required" data-error="Event Preis wird benötigt.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group" style="float: left">
+                                <label for="form_location">Veranstaltungsort*</label>
+                                <br>
+                                <input id="form_location" type="text" name="eventLocation" class="form-control" placeholder="Adresse eintragen*" required="required" data-error="Veranstaltungsort wird benötigt">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group" style="float: right">
+                                <label for="form_tickets">Ticketanzahl*</label>
+                                <br>
+                                <input id="form_tickets" type="text" name="eventTickets" class="form-control" placeholder="Ticketanzahl eintragen*" required="required" data-error="Ticketanzahl wird benötigt.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
 						<div class="col-md-12">
 							<div class="form-group">
 								<label for="form_description">Beschreibung*</label>
@@ -126,31 +121,17 @@
 						</div>
 					</div>
 					<br>
-					<input type="submit" id="submitBtn" class="btn btn-success btn-send" value="Event erstellen" onclick="appendDateAndLocation()">
+                    <div class="submitEvent">
+                        <input type="submit" id="submitBtn" class="flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4" value="Event erstellen" onclick="appendDateAndLocation()">
+                    </div>
 				</form>
-				<div class="row">
-					<div class="col-md-12">
-						<p class="text-muted">
-							<br>
-							<br>
-							<strong>*</strong> Gehe sicher, dass du alle Felder mit einem * ausgefüllt hast.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</center>
-	
-	<footer class="topbar"></footer> <!-- ans ende der seite -->
-
-	<div class="btn-back-to-top bg0-hov" id="myBtn">
-		<span class="symbol-btn-back-to-top">
-			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
-		</span>
-	</div>
-	<div id="dropDownSelect1"></div>
-	<div id="dropDownSelect2"></div>
-
+        </div>
+    </center>
+    <footer>
+        <p class="text-muted">
+            <strong>*</strong> Gehe sicher, dass du alle Felder mit einem * ausgefüllt hast.
+        </p>
+    </footer>
 	<script type="text/javascript" src="jquery/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/animsition.min.js"></script>
 	<script src="js/main.js"></script>

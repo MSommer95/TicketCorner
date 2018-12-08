@@ -38,7 +38,14 @@ function getUpdatedData(cb) {
 }
 //Updated die Ticket Anazhl in der DOM
 function updateTicketCount(ticketUpdate){
-    document.getElementById("eventTickets").textContent = "Anzahl der Tickets: " + ticketUpdate[0].eventTickets;
+    let tickets = document.createTextNode(ticketUpdate[0].eventTickets);
+    let ticketHTML = document.getElementById("eventTickets");
+    ticketHTML.textContent = "";
+    let bTag = document.createElement("b");
+    bTag.textContent = "Anzahl der Tickets: ";
+    ticketHTML.appendChild(bTag);
+    ticketHTML.appendChild(tickets);
+
     console.log("UpdateHTMLCall");
 }
 //Initialisiert drei Callback Funktionen mit PHP Aufrufen
@@ -116,17 +123,22 @@ function Comment(userName,datetime,message, i){
 
     this.sectionSplitterOne = document.createElement("div");
     this.sectionSplitterOne.className = "dropdown-divider";
+
     this.commentDiv = document.createElement("div");
     this.commentDiv.className = "commentSection";
+
     this.messageTag = document.createElement("p");
     this.messageTag.textContent = message;
     this.messageTag.id = i;
+
     this.userNameTag = document.createElement("label");
-    this.userNameTag.textContent = userName;
+    this.userNameTag.textContent = userName + "";
     this.userNameTag.htmlFor = i;
+
     this.datetimeTag = document.createElement("label");
     this.datetimeTag.textContent = datetime;
     this.datetimeTag.htmlFor = i;
+
     this.sectionSplitterTwo = document.createElement("div");
     this.sectionSplitterTwo.className = "dropdown-divider";
 

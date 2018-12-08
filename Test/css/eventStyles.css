@@ -57,3 +57,19 @@
     text-align: center;
     vertical-align: middle;
 }
+div.eventImage{
+    float: left;
+    margin: 3% 0 3% 0;
+    padding-left: 15%;
+}
+
+div.eventInfo{
+    float: right;
+    margin: 3% 0 3% 0;
+    padding-right: 30%;
+    text-align: left;
+}
+
+.marginSpacer{
+    margin: 1% 0 1% 0;
+}

@@ -1,3 +1,15 @@
+html,
+body {
+    height: 100%;
+    position: relative;
+}
+
+h2{
+    color: #5a6268;
+    margin-top: 1rem;
+    margin-bottom: 0px;
+}
+
 .EventContainer{
     text-align: center;
 }
@@ -20,18 +32,51 @@
 #wrapper {
     margin: 0 auto;
     max-width: 780px;
-    border: 1px solid #5a6268;
+    border: 2px solid grey;
     border-radius: 5px;
     overflow-y: visible;
     outline: none;
 }
 
+div.eventForm{
+    padding-top: 1rem;
+}
+
 div.order-Info{
     margin: 0 auto;
     max-width: 1000px;
-    border: 1px solid #5a6268;
+    border: 2px solid grey;
     border-radius: 5px;
     overflow-y: visible;
     outline: none;
 }
+
+div.uploadBox{
+     float: left;
+     padding-left: 15%;
+ }
+
+div.controls{
+    float: right;
+    padding-right: 30%;
+    text-align: left;
+}
+div.submitEvent{
+    clear: both;
+}
+
+div.ratings{
+    align-items: center;
+    text-align: center;
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #efefef;
+    text-align: center;
+}
+
 

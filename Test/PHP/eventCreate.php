@@ -132,17 +132,29 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 		</div>
 	</div>
 	
-<div class=\"maintext\" id=\"maintext\">
-    <p id='eventName'>Name: $eventName</p>
-    <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg' height='200' width='500'>
-    <p id='eventDate'>Datum: $date</p>
-    <p id='eventLocation'>Veranstaltungsort: $location</p>
-    <p id='eventPrice'>Preis: $price €</p>
-    <p id='eventTickets'>Anzahl der Tickets: $eventTickets</p>
-    <p id='eventDescription'>Beschreibung: $description</p>
-    <button name=\"submit\" type=\"submit\" class=\"btn btn-primary\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
-          <div class=\"dropdown-divider loggedInAcc\"></div>
-                                              <p>--Deine Bewertung--</p>
+<div class=\"maintext\" id=\"maintext\" style=\"padding-top: 4px\">
+    <div class=\"eventImage\">
+        <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg' height='512' width='512'>
+    </div>
+    <div class=\"eventInfo\">
+        <p id='eventName'><b>Name:</b> $eventName</p>
+        <div class=\"dropdown-divider\"></div>
+        <p id='eventDate'><b>Datum:</b> $date</p>
+        <div class=\"dropdown-divider\"></div>
+        <p id='eventLocation'><b>Veranstaltungsort:</b>  $location</p>
+        <div class=\"dropdown-divider\"></div>
+        <p id='eventPrice'><b>Preis:</b> $price €</p>
+        <div class=\"dropdown-divider\"></div>
+        <p id='eventTickets'><b>Anzahl der Tickets:</b> $eventTickets</p>
+        <div class=\"dropdown-divider\"></div>
+        <p id='eventDescription' style=\"width: 400px\"><b>Beschreibung:</b> $description</p>
+    </div>
+    <div class=\"submitEvent\">
+        <div class=\"dropdown-divider\"></div>
+        <button name=\"submit\" type=\"submit\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
+    </div>
+         <div class=\"dropdown-divider loggedInAcc\"></div>
+     <p class=\"ratings loggedInAcc marginSpacer\">--Deine Bewertung--</p>
      <div class=\"ratings loggedInAcc\">
         <form id=\"ratingForm\" action=\"https://intranet-secure.de/TicketCorner/PHP/uploadeRating.php\" method=\"post\">
     		
@@ -159,19 +171,19 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
             <label for=\"fiveStars\">Fünf Sterne</label> 
                                   </span>
                                   <br>
-            <button type=\"submit\" onclick=\"sendRatingForm()\">Submit Rating</button>
+            <button type=\"submit\" onclick=\"sendRatingForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Submit Rating</button>
             
           </form>
     </div>
-                                                            <p>--Gesamt Bewertung--</p>
-    <p id=\"rating\">0</p>
+    <p class=\"marginSpacer\" >--Gesamt Bewertung--</p>
+    <p class=\"marginSpacer\" id=\"rating\">0</p>
     <div class=\"dropdown-divider \"></div>
     <div class=\"Comments loggedInAcc\">
             <div>
-                <label for=\"comment-section\">Comment Section</label>
+                <h3>Comment Section</h3>
                 <textarea id=\"comment-section\" name=\"comment-section\" rows=\"5\" cols=\"100\" maxlength=\"234\"></textarea>
             </div>
-        <button onclick=\"sendCommentForm()\">Post Comment</button>
+        <button onclick=\"sendCommentForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Post Comment</button>
     </div>
     <div class=\" loggedOutAcc\">
         <a href=\"https://intranet-secure.de/TicketCorner/signIn.html\">Logge dich ein und hinterlasse dein Feedback. </a>

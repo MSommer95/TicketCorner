@@ -30,13 +30,13 @@
 
     $(window).on('scroll',function(){
         if ($(this).scrollTop() > windowH) {
-            $("#myBtn").css('display','flex');
+            $("#backToTopBtn").css('display','flex');
         } else {
-            $("#myBtn").css('display','none');
+            $("#backToTopBtn").css('display','none');
         }
     });
 
-    $('#myBtn').on("click", function(){
+    $('#backToTopBtn').on("click", function(){
         $('html, body').animate({scrollTop: 0}, 300);
     });
 
