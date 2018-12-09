@@ -420,17 +420,36 @@ function sortEvents(int){
 }
 //Search Funktion zum Suchen von Events
 function search(value){
+    $("#carouselExampleIndicators").fadeOut("slow");
+    if(value === ""){
+        $("#carouselExampleIndicators").fadeIn("slow");
+    }
     $("div").remove(".EventContainer");
+    let indicator = 0;
     let searchInput = value.toLowerCase();
     for(let i= 0; i<=eventHolder.length-1; i++){
         if(eventHolder[i].name.toLowerCase().includes(searchInput)){
             createEventHTMLElements(eventHolder[i]);
             orderMode = 5;
+            indicator++;
         }
-        else {
-
+        else if(i >= eventHolder.length-1 && indicator === 0){
+            let noResultFound = document.createElement("div");
+            noResultFound.className = "EventContainer";
+            let pTagNoResult = document.createElement("p");
+            pTagNoResult.textContent = "Kein Suchergebnis gefunden";
+            noResultFound.appendChild(pTagNoResult);
+            document.getElementById("maintext").appendChild(noResultFound);
         }
     }
+
+    let backToHomeDiv = document.createElement("div");
+    backToHomeDiv.className = "EventContainer";
+    let aTagBackToHome = document.createElement("a");
+    aTagBackToHome.href = "https://intranet-secure.de/TicketCorner/index.html";
+    aTagBackToHome.textContent = "Back to Home";
+    backToHomeDiv.appendChild(aTagBackToHome);
+    document.getElementById("maintext").appendChild(backToHomeDiv);
 }
 
 

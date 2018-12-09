@@ -57,6 +57,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
     <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/styles.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/bootstrap.min.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/animsition.min.css\">
+	<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/util.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/main.css\">
 	<link rel=\"icon\" href=\"https://intranet-secure.de/TicketCorner/images/icons/favicon.ico\" type=image/x-icon\">
@@ -150,11 +151,11 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
         <p id='eventDescription' style=\"width: 400px\"><b>Beschreibung:</b> $description</p>
     </div>
     <div class=\"submitEvent\">
-        <div class=\"dropdown-divider\"></div>
+        
         <button name=\"submit\" type=\"submit\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
+        <div class=\"dropdown-divider\"></div>
     </div>
-         <div class=\"dropdown-divider loggedInAcc\"></div>
-     <p class=\"ratings loggedInAcc marginSpacer\">--Deine Bewertung--</p>
+     <h5 class=\"ratings loggedInAcc marginSpacer\">--Deine Bewertung--</h5>
      <div class=\"ratings loggedInAcc\">
         <form id=\"ratingForm\" action=\"https://intranet-secure.de/TicketCorner/PHP/uploadeRating.php\" method=\"post\">
     		
@@ -175,12 +176,24 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
             
           </form>
     </div>
-    <p class=\"marginSpacer\" >--Gesamt Bewertung--</p>
+    <h3 class=\"marginSpacer\" >--Gesamt Bewertung--</h3>
     <p class=\"marginSpacer\" id=\"rating\">0</p>
+    <span class=\"star-rating\">
+    <input type=\"radio\" name=\"rating\" value=\"oneStar\" id=\"oneStarOverAll\" disabled><i></i>
+    <label for=\"oneStar\">Ein Stern</label>
+    <input type=\"radio\" name=\"rating\" value=\"twoStars\" id=\"twoStarsOverAll\" disabled><i></i>
+    <label for=\"twoStars\">Zwei Sterne</label>
+    <input type=\"radio\" name=\"rating\" value=\"threeStars\" id=\"threeStarsOverAll\" disabled><i></i>
+    <label for=\"threeStars\">Drei Sterne</label>
+    <input type=\"radio\" name=\"rating\" value=\"fourStars\" id=\"fourStarsOverAll\" disabled><i></i>
+    <label for=\"fourStars\">Vier Sterne</label>
+    <input type=\"radio\" name=\"rating\" value=\"fiveStars\" id=\"fiveStarsOverAll\" disabled><i></i>
+    <label for=\"fiveStars\">Fünf Sterne</label>
+    </span>
     <div class=\"dropdown-divider \"></div>
     <div class=\"Comments loggedInAcc\">
             <div>
-                <h3>Comment Section</h3>
+                <h5>Comment Section</h5>
                 <textarea id=\"comment-section\" name=\"comment-section\" rows=\"5\" cols=\"100\" maxlength=\"234\"></textarea>
             </div>
         <button onclick=\"sendCommentForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Post Comment</button>
@@ -189,6 +202,11 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
         <a href=\"https://intranet-secure.de/TicketCorner/signIn.html\">Logge dich ein und hinterlasse dein Feedback. </a>
     </div>
 </div>
+	<div class=\"btn-back-to-top bg0-hov\" id=\"backToTopBtn\">
+		<span class=\"symbol-btn-back-to-top\">
+			<i class=\"fa fa-angle-double-up\" aria-hidden=\"true\"></i>
+		</span>
+	</div>
 <script type=\"text/javascript\" src=\"https://intranet-secure.de/TicketCorner/jquery/jquery-3.2.1.min.js\"></script>
 <script type=\"text/javascript\" src=\"https://intranet-secure.de/TicketCorner/js/animsition.min.js\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/js/main.js\"></script>

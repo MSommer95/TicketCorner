@@ -211,8 +211,26 @@ function updateRating(ratingJSON){
 
         if(ratingJSON.length>1){
             document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
+
         }else{
             document.getElementById("rating").textContent ="Es hat eine Person das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
+        }
+        switch(Math.round(ratingcounts)){
+            case 1:
+                document.getElementById("oneStarOverAll").checked = true;
+                break;
+            case 2:
+                document.getElementById("twoStarsOverAll").checked = true;
+                break;
+            case 3:
+                document.getElementById("threeStarsOverAll").checked = true;
+                break;
+            case 4:
+                document.getElementById("fourStarsOverAll").checked = true;
+                break;
+            case 5:
+                document.getElementById("fiveStarsOverAll").checked = true;
+                break;
         }
 
     } else {
