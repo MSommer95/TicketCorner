@@ -218,8 +218,8 @@ function createEventHTMLElements(event){
     eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + img.replace(".jpg",".html");
     let imgElement = document.createElement("img");
     imgElement.src = "https://intranet-secure.de/TicketCorner/Events/img/"+ img;
-    imgElement.height = 400;
-    imgElement.width = 800;
+    imgElement.height = 512;
+    imgElement.width = 614.4;
 
     document.getElementById("maintext").appendChild(eventDiv);
     eventDiv.appendChild(eventName);

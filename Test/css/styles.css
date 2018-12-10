@@ -79,4 +79,25 @@ footer{
     text-align: center;
 }
 
+#carouselExampleIndicators{
+    border-top: 2px solid #999999;
+    border-bottom: 2px solid #999999;
+}
+ol.carousel-indicators{
+    align-items: center;
+    text-align: center;
+    height: 1rem;
+    width: 7rem;
+    margin-left: 47%;
+    margin-right: 50%;
+    background-color: rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,0,0,0.0);
+    border-radius: 5px;
+
+}
+li.indicator{
+    align-items: center;
+    text-align: center;
+}
+
 
