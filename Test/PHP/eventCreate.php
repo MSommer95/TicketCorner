@@ -55,7 +55,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
     <title>$eventName</title>
     <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/eventStyles.css\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/styles.css\">
-	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/bootstrap.min.css\">
+    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/bootstrap.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/animsition.min.css\">
 	<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/util.css\">
@@ -113,7 +113,6 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 			</div>
 		</div>
 	</header>
-	
 	<div id=\"carouselExampleIndicators\" class=\"carousel slide\" data-ride=\"carousel\">
 		<ol class=\"carousel-indicators\">
 			<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>
@@ -132,7 +131,6 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 			</div>
 		</div>
 	</div>
-	
 <div class=\"maintext\" id=\"maintext\" style=\"padding-top: 4px\">
     <div class=\"eventImage\">
         <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg' height='512' width='512'>
@@ -151,14 +149,12 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
         <p id='eventDescription' style=\"width: 400px\"><b>Beschreibung:</b> $description</p>
     </div>
     <div class=\"submitEvent\">
-        
         <button name=\"submit\" type=\"submit\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
         <div class=\"dropdown-divider\"></div>
     </div>
      <h5 class=\"ratings loggedInAcc marginSpacer\">--Deine Bewertung--</h5>
      <div class=\"ratings loggedInAcc\">
         <form id=\"ratingForm\" action=\"https://intranet-secure.de/TicketCorner/PHP/uploadeRating.php\" method=\"post\">
-    		
             <span class=\"star-rating\">
             <input type=\"radio\" name=\"rating\" value=\"oneStar\" id=\"oneStar\"><i></i>
             <label for=\"oneStar\">Ein Stern</label>
@@ -169,16 +165,13 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
             <input type=\"radio\" name=\"rating\" value=\"fourStars\" id=\"fourStars\"><i></i>
             <label for=\"fourStars\">Vier Sterne</label>
             <input type=\"radio\" name=\"rating\" value=\"fiveStars\" id=\"fiveStars\"><i></i>
-            <label for=\"fiveStars\">Fünf Sterne</label> 
-                                  </span>
-                                  <br>
+            <label for=\"fiveStars\">Fünf Sterne</label> </span> <br>
             <button type=\"submit\" onclick=\"sendRatingForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Submit Rating</button>
-            
           </form>
     </div>
-    <h3 class=\"marginSpacer\" >--Gesamt Bewertung--</h3>
+    <h5 class=\"marginSpacer\" >--Gesamt Bewertung--</h5>
     <p class=\"marginSpacer\" id=\"rating\">0</p>
-    <span class=\"star-rating\">
+    <span class=\"star-rating-overall\">
     <input type=\"radio\" name=\"rating\" value=\"oneStar\" id=\"oneStarOverAll\" disabled><i></i>
     <label for=\"oneStar\">Ein Stern</label>
     <input type=\"radio\" name=\"rating\" value=\"twoStars\" id=\"twoStarsOverAll\" disabled><i></i>
@@ -207,7 +200,6 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 			<i class=\"fa fa-angle-double-up\" aria-hidden=\"true\"></i>
 		</span>
 	</div>
-<script type=\"text/javascript\" src=\"https://intranet-secure.de/TicketCorner/jquery/jquery-3.2.1.min.js\"></script>
 <script type=\"text/javascript\" src=\"https://intranet-secure.de/TicketCorner/js/animsition.min.js\"></script>
 <script src=\"https://intranet-secure.de/TicketCorner/js/main.js\"></script>
 <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\"></script>

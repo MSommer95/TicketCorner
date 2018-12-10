@@ -420,10 +420,12 @@ function sortEvents(int){
 }
 //Search Funktion zum Suchen von Events
 function search(value){
-    $("#carouselExampleIndicators").fadeOut("slow");
+
+    $("#carouselExampleIndicators").fadeOut(1000);
     if(value === ""){
-        $("#carouselExampleIndicators").fadeIn("slow");
+        $("#carouselExampleIndicators").fadeIn(1000);
     }
+
     $("div").remove(".EventContainer");
     let indicator = 0;
     let searchInput = value.toLowerCase();
@@ -442,14 +444,6 @@ function search(value){
             document.getElementById("maintext").appendChild(noResultFound);
         }
     }
-
-    let backToHomeDiv = document.createElement("div");
-    backToHomeDiv.className = "EventContainer";
-    let aTagBackToHome = document.createElement("a");
-    aTagBackToHome.href = "https://intranet-secure.de/TicketCorner/index.html";
-    aTagBackToHome.textContent = "Back to Home";
-    backToHomeDiv.appendChild(aTagBackToHome);
-    document.getElementById("maintext").appendChild(backToHomeDiv);
 }
 
 

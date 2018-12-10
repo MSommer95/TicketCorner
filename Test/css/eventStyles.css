@@ -1,4 +1,4 @@
-.star-rating {
+.star-rating, .star-rating-overall {
     font-size: 0;
     white-space: nowrap;
     display: inline-block;
@@ -9,7 +9,7 @@
     background: url(https://image.flaticon.com/icons/svg/149/149222.svg);
     background-size: contain;
 }
-.star-rating i {
+.star-rating i, .star-rating-overall i {
     opacity: 0;
     position: absolute;
     left: 0;
@@ -20,7 +20,7 @@
     background: url(https://image.flaticon.com/icons/svg/148/148841.svg);
     background-size: contain;
 }
-.star-rating input {
+.star-rating input, .star-rating-overall input {
     -moz-appearance: none;
     -webkit-appearance: none;
     opacity: 0;
@@ -33,19 +33,19 @@
     position: relative;
 }
 .star-rating input:hover + i,
-.star-rating input:checked + i {
+.star-rating input:checked + i, .star-rating-overall input:checked + i {
     opacity: 1;
 }
-.star-rating i ~ i {
+.star-rating i ~ i, .star-rating-overall i ~ i {
     width: 40%;
 }
-.star-rating i ~ i ~ i {
+.star-rating i ~ i ~ i, .star-rating-overall i ~ i ~ i {
     width: 60%;
 }
-.star-rating i ~ i ~ i ~ i {
+.star-rating i ~ i ~ i ~ i, .star-rating-overall i ~ i ~ i ~ i {
     width: 80%;
 }
-.star-rating i ~ i ~ i ~ i ~ i {
+.star-rating i ~ i ~ i ~ i ~ i, .star-rating-overall i ~ i ~ i ~ i ~ i {
     width: 100%;
 }
 ::after,
@@ -59,17 +59,30 @@
 }
 div.eventImage{
     float: left;
-    margin: 3% 0 3% 0;
-    padding-left: 15%;
+    margin: 3% 0 3% 20%;
 }
 
 div.eventInfo{
     float: right;
-    margin: 3% 0 3% 0;
-    padding-right: 30%;
+    margin: 3% 26% 3% 0;
     text-align: left;
 }
 
 .marginSpacer{
     margin: 1% 0 1% 0;
+}
+
+div.commentSection{
+    width: 48.2%;
+    margin: 0 auto 1% ;
+    text-align: left;
+    border: 1px solid #999999;
+    border-radius: 5px;
+}
+label.commentUserName{
+    margin: 1% 3% 0 1%;
+}
+
+p.commentText{
+    margin: 1% 1% 1% 1%;
 }
