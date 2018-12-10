@@ -16,7 +16,7 @@ if($stmt->execute()){
 }
 
 else{
-    echo "Error";
+    header("Location: https://intranet-secure.de/TicketCorner/Events/html/$postID.html?Message=SQLError");
 }
 //Echoed die Kommentare, als JSON encoded String
 echo json_encode($result, JSON_UNESCAPED_SLASHES);

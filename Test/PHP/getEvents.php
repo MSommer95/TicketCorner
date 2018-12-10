@@ -15,7 +15,7 @@ if($stmt->execute()){
 }
 
 else{
-    echo "Error";
+    header("Location: https://intranet-secure.de/TicketCorner/index.html?Message=SQLError");
 }
 //Echoed die gefechten Events als JSON encoded String
 echo json_encode($result, JSON_UNESCAPED_SLASHES);

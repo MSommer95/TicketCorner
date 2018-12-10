@@ -42,6 +42,6 @@ if ($stmt->execute()){
     }
 }
 else{
-    header("Location: https://intranet-secure.de/TicketCorner/registration.html?Message=Error");
+    header("Location: https://intranet-secure.de/TicketCorner/registration.html?Message=SQLError");
 }
 ?>

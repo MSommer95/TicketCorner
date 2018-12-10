@@ -39,7 +39,7 @@ if($requestToBuyTicket->execute()){
 
     }
     else{
-        header("Location: https://intranet-secure.de/TicketCorner/Events/html/$ID.html?Message=NOTOK");
+        header("Location: https://intranet-secure.de/TicketCorner/Events/html/$ID.html?Message=SQLError");
     }
 }
 $conn = null;

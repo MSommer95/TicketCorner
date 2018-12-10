@@ -166,7 +166,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
             <label for=\"fourStars\">Vier Sterne</label>
             <input type=\"radio\" name=\"rating\" value=\"fiveStars\" id=\"fiveStars\"><i></i>
             <label for=\"fiveStars\">Fünf Sterne</label> </span> <br>
-            <button type=\"submit\" onclick=\"sendRatingForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Submit Rating</button>
+            <button type=\"submit\" onclick=\"sendRatingForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Bewerten</button>
           </form>
     </div>
     <h5 class=\"marginSpacer\" >--Gesamt Bewertung--</h5>
@@ -189,7 +189,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
                 <h5>Comment Section</h5>
                 <textarea id=\"comment-section\" name=\"comment-section\" rows=\"5\" cols=\"100\" maxlength=\"234\"></textarea>
             </div>
-        <button onclick=\"sendCommentForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Post Comment</button>
+        <button onclick=\"sendCommentForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Kommentieren</button>
     </div>
     <div class=\" loggedOutAcc\">
         <a href=\"https://intranet-secure.de/TicketCorner/signIn.html\">Logge dich ein und hinterlasse dein Feedback. </a>
@@ -279,7 +279,7 @@ if ($stmt->execute()){
     }
 }
 else{
-    echo "Error2";
+    header("location: https://intranet-secure.de/TicketCorner/create.html?Message=SQLError");
 }
 $conn = null;
 ?>

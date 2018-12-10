@@ -35,7 +35,7 @@ if($stmt->execute()){
         header("Location: https://intranet-secure.de/TicketCorner/Events/html/$postID.html?Message=WrongUser");
     }
 } else {
-    header("Location: https://intranet-secure.de/TicketCorner/Events/html/$postID.html?Message=Error");
+    header("Location: https://intranet-secure.de/TicketCorner/Events/html/$postID.html?Message=SQLError");
 }
 
 

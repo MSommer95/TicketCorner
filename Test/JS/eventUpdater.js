@@ -81,6 +81,7 @@ function sendCommentForm(){
     xmlhttp.onload = function () {
         initProcess();
         messageField.value = "";
+        alert("Kommentar erfolgreich gepostet");
     }
 }
 //Funktion zur schnellen Generierung von form Tags

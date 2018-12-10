@@ -55,7 +55,7 @@ if($stmt->execute()){
           VALUES ($postID, $userID, $oneStar, $twoStars, $threeStars, $fourStars, $fiveStars)";
                     // use exec() because no results are returned
                     $conn->exec($sql);
-                    header("Location: https://intranet-secure.de/TicketCorner/Events/html/" . $postID . ".html?Message=RatingAbgegeben");
+                    header("Location: https://intranet-secure.de/TicketCorner/Events/html/" . $postID . ".html?Message=RatingCommitted");
                 }
                 else {
                     //Updated das Rating des Events, falls der User schonmal eine Bewertung abgegeben hat
@@ -76,7 +76,7 @@ if($stmt->execute()){
     }
 
 } else {
-    header("Location: https://intranet-secure.de/TicketCorner/Events/html/" . $postID . ".html?Message=Error");
+    header("Location: https://intranet-secure.de/TicketCorner/Events/html/" . $postID . ".html?Message=SQLError");
 }
 
 

@@ -104,7 +104,7 @@ function parseURLParams(url) {
     }
     return parms;
 }
-
+//Error Handling
 if(window.location.href.includes("?")){
     let error = parseURLParams(window.location.href);
 
@@ -120,6 +120,24 @@ if(window.location.href.includes("?")){
             break;
         case "OK":
             alert("Ticket gekauft");
+            break;
+        case "Changed":
+            alert("Bewertung wurde aktualisiert");
+            break;
+        case "RatingCommitted":
+            alert("Bewertung abgegeben");
+            break;
+        case "SQLError":
+            alert("Bei uns ist ein Fehler aufgetreten, bitte versuch es nochmal.");
+            break;
+        case "pwChanged":
+            alert("Passwort erfolgreich geändert");
+            break;
+        case "NoPwGiven":
+            alert("Passwort nicht korrekt eingegeben");
+            break;
+        case "loggedOut":
+            alert("Erfolgreich ausgeloggt");
             break;
     }
 }

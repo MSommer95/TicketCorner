@@ -33,7 +33,7 @@ if($requestPermissionToChange->execute()){
         header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html=?OK");
     }
     else{
-        header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html=?NOTOK");
+        header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html=?SQLError");
     }
 }
 $conn = null;

@@ -19,7 +19,7 @@ if($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
     if(count($result)>0){
         $prepareLogout->execute();
-        header("Location: https://intranet-secure.de/TicketCorner/");
+        header("Location: https://intranet-secure.de/TicketCorner/index.html?Message=loggedOut");
     }
     else{
         header ("Location: https://intranet-secure.de/TicketCorner?Message=UserDoesntExist");
@@ -27,7 +27,7 @@ if($stmt->execute()){
 }
 
 else{
-    header ("Location: https://intranet-secure.de/TicketCorner?Message=Error");
+    header ("Location: https://intranet-secure.de/TicketCorner?Message=SQLError");
 }
 $conn = null;
 ?>

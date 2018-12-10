@@ -31,15 +31,15 @@ if($requestPermissionToChange->execute()){
             $newPW = password_hash($changePassword, PASSWORD_BCRYPT);
             $updateAccount = "UPDATE users SET password = '$newPW' WHERE ID=$ID";
             $conn->exec($updateAccount);
-            header("Location: https://intranet-secure.de/TicketCorner");
+            header("Location: https://intranet-secure.de/TicketCorner/index.html?Message=pwChanged");
         }
         else {
-            echo "noPasswordGiven";
+            header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html?Message=NoPwGiven");
         }
     }
     }
     else{
-        header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html=?NOTOK");
+        header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html?Message=SQLError");
 }
 $conn = null;
 ?>
