@@ -101,13 +101,13 @@ p.commentText{
     }
     div.eventImage{
         clear: both;
-        margin: auto;
+        margin: 3% auto 3% auto;
         text-align: center;
         align-items: center;
     }
     div.eventInfo{
         clear: both;
-        margin: auto;
+        margin: 3% auto 3% auto;
         align-items: center;
         text-align: center;
         width: 400px;
@@ -117,3 +117,7 @@ p.commentText{
     }
 }
 
+img#eventImg{
+    border: 3px solid #999999;
+    border-radius: 4px;
+}
