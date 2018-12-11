@@ -222,6 +222,7 @@ function createEventHTMLElements(event){
     imgElement.src = "https://intranet-secure.de/TicketCorner/Events/img/"+ img;
     imgElement.height = 512;
     imgElement.width = 614.4;
+    imgElement.id = "eventImg";
 
     document.getElementById("maintext").appendChild(eventDiv);
     eventDiv.appendChild(eventName);
