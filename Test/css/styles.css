@@ -29,7 +29,8 @@ h2{
 }
 
 
-#wrapper {
+div.paypalWrapper {
+    align-items: center;
     margin: 0 auto;
     max-width: 780px;
     border: 2px solid grey;
@@ -43,7 +44,7 @@ div.eventForm{
 }
 
 div.order-Info{
-    margin: 0 auto;
+    margin: 10% 0 10% 5%;
     max-width: 1000px;
     border: 2px solid grey;
     border-radius: 5px;

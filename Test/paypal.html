@@ -11,30 +11,30 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="icon" href="images/icons/favicon.ico" type=image/x-icon">
 </head>
-<body style="padding-top: 0%">
+<body>
 <!-- So würde das Logo eingebunden werden: -->
 <!-- PayPal Logo -->
-<div style="text-align: center; padding: 5% 0 5% 0">
+<div style="text-align: center; margin: 5% 0 5% 0">
     <img src="https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-150px.png" border="0" alt="PayPal Logo" />
 </div>
 <!-- PayPal Logo -->
-<div style="padding: 2% 0 1% 1%" id="wrapper">
+<div class="paypalWrapper">
     <div class="col-md-6 PaymentForm">
-        <div style="padding: 10% 0 10% 0" class="order-Info">
-            <h2 style="padding-left: 2%">Ihr Ticket Kauf</h2>
+        <div class="order-Info">
+            <h2 style="margin-left: 2%">Ihr Ticket Kauf</h2>
             <div class="dropdown-divider"></div>
-            <p style="padding-left: 2%" id="eventName">Veranstaltungsname: </p>
-            <p style="padding-left: 2%" id="eventPrice">Veranstaltungspreis: </p>
+            <p style="margin-left: 2%" id="eventName">Veranstaltungsname: </p>
+            <p style="margin-left: 2%" id="eventPrice">Veranstaltungspreis: </p>
         </div>
-        <div style="padding-top: 5%">
+        <div style="margin: 5% 0 0 5%">
             <input id="paymentOne" type="radio" value="1" name="payment">
             <label for="paymentOne">PayPal Wallet 1</label>
         </div>
-        <div>
+        <div style="margin: 5% 0 0 5%">
             <input id="paymentTwo" type="radio" value="2" name="payment">
             <label for="paymentTwo">PayPal Wallet 2 </label>
         </div>
-        <div style="padding-top: 10%">
+        <div style="margin: 5% 0 5% 5%">
             <a href="https://intranet-secure.de/TicketCorner/index.html?Message=OK"> <button class="btn btn-primary">Kauf Bestätigen</button></a>
         </div>
 

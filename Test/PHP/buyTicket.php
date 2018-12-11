@@ -13,7 +13,7 @@ $dbname = "db758436568";
 
 //Start der Connection für die Datenbank + Preparation für das kontrollierende Select Statement
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-$requestToBuyTicket= $conn->prepare("SELECT eventTickets FROM events WHERE ID = $ID AND  eventName = '$eventName' AND eventPrice = '$eventPrice' AND eventDescription = '$eventDescription';");
+$requestToBuyTicket= $conn->prepare("SELECT eventTickets FROM events WHERE ID = $ID AND  eventName = '$eventName' AND eventPrice = '$eventPrice';");
 
 if($requestToBuyTicket->execute()){
     //Fetched mögliche Ergebnisse aus der Datenbank -> Kontrolliert, ob das Event existiert
