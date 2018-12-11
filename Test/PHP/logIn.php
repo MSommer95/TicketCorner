@@ -16,6 +16,12 @@ getUserData zum Fetchen der User Daten
 $varifyAcc = $conn->prepare("SELECT email,password FROM users WHERE email= '$email' AND loggedIn = 0;");
 $prepareLogin = $conn->prepare("UPDATE  users SET loggedIn = 1 WHERE email= '$email';");
 $getUserData = $conn ->prepare("SELECT ID, forename, surname, email, creatorStatus FROM users WHERE email = '$email';");
+$prepareLogout = $conn->prepare("UPDATE  users SET loggedIn = 0 WHERE email= '$email';");
+
+/*function resetLogIn($prepareLogout){
+    sleep(100);
+    $prepareLogout->execute();
+}*/
 
 if($varifyAcc->execute()){
     $result=$varifyAcc->fetchAll(PDO::FETCH_ASSOC);
@@ -38,13 +44,15 @@ if($varifyAcc->execute()){
             }
             //Split die gefetchten User Daten und speichert sie als cookies
             $splitData = explode(":", $data);
-            setcookie("ID", $splitData[1], time() + (86400*30), "/");
-            setrawcookie("forename", $splitData[2], time() + (86400*30), "/");
-            setrawcookie("surname", $splitData[3], time() + (86400*30), "/");
-            setrawcookie("email", $splitData[4], time() + (86400*30), "/");
-            setcookie("creatorStatus", $splitData[5], time() + (86400*30), "/");
+            setcookie("ID", $splitData[1], time() + 3600, "/");
+            setrawcookie("forename", $splitData[2], time() + 3600, "/");
+            setrawcookie("surname", $splitData[3], time() + 3600, "/");
+            setrawcookie("email", $splitData[4], time() + 3600, "/");
+            setcookie("creatorStatus", $splitData[5], time() + 3600, "/");
             $prepareLogin->execute();
             header("Location: https://intranet-secure.de/TicketCorner/");
+
+
         }
         else{
             header("Location: https://intranet-secure.de/TicketCorner/signIn.html?Message=WrongLoginData");
@@ -55,4 +63,6 @@ else{
     header("Location: https://intranet-secure.de/TicketCorner/signIn.html?Message=WrongLoginData");
 }
 $conn = null;
+/*resetLogIn($prepareLogout);*/
 ?>
+

@@ -5,7 +5,7 @@ $id = time();
 $eventName = $_POST["eventName"];
 $price = $_POST["eventPrice"];
 $eventTickets = $_POST["eventTickets"];
-$description = $_POST["eventDescription"];
+$description = nl2br($_POST["eventDescription"]);
 $date = $_POST["eventDate"];
 $location = $_POST["eventLocation"];
 $creatorID = $_POST["ID"];
@@ -146,7 +146,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
         <div class=\"dropdown-divider\"></div>
         <p id='eventTickets'><b>Anzahl der Tickets:</b> $eventTickets</p>
         <div class=\"dropdown-divider\"></div>
-        <p id='eventDescription' style=\"width: 400px\"><b>Beschreibung:</b> $description</p>
+        <p id='eventDescription'><b>Beschreibung:</b> $description</p>
     </div>
     <div class=\"submitEvent\">
         <button name=\"submit\" type=\"submit\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
@@ -186,7 +186,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
     <div class=\"dropdown-divider \"></div>
     <div class=\"Comments loggedInAcc\">
             <div>
-                <h5>Comment Section</h5>
+                <h5>Kommentare</h5>
                 <textarea id=\"comment-section\" name=\"comment-section\" rows=\"5\" cols=\"100\" maxlength=\"234\"></textarea>
             </div>
         <button onclick=\"sendCommentForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Kommentieren</button>

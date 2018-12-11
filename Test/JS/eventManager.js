@@ -195,7 +195,9 @@ function initEvents(eventJsonObject){
     for(let i= 0; i<=eventHolder.length-1; i++){
         if(!eventHolder[i].expired){
             eventEndorser.push(eventHolder[i]);
-            eventPricer.push(eventHolder[i]);
+            if(!eventHolder[i].soldout){
+                eventPricer.push(eventHolder[i]);
+            }
         }
     }
 
