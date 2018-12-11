@@ -6,7 +6,7 @@
     height: 50px;
     overflow: hidden;
     position: relative;
-    background: url(https://image.flaticon.com/icons/svg/149/149222.svg);
+    background: url(../images/icons/frame.svg);
     background-size: contain;
 }
 .star-rating i, .star-rating-overall i {
@@ -17,7 +17,7 @@
     height: 100%;
     width: 20%;
     z-index: 1;
-    background: url(https://image.flaticon.com/icons/svg/148/148841.svg);
+    background: url(../images/icons/star.svg);
     background-size: contain;
 }
 .star-rating input, .star-rating-overall input {
