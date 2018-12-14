@@ -13,7 +13,7 @@ $dbname = "db758436568";
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 //Prepare Logout Statement (Kontrolliert, ob der User existiert und aktualisiert den Login Status
 $stmt = $conn->prepare("SELECT * FROM users WHERE ID = $userID AND forename = '$forename' AND surname = '$surname' AND email = '$email'");
-$prepareLogout = $conn->prepare("UPDATE  users SET loggedIn = 0 WHERE email= '$email';");
+$prepareLogout = $conn->prepare("UPDATE  users SET loggedIn = loggedIn - 1 WHERE email= '$email';");
 
 if($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);

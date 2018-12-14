@@ -136,7 +136,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
         <img src=\"https://intranet-secure.de/TicketCorner/PHP/$target_file\" id='eventImg' height='512' width='512'>
     </div>
     <div class=\"eventInfo\">
-        <p id='eventName'><b>Name:</b> $eventName</p>
+        <h2 id='eventName'>$eventName</h2>
         <div class=\"dropdown-divider\"></div>
         <p id='eventDate'><b>Datum:</b> $date</p>
         <div class=\"dropdown-divider\"></div>

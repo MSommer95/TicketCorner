@@ -6,20 +6,18 @@ $password = "M9OitgiOLq4&4j9";
 $dbname = "db758436568";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-
-//Select Statement zum Fetchen aller Events
-$stmt = $conn->prepare("SELECT ID, eventName, eventDate, eventTickets, maxEventTickets, eventDescription, eventPrice, eventLocation, imageSrc  FROM events WHERE 1 ORDER BY ID DESC");
+//Select Statement zum Fetchen des Ratings für das spezifische Event
+$stmt = $conn->prepare("SELECT eventID, oneStar, twoStars, threeStars, fourStars, fiveStars  FROM ratings");
 
 if($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 else{
-    header("Location: https://intranet-secure.de/TicketCorner/index.html?Message=SQLError");
+    header("Location: https://intranet-secure.de/TicketCorner/Events/html/$ID.html?Message=SQLError");
 }
-//Echoed die gefechten Events als JSON encoded String
+//Echoed das gefetchte Rating als JSON encoded String
 echo json_encode($result, JSON_UNESCAPED_SLASHES);
 
 $conn = null;
 ?>
-

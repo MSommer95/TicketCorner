@@ -45,6 +45,9 @@ function updateTicketCount(ticketUpdate){
     bTag.textContent = "Anzahl der Tickets: ";
     ticketHTML.appendChild(bTag);
     ticketHTML.appendChild(tickets);
+    if(ticketUpdate[0].eventTickets === 0){
+        ticketHTML.appendChild(document.createTextNode(" (AUSVERKAUFT)"));
+    }
 
     console.log("UpdateHTMLCall");
 }
@@ -335,10 +338,10 @@ function dateTransform(date){
 function updateHTML(event){
     console.log("now update HTML");
     if(event.soldout){
-        document.getElementById("eventName").textContent += " (AUSVERKAUFT)";
+        document.getElementById("eventTickets").appendChild(document.createTextNode(" (AUSVERKAUFT)"));
     }
     if(event.expired){
-        document.getElementById("eventName").textContent += " (ABGELAUFEN)";
+        document.getElementById("eventDate").appendChild(document.createTextNode(" (ABGELAUFEN)"));
     }
 
 }

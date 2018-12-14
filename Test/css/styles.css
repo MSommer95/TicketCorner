@@ -7,15 +7,18 @@ body {
 h2{
     color: #5a6268;
     margin-top: 1rem;
-    margin-bottom: 0px;
+    margin-bottom: 1rem;
 }
 
-.EventContainer{
+div.EventContainer{
+    height: 600px;
     text-align: center;
 }
 
 .maintext{
     text-align: center;
+    width: 100%;
+    margin-top: 5px;
 }
 
 
@@ -104,4 +107,86 @@ li.indicator{
 img#eventImg{
     border: 3px solid #999999;
     border-radius: 4px;
+}
+
+.divider{
+    height:0;
+    margin: auto;
+    overflow: hidden;
+    border-top: 1px solid #999999;
+}
+
+div.eventImg{
+    float: left;
+    margin: 2% 0 0 15% ;
+}
+
+div.eventInf{
+    float: left;
+    margin: 2% 0 0 5%;
+    text-align: left;
+}
+
+div.EventContainer p{
+    margin: 1% 0 ;
+}
+
+.star-rating, .star-rating-overall {
+    font-size: 0;
+    white-space: nowrap;
+    display: inline-block;
+    width: 250px;
+    height: 50px;
+    overflow: hidden;
+    position: relative;
+    background: url(../images/icons/frame.svg);
+    background-size: contain;
+}
+.star-rating i, .star-rating-overall i {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 20%;
+    z-index: 1;
+    background: url(../images/icons/star.svg);
+    background-size: contain;
+}
+.star-rating input, .star-rating-overall input {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    opacity: 0;
+    display: inline-block;
+    width: 20%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+    position: relative;
+}
+.star-rating input:hover + i,
+.star-rating input:checked + i, .star-rating-overall input:checked + i {
+    opacity: 1;
+}
+.star-rating i ~ i, .star-rating-overall i ~ i {
+    width: 40%;
+}
+.star-rating i ~ i ~ i, .star-rating-overall i ~ i ~ i {
+    width: 60%;
+}
+.star-rating i ~ i ~ i ~ i, .star-rating-overall i ~ i ~ i ~ i {
+    width: 80%;
+}
+.star-rating i ~ i ~ i ~ i ~ i, .star-rating-overall i ~ i ~ i ~ i ~ i {
+    width: 100%;
+}
+::after,
+::before {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
 }

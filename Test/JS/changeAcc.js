@@ -45,6 +45,9 @@ function User(forename, surname, email){
 function initUser(){
     let user = new User(getCookie("forename"), getCookie("surname"), getCookie("email"));
     user.fillFields();
+    getLoggedIn(function (deviceCount) {
+        updateLoggedInCount(deviceCount);
+    }, user);
 }
 initUser();
 window.onbeforeunload = function() {
@@ -61,53 +64,34 @@ function inputCreate(form, value ,name){
     form.appendChild(tag);
 }
 //Hängt dem Form wichtige Metadaten an (Forename, Surname, Email und ID
-function changeData(formName){
+function changeData(formName) {
     let form = document.getElementById(formName);
     let formDataArray = ["forename", "surname", "email", "ID"];
-    for(let i = 0; i<= formDataArray.length-1; i++){
-        inputCreate(form, getCookie(formDataArray[i]) , formDataArray[i]);
+    for (let i = 0; i <= formDataArray.length - 1; i++) {
+        inputCreate(form, getCookie(formDataArray[i]), formDataArray[i]);
     }
 
-  /* let inputForename = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "forename").val(getCookie("forename"));
-    $('#pwchange').append(inputForename);
-    let inputSurname = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "surname").val(getCookie("surname"));
-    $('#pwchange').append(inputSurname);
-    let inputEmail = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "email").val(getCookie("email"));
-    $('#pwchange').append(inputEmail);
-    let inputID = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "ID").val(getCookie("ID"));
-    $('#pwchange').append(inputID);*/
 }
 
-/*function changeAccData(){
+function updateLoggedInCount(deviceCount) {
+    document.getElementById("loggedInCount").textContent += deviceCount;
+}
 
-    let form = document.getElementById("pdata");
-    let formDataArray = ["forename", "surname", "email", "ID"];
-    for(let i = 0; i<= formDataArray.length-1; i++){
-        inputCreate(form, getCookie(formDataArray[i]) , formDataArray[i]);
-    }
+function getLoggedIn(cb, user) {
+    let deviceCount;
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            deviceCount = this.responseText;
+            if(typeof deviceCount === 'string'){
+                deviceCount = JSON.parse(deviceCount);
+                cb(deviceCount);
+                console.log(deviceCount);
+            }
+        }
+    };
+    xmlhttp.open("POST", "PHP/getLoggedIn.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("email="+ user.email);
 
-    let inputForename = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "forename").val(getCookie("forename"));
-    $('#pdata').append(inputForename);
-    let inputSurname = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "surname").val(getCookie("surname"));
-    $('#pdata').append(inputSurname);
-    let inputEmail = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "email").val(getCookie("email"));
-    $('#pdata').append(inputEmail);
-    let inputID = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "ID").val(getCookie("ID"));
-    $('#pdata').append(inputID);
-}*/
+}

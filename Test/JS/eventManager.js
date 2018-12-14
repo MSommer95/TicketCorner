@@ -3,6 +3,7 @@ let eventHolder =  [];
 let eventEndorser = [];
 let eventIndexer = [];
 let eventPricer = [];
+let eventRatingsAll = [];
 let start = 0;
 let loadingIndex = 0;
 let orderMode= 1;
@@ -128,6 +129,24 @@ function getEvents(cb) {
 
 }
 
+//Funktion zum Fetchen der Rankings
+function getRatings(cb) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let ratingJsonObject = this.responseText;
+            if(typeof ratingJsonObject === 'string'){
+                ratingJsonObject = JSON.parse(ratingJsonObject);
+                cb(ratingJsonObject);
+                console.log("rating received");
+            }
+        }
+    };
+    xmlhttp.open("GET", "PHP/getAllRatings.php", true);
+    xmlhttp.send();
+
+}
+
 /*function checkIsEventExpired(event) {
     if(!event.eventDate)
         return;
@@ -186,7 +205,7 @@ function getEvents(cb) {
 //CallBack Funktion zum Initialisieren der Event Arrays
 function initEvents(eventJsonObject){
     for(let i=0; i<=eventJsonObject.length-1; i++){
-        let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
+        let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventLocation,eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
         eventHolder.push(event);
         console.log(event);
 
@@ -201,6 +220,8 @@ function initEvents(eventJsonObject){
         }
     }
 
+    rateEvents(eventRatingsAll);
+
     eventEndorser = quickSortEndorsement(eventEndorser, 0, eventEndorser.length-1).reverse();
     eventPricer = quickSortPrice(eventPricer, 0, eventPricer.length-1);
     updateSlideshow(eventEndorser);
@@ -208,38 +229,200 @@ function initEvents(eventJsonObject){
 }
 //Funktion zum Erstellen der DOM Elemente für Events
 function createEventHTMLElements(event){
+    event.calculateRating(event.ratingCount, event.ratingValue);
     let img = event.img.replace("../Events/img/","");
     let eventDiv = document.createElement("div");
-    eventDiv.className = "EventContainer";
-    let eventName = document.createElement("h1");
-    eventName.textContent = event.name;
-    let eventDate = document.createElement("div");
-    eventDate.textContent = "Zeitpunkt: " + event.date;
-    let eventPrice = event.price;
+    let eventImg = document.createElement("div");
+    let eventInfo = document.createElement("div");
+
+    let eventName = document.createElement("h2");
+    let eventDate = document.createElement("p");
+    let eventLocation = document.createElement("p");
+    let eventPrice = document.createElement("p");
+    let eventTickets = document.createElement("p");
+    let eventRating = document.createElement("p");
+
+    let btagDate = document.createElement("b");
+    let btagLocation = document.createElement("b");
+    let btagPrice = document.createElement("b");
+    let btagTickets = document.createElement("b");
+    let btagRating = document.createElement("b");
+
+    let price = document.createTextNode((event.price * 100) / 100 + "€");
+    let date = document.createTextNode(event.date);
+    let location = document.createTextNode(event.location);
+    let tickets = document.createTextNode(event.currentTickets);
+    let rating = document.createTextNode(event.ratingCount);
+
     let eventLink = document.createElement("a");
-    eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + img.replace(".jpg",".html");
     let imgElement = document.createElement("img");
+    let dividerDate = document.createElement("div");
+    let dividerPrice = document.createElement("div");
+    let dividerTickets = document.createElement("div");
+    let dividerRating = document.createElement("div");
+    let dividerLocation = document.createElement("div");
+    let dividerEvent = document.createElement("div");
+
+    eventInfo.className = "eventInf";
+    eventImg.className = "eventImg";
+    eventDiv.className = "EventContainer";
+    eventName.textContent = event.name;
+    btagDate.textContent = "Zeitpunkt: ";
+    btagPrice.textContent = "Preis: ";
+    btagTickets.textContent = "Tickets: ";
+    btagLocation.textContent = "Veranstaltungsort: ";
+    btagRating.textContent = "Bewertungen: ";
+    eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + img.replace(".jpg",".html");
     imgElement.src = "https://intranet-secure.de/TicketCorner/Events/img/"+ img;
     imgElement.height = 512;
     imgElement.width = 614.4;
     imgElement.id = "eventImg";
+    dividerDate.className = "dropdown-divider";
+    dividerPrice.className = "dropdown-divider";
+    dividerTickets.className = "dropdown-divider";
+    dividerRating.className = "dropdown-divider";
+    dividerLocation.className = "dropdown-divider";
+    dividerEvent.className = "divider";
 
     document.getElementById("maintext").appendChild(eventDiv);
-    eventDiv.appendChild(eventName);
-    eventDiv.appendChild(eventDate);
-    eventDiv.appendChild(eventLink);
+    eventInfo.appendChild(eventName);
+
+    eventInfo.appendChild(eventLocation);
+    eventLocation.appendChild(btagLocation);
+    eventLocation.appendChild(location);
+    eventLocation.appendChild(dividerLocation);
+
+    eventInfo.appendChild(eventDate);
+    eventDate.appendChild(btagDate);
+    eventDate.appendChild(date);
+    eventDate.appendChild(dividerDate);
+
+    eventInfo.appendChild(eventPrice);
+    eventPrice.appendChild(btagPrice);
+    eventPrice.appendChild(price);
+    eventPrice.appendChild(dividerPrice);
+
+    eventInfo.appendChild(eventTickets);
+    eventTickets.appendChild(btagTickets);
+    eventTickets.appendChild(tickets);
+    eventTickets.appendChild(dividerTickets);
+
+    eventInfo.appendChild(eventRating);
+    eventRating.appendChild(btagRating);
+    eventRating.appendChild(rating);
+    eventInfo.appendChild(createRating(event));
+    eventInfo.appendChild(dividerRating);
+
+    eventImg.appendChild(eventLink);
     eventLink.appendChild(imgElement);
+
+    eventDiv.appendChild(eventImg);
+    eventDiv.appendChild(eventInfo);
+    document.getElementById("maintext").appendChild(dividerEvent);
+}
+
+function createRating(event) {
+
+    let spanTag = document.createElement("span");
+
+    let inputStarOne = createStar(event.id);
+    let inputStarTwo = createStar(event.id);
+    let inputStarThree = createStar(event.id);
+    let inputStarFour = createStar(event.id);
+    let inputStarFive = createStar(event.id);
+
+    let iTagOne = document.createElement("i");
+    let iTagTwo = document.createElement("i");
+    let iTagThree = document.createElement("i");
+    let iTagFour = document.createElement("i");
+    let iTagFive = document.createElement("i");
+
+    let starArray = [inputStarOne,iTagOne ,inputStarTwo,iTagTwo ,inputStarThree,iTagThree ,inputStarFour,iTagFour ,inputStarFive,iTagFive];
+
+    spanTag.className = "star-rating-overall";
+
+    for(let i = 0; i<starArray.length; i++){
+        spanTag.appendChild(starArray[i]);
+    }
+
+    switch(Math.round(event.rating)){
+        case 1:
+            inputStarOne.checked = true;
+            break;
+        case 2:
+            inputStarTwo.checked = true;
+            break;
+        case 3:
+            inputStarThree.checked = true;
+            break;
+        case 4:
+            inputStarFour.checked = true;
+            break;
+        case 5:
+            inputStarFive.checked = true;
+            break;
+    }
+
+    return spanTag;
+}
+
+function rateEvents(ratings){
+    let ratingValue;
+    let ratingCount;
+    let j;
+
+    for(let i = 0; i < eventHolder.length; i++ ){
+        ratingValue = 0;
+        ratingCount = 0;
+        j = 0;
+        for(j; j < ratings.length; j++){
+            if(eventHolder[i].id === ratings[j].eventID ) {
+                ratingValue += parseInt(ratings[j].oneStar) * 1;
+                ratingCount += parseInt(ratings[j].oneStar);
+
+                ratingValue += parseInt(ratings[j].twoStars) * 2;
+                ratingCount += parseInt(ratings[j].twoStars);
+
+                ratingValue += parseInt(ratings[j].threeStars) * 3;
+                ratingCount += parseInt(ratings[j].threeStars);
+
+                ratingValue += parseInt(ratings[j].fourStars) * 4;
+                ratingCount += parseInt(ratings[j].fourStars);
+
+                ratingValue += parseInt(ratings[j].fiveStars) * 5;
+                ratingCount += parseInt(ratings[j].fiveStars);
+            }
+        }
+        eventHolder[i].ratingValue += ratingValue;
+        eventHolder[i].ratingCount += ratingCount;
+    }
+    console.log("rating complete");
+}
+
+function createStar(id){
+    let star = document.createElement("input");
+    star.type = "radio";
+    star.name = id;
+    $(star).attr("disabled", true);
+    return star;
 }
 //Constructor für die Events
-function Event(id, img, name, date, price, tickets, maxTickets) {
+function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
     this.id = id;
     this.endorsement = (maxTickets - tickets) / maxTickets;
     this.price = parseFloat(price);
     this.img = img;
     this.name = name;
     this.date = date;
+    this.location = eventLocation;
     this.maxTickets = parseInt(maxTickets);
     this.currentTickets = parseInt(tickets);
+    this.rating = 0;
+    this.ratingValue = 0;
+    this.ratingCount = 0;
+    this.calculateRating = function(ratingValue, ratingCount){
+      this.rating = ((ratingCount/ratingValue)*100)/100;
+    };
     this.expired = false;
     this.soldout = false;
 
@@ -270,8 +453,8 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
             //expiredDiv.appendChild(text);
 
             //this.imgElement.appendChild(expiredDiv);
-            this.name = this.name.replace(" (ABGELAUFEN)","");
-            this.name += " (ABGELAUFEN)";
+            this.date = this.date.replace(" (ABGELAUFEN)","");
+            this.date += " (ABGELAUFEN)";
             this.expired = true;
             console.log("checkIsExpired | should be marked as expired: " + this.name);
         }
@@ -283,8 +466,8 @@ function Event(id, img, name, date, price, tickets, maxTickets) {
 
     this.checkIsSoldOut = function() {
         if(this.currentTickets <= 0) {
-            this.name = this.name.replace(" (AUSVERKAUFT)","");
-            this.name += " (AUSVERKAUFT)";
+            this.currentTickets = this.currentTickets.toString().replace(" (AUSVERKAUFT)","");
+            this.currentTickets += " (AUSVERKAUFT)";
             this.soldout = true;
         }
     };
