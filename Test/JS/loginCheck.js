@@ -139,5 +139,8 @@ if(window.location.href.includes("?")){
         case "loggedOut":
             alert("Erfolgreich ausgeloggt");
             break;
+        case "NoComment":
+            alert("Kommentar nicht vorhanden oder keine Befugnis");
+            break;
     }
 }

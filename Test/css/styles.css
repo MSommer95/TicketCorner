@@ -10,11 +10,6 @@ h2{
     margin-bottom: 1rem;
 }
 
-div.EventContainer{
-    height: 600px;
-    text-align: center;
-}
-
 .maintext{
     text-align: center;
     width: 100%;
@@ -116,17 +111,6 @@ img#eventImg{
     border-top: 1px solid #999999;
 }
 
-div.eventImg{
-    float: left;
-    margin: 2% 0 0 15% ;
-}
-
-div.eventInf{
-    float: left;
-    margin: 2% 0 0 5%;
-    text-align: left;
-}
-
 div.EventContainer p{
     margin: 1% 0 ;
 }
@@ -189,4 +173,43 @@ div.EventContainer p{
     box-sizing: border-box;
     text-align: center;
     vertical-align: middle;
+}
+
+@media only screen and (min-width: 1801px) {
+    div.EventContainer{
+        height: 600px;
+        text-align: center;
+    }
+
+    div.eventImg{
+        float: left;
+        margin: 2% 0 0 15% ;
+    }
+
+    div.eventInf{
+        float: left;
+        margin: 2% 0 0 5%;
+        text-align: left;
+    }
+}
+
+@media only screen and (max-width: 1800px) {
+    div.EventContainer{
+        margin: 3% 0 3% 0;
+        text-align: center;
+    }
+
+    div.eventImg{
+        clear: both;
+    }
+
+    div.eventInf{
+        clear: both;
+        text-align: center;
+    }
+
+    div.dropdown-divider{
+        margin-left: 25%;
+        width: 50%;
+    }
 }

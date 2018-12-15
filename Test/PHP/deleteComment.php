@@ -1,6 +1,8 @@
 <?php
 //Initialisierung der übergebenen $_POST Werte
 $postID = $_POST["postID"];
+$commentID = $_POST["commentID"];
+$userID = $_POST["userID"];
 //Initialisierung der Server Variablen
 $servername = "db758436568.db.1and1.com";
 $username = "dbo758436568";
@@ -9,10 +11,17 @@ $dbname = "db758436568";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 //Select Statement zum Fetchen der Kommentare, für ein spezifisches Event
-$stmt = $conn->prepare("SELECT ID, userName, datetime, message  FROM comments WHERE postID = $postID ORDER BY ID DESC");
+$stmt = $conn->prepare("SELECT * FROM comments WHERE postID = $postID AND ID = $commentID AND userID = $userID");
+$deleteStmt = $conn->prepare("DELETE FROM comments WHERE postID = $postID AND ID = $commentID AND userID = $userID");
 
 if($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+    if(count($result)==0){
+        header("Location: https://intranet-secure.de/TicketCorner/Events/html/$postID.html?Message=NoComment");
+    }
+    else {
+        $deleteStmt ->execute();
+    }
 }
 
 else{

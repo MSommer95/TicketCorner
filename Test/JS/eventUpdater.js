@@ -99,7 +99,8 @@ function inputCreate(form, value ,name) {
 function createCommentSection(commentsJSON) {
     $("div").remove(".commentSection");
     for(i=0;i<=commentsJSON.length-1;i++){
-        let comment = new Comment(commentsJSON[i].userName, commentsJSON[i].datetime, commentsJSON[i].message, i);
+        let comment = new Comment(commentsJSON[i].userName, commentsJSON[i].datetime, commentsJSON[i].message, commentsJSON[i].ID);
+        createComment(comment);
         commentHolder.push(comment);
         console.log(comment);
     }
@@ -122,35 +123,70 @@ function getComments(cb) {
     xmlhttp.send("postID="+ ID);
     console.log("getUpdateDataCall");
 }
+
+function createComment(comment){
+    let sectionSplitterOne = document.createElement("div");
+    sectionSplitterOne.className = "dropdown-divider";
+
+    let commentDiv = document.createElement("div");
+    commentDiv.className = "commentSection";
+
+    let messageTag = document.createElement("p");
+    messageTag.className = "commentText";
+    messageTag.textContent = comment.message;
+    messageTag.id = comment.id;
+
+    let userNameTag = document.createElement("label");
+    userNameTag.className = "commentUserName";
+    userNameTag.textContent = "Name: " + comment.userName ;
+    userNameTag.htmlFor = comment.id;
+
+    let datetimeTag = document.createElement("label");
+    datetimeTag.textContent = "Datum: " + comment.dateTime;
+    datetimeTag.htmlFor = comment.id;
+
+
+
+    document.getElementById("maintext").appendChild(commentDiv);
+    commentDiv.appendChild(userNameTag);
+    commentDiv.appendChild(datetimeTag);
+    if(getCookie("forename")+" " + getCookie("surname") == comment.userName){
+        let deleteBtn = document.createElement("input");
+        deleteBtn.className = "delete-btn ";
+        deleteBtn.style.display = "block";
+        deleteBtn.type = "image";
+        deleteBtn.src = "https://intranet-secure.de/TicketCorner/icons/" + "baseline_delete_forever_black_48dp.png";
+        deleteBtn.addEventListener("click",function(){deleteComment(comment.id);});
+
+        commentDiv.appendChild(deleteBtn);
+
+
+    }
+    commentDiv.appendChild(sectionSplitterOne);
+    commentDiv.appendChild(messageTag);
+
+}
+
+function deleteComment(commentID){
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            initProcess();
+            alert("Kommentar erfolgreich gelöscht");
+        }
+    };
+    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/deleteComment.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("postID="+ ID + "&commentID=" + commentID + "&userID=" + getCookie("ID"));
+    console.log("deleteCommentCall");
+}
+
 //Objekt Comment ist dafür zuständig, die Felder und Attribute eines Kommentarfeldes zu pflegen
-function Comment(userName,datetime,message, i){
-
-    this.sectionSplitterOne = document.createElement("div");
-    this.sectionSplitterOne.className = "dropdown-divider";
-
-    this.commentDiv = document.createElement("div");
-    this.commentDiv.className = "commentSection";
-
-    this.messageTag = document.createElement("p");
-    this.messageTag.className = "commentText";
-    this.messageTag.textContent = message;
-    this.messageTag.id = i;
-
-    this.userNameTag = document.createElement("label");
-    this.userNameTag.className = "commentUserName";
-    this.userNameTag.textContent = "Name: " + userName ;
-    this.userNameTag.htmlFor = i;
-
-    this.datetimeTag = document.createElement("label");
-    this.datetimeTag.textContent = "Datum: " + datetime;
-    this.datetimeTag.htmlFor = i;
-
-    document.getElementById("maintext").appendChild(this.commentDiv);
-
-    this.commentDiv.appendChild(this.userNameTag);
-    this.commentDiv.appendChild(this.datetimeTag);
-    this.commentDiv.appendChild(this.sectionSplitterOne);
-    this.commentDiv.appendChild(this.messageTag);
+function Comment(userName,datetime,message, id){
+    this.userName = userName;
+    this.dateTime = datetime;
+    this.message = message;
+    this.id = id;
 }
 //Funktion zum Fetchen des Ratings, des jeweiligen Events
 function getRating(cb) {

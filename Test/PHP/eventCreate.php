@@ -53,8 +53,8 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 <head>
     <meta charset=\"UTF-8\">
     <title>$eventName</title>
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/eventStyles.css\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/styles.css\">
+    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/eventStyles.css\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/bootstrap.min.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/animsition.min.css\">
 	<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">
@@ -69,9 +69,6 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 				<div class=\"topbar-social\">
 					<a href=\"https://www.facebook.com/AStAHSHL/\" class=\"topbar-social-item fa fa-facebook\"></a>
 					<a href=\"https://www.instagram.com/asta.hshl/\" class=\"topbar-social-item fa fa-instagram\"></a>
-				</div>
-				<div class=\"topbar-child2  loggedInAcc\"> <!-- wenn loggedInAcc dann verschiebt sich das element nach oben -->
-					<span class=\"topbar-email\" id=\"loggedInAs\"> Logged in as... </span>
 				</div>
 				<div class=\"topbar-pay\">
 					<a class=\"p-b-9\">
@@ -95,8 +92,9 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 							<li>
 								<a href=\"https://intranet-secure.de/TicketCorner/contact.html\">Kontakt</a>
 							</li>
-							<li style=\"position: absolute; right: 0; padding-right: 50px; \">
-								<a><img src=\"https://intranet-secure.de/TicketCorner/images/icons/icon-header-01.png\" class=\"header-icon1\" alt=\"ICON\" style=\"height: 32px;\"></a>
+							<li style=\"position: absolute; right: 0; padding-right: 50px;\">
+                                <span class=\"topbar-email loggedInAcc\" id=\"loggedInAs\"> Logged in as... </span>
+                                <a><img src=\"images/icons/icon-header-01.png\" class=\"header-icon1\" alt=\"ICON\" style=\"height: 32px;\" id=\"profilBtn\"></a>
 								<ul class=\"sub_menu loggedInAcc\" style=\"margin-left: -100px;\">
 									<li><a href=\"https://intranet-secure.de/TicketCorner/accountManagement.html\">Einstellungen</a></li>
 									<li><a href=\"https://intranet-secure.de/TicketCorner/create.html\">Event erstellen</a></li>
