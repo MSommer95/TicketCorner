@@ -54,12 +54,12 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
     <meta charset=\"UTF-8\">
     <title>$eventName</title>
     <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/styles.css\">
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/eventStyles.css\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/bootstrap.min.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/animsition.min.css\">
 	<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/util.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/main.css\">
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/eventStyles.css\">
 	<link rel=\"icon\" href=\"https://intranet-secure.de/TicketCorner/images/icons/favicon.ico\" type=image/x-icon\">
 </head>
 <body class=\"animsition\">

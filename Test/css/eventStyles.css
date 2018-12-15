@@ -73,3 +73,7 @@ img#eventImg{
     border: 3px solid #999999;
     border-radius: 4px;
 }
+
+h2#eventName {
+    margin: 0;
+}
