@@ -147,6 +147,50 @@ function getRatings(cb) {
 
 }
 
+//Konvertiert Event String in ein Objekt Array
+function getUpdatedData(cb, event) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+           let eventTickets = this.responseText;
+            if(typeof eventTickets === 'string'){
+                eventTickets = JSON.parse(eventTickets);
+                cb(eventTickets);
+            }
+        }
+    };
+    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/getUpdatedData.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("ID="+ event.id);
+    console.log("getUpdateDataCall");
+}
+//Updated die Ticket Anazhl in der DOM
+function updateTicketCount(ticketUpdate, event){
+    let tickets = document.createTextNode(ticketUpdate[0].eventTickets);
+    let ticketHTML = document.getElementById(event.id);
+    ticketHTML.textContent = "";
+    let bTag = document.createElement("b");
+    bTag.textContent = "Anzahl der Tickets: ";
+    ticketHTML.appendChild(bTag);
+    ticketHTML.appendChild(tickets);
+    if(ticketUpdate[0].eventTickets === 0){
+        ticketHTML.appendChild(document.createTextNode(" (AUSVERKAUFT)"));
+    }
+
+    console.log("UpdateHTMLCall for Event: " + event.name + " Tickets now at: " + ticketUpdate[0].eventTickets);
+}
+
+function iterator(){
+    for(let i=0; i< eventPricer.length; i++){
+        if(document.getElementById(eventPricer[i].id) != null){
+            getUpdatedData(function(tickets){
+                updateTicketCount(tickets, eventPricer[i]);
+            }, eventPricer[i]);
+        }
+    }
+}
+
+setInterval("iterator()", 10000);
 /*function checkIsEventExpired(event) {
     if(!event.eventDate)
         return;
@@ -263,6 +307,7 @@ function createEventHTMLElements(event){
     let dividerLocation = document.createElement("div");
     let dividerEvent = document.createElement("div");
 
+    eventTickets.id = event.id;
     eventInfo.className = "eventInf";
     eventImg.className = "eventImg";
     eventDiv.className = "EventContainer";
@@ -331,15 +376,16 @@ function createRating(event) {
     let inputStarFour = createStar(event.id);
     let inputStarFive = createStar(event.id);
 
-    let iTagOne = document.createElement("i");
-    let iTagTwo = document.createElement("i");
-    let iTagThree = document.createElement("i");
-    let iTagFour = document.createElement("i");
-    let iTagFive = document.createElement("i");
+    let labelOne = createLabeli(event.id);
+    let labelTwo = createLabeli(event.id);
+    let labelThree = createLabeli(event.id);
+    let labelFour = createLabeli(event.id);
+    let labelFive = createLabeli(event.id);
 
-    let starArray = [inputStarOne,iTagOne ,inputStarTwo,iTagTwo ,inputStarThree,iTagThree ,inputStarFour,iTagFour ,inputStarFive,iTagFive];
+    let starArray = [inputStarFive,labelFive ,inputStarFour,labelFour ,inputStarThree,labelThree ,inputStarTwo,labelTwo ,inputStarOne,labelOne];
 
     spanTag.className = "star-rating-overall";
+    spanTag.title = "Bewertungsschnitt: " + event.rating;
 
     for(let i = 0; i<starArray.length; i++){
         spanTag.appendChild(starArray[i]);
@@ -405,6 +451,18 @@ function createStar(id){
     star.name = id;
     $(star).attr("disabled", true);
     return star;
+}
+
+function createLabeli(id){
+    let label = document.createElement("label");
+    let iTag = document.createElement("i");
+    label.for = id;
+    iTag.className = "active fa fa-star";
+    iTag.setAttribute('aria-hidden', 'true');
+
+    label.appendChild(iTag);
+
+    return label;
 }
 //Constructor für die Events
 function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {

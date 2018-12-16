@@ -53,12 +53,12 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 <head>
     <meta charset=\"UTF-8\">
     <title>$eventName</title>
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/styles.css\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/bootstrap.min.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/animsition.min.css\">
 	<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/util.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/main.css\">
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/styles.css\">
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"https://intranet-secure.de/TicketCorner/css/eventStyles.css\">
 	<link rel=\"icon\" href=\"https://intranet-secure.de/TicketCorner/images/icons/favicon.ico\" type=image/x-icon\">
 </head>
@@ -84,17 +84,17 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
 					<nav class=\"menu\">
 						<ul class=\"main_menu\">
 							<li>
-								<a href=\"https://intranet-secure.de/TicketCorner/index.html\">Home</a>
+								<a href=\"https://intranet-secure.de/TicketCorner/index.html\"><span class=\"main-menu-link\">Home</span></a>
 							</li>
 							<li>
-								<a href=\"https://intranet-secure.de/TicketCorner/about.html\">Über uns</a>
+								<a href=\"https://intranet-secure.de/TicketCorner/about.html\"><span class=\"main-menu-link\">Über uns</span></a>
 							</li>
 							<li>
-								<a href=\"https://intranet-secure.de/TicketCorner/contact.html\">Kontakt</a>
+								<a href=\"https://intranet-secure.de/TicketCorner/contact.html\"><span class=\"main-menu-link\">Kontakt</span></a>
 							</li>
 							<li style=\"position: absolute; right: 0; padding-right: 50px;\">
                                 <span class=\"topbar-email loggedInAcc\" id=\"loggedInAs\"> Logged in as... </span>
-                                <a><img src=\"images/icons/icon-header-01.png\" class=\"header-icon1\" alt=\"ICON\" style=\"height: 32px;\" id=\"profilBtn\"></a>
+                                <a><img src=\"https://intranet-secure.de/TicketCorner/images/icons/icon-header-01.png\" class=\"header-icon1 main-menu-link\" alt=\"ICON\" style=\"height: 32px;\" id=\"profilBtn\"></a>
 								<ul class=\"sub_menu loggedInAcc\" style=\"margin-left: -100px;\">
 									<li><a href=\"https://intranet-secure.de/TicketCorner/accountManagement.html\">Einstellungen</a></li>
 									<li><a href=\"https://intranet-secure.de/TicketCorner/create.html\">Event erstellen</a></li>
@@ -154,32 +154,32 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
      <div class=\"ratings loggedInAcc\">
         <form id=\"ratingForm\" action=\"https://intranet-secure.de/TicketCorner/PHP/uploadeRating.php\" method=\"post\">
             <span class=\"star-rating\">
-            <input type=\"radio\" name=\"rating\" value=\"oneStar\" id=\"oneStar\"><i></i>
-            <label for=\"oneStar\">Ein Stern</label>
-            <input type=\"radio\" name=\"rating\" value=\"twoStars\" id=\"twoStars\"><i></i>
-            <label for=\"twoStars\">Zwei Sterne</label>
-            <input type=\"radio\" name=\"rating\" value=\"threeStars\" id=\"threeStars\"><i></i>
-            <label for=\"threeStars\">Drei Sterne</label>
-            <input type=\"radio\" name=\"rating\" value=\"fourStars\" id=\"fourStars\"><i></i>
-            <label for=\"fourStars\">Vier Sterne</label>
-            <input type=\"radio\" name=\"rating\" value=\"fiveStars\" id=\"fiveStars\"><i></i>
-            <label for=\"fiveStars\">Fünf Sterne</label> </span> <br>
+            <input type=\"radio\" name=\"rating\" value=\"fiveStars\" id=\"fiveStars\">
+            <label for=\"fiveStars\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label>
+            <input type=\"radio\" name=\"rating\" value=\"fourStars\" id=\"fourStars\">
+            <label for=\"fourStars\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label>
+            <input type=\"radio\" name=\"rating\" value=\"threeStars\" id=\"threeStars\">
+            <label for=\"threeStars\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label>
+            <input type=\"radio\" name=\"rating\" value=\"twoStars\" id=\"twoStars\">
+            <label for=\"twoStars\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label>
+            <input type=\"radio\" name=\"rating\" value=\"oneStar\" id=\"oneStar\">
+            <label for=\"oneStar\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label> </span> <br>
             <button type=\"submit\" onclick=\"sendRatingForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Bewerten</button>
           </form>
     </div>
     <h5 class=\"marginSpacer\" >--Gesamt Bewertung--</h5>
     <p class=\"marginSpacer\" id=\"rating\">0</p>
     <span class=\"star-rating-overall\">
-    <input type=\"radio\" name=\"rating\" value=\"oneStar\" id=\"oneStarOverAll\" disabled><i></i>
-    <label for=\"oneStar\">Ein Stern</label>
-    <input type=\"radio\" name=\"rating\" value=\"twoStars\" id=\"twoStarsOverAll\" disabled><i></i>
-    <label for=\"twoStars\">Zwei Sterne</label>
-    <input type=\"radio\" name=\"rating\" value=\"threeStars\" id=\"threeStarsOverAll\" disabled><i></i>
-    <label for=\"threeStars\">Drei Sterne</label>
-    <input type=\"radio\" name=\"rating\" value=\"fourStars\" id=\"fourStarsOverAll\" disabled><i></i>
-    <label for=\"fourStars\">Vier Sterne</label>
-    <input type=\"radio\" name=\"rating\" value=\"fiveStars\" id=\"fiveStarsOverAll\" disabled><i></i>
-    <label for=\"fiveStars\">Fünf Sterne</label>
+    <input type=\"radio\" name=\"rating-overall\" value=\"fiveStars\" id=\"fiveStarsOverAll\" disabled>
+    <label for=\"fiveStarsOverAll\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label>
+    <input type=\"radio\" name=\"rating-overall\" value=\"fourStars\" id=\"fourStarsOverAll\" disabled>
+    <label for=\"fourStarsOverAll\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label>
+    <input type=\"radio\" name=\"rating-overall\" value=\"threeStars\" id=\"threeStarsOverAll\" disabled>
+    <label for=\"threeStarsOverAll\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label>
+    <input type=\"radio\" name=\"rating-overall\" value=\"twoStars\" id=\"twoStarsOverAll\" disabled>
+    <label for=\"twoStarsOverAll\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label>
+    <input type=\"radio\" name=\"rating-overall\" value=\"oneStar\" id=\"oneStarOverAll\" disabled>
+    <label for=\"oneStarOverAll\"><i class=\"active fa fa-star\" aria-hidden=\"true\"></i></label>
     </span>
     <div class=\"dropdown-divider \"></div>
     <div class=\"Comments loggedInAcc\">
@@ -222,7 +222,7 @@ $dbname = "db758436568";
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 //Select Statements zum Kontrollieren, ob das Event schon existiert und ob der User die Berechtigung zum Erstellen hat
 $stmt = $conn->prepare("SELECT * FROM events WHERE eventName = '$eventName';");
-$controllStmt = $conn->prepare("SELECT * FROM users WHERE ID = $creatorID AND creatorStatus = 1 AND loggedIn = 1;");
+$controllStmt = $conn->prepare("SELECT * FROM users WHERE ID = $creatorID AND creatorStatus = 1;");
 
 if ($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
