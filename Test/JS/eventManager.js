@@ -295,8 +295,13 @@ function createEventHTMLElements(event){
     let btagPrice = document.createElement("b");
     let btagTickets = document.createElement("b");
     let btagRating = document.createElement("b");
+    let price = 0;
+    if(getCookie("email").includes("hshl.de")){
+         price = document.createTextNode(((event.price * 100) / 100)*0.85 + "€ (15% HSHL-Studenten Rabatt)");
+    } else {
+         price = document.createTextNode((event.price * 100) / 100 + "€");
+    }
 
-    let price = document.createTextNode((event.price * 100) / 100 + "€");
     let date = document.createTextNode(event.date);
     let location = document.createTextNode(event.location);
     let tickets = document.createTextNode(event.currentTickets);

@@ -51,6 +51,19 @@ function updateTicketCount(ticketUpdate){
 
     console.log("UpdateHTMLCall");
 }
+
+function updatePrice(price){
+
+    let priceText = document.createTextNode(price + "€ (15% HSHL-Studenten Rabatt)");
+    let priceTag = document.getElementById("eventPrice");
+    priceTag.textContent = "";
+    let bTag = document.createElement("b");
+    bTag.textContent = "Preis: ";
+    priceTag.appendChild(bTag);
+    priceTag.appendChild(priceText);
+    console.log("price updated");
+}
+
 //Initialisiert drei Callback Funktionen mit PHP Aufrufen
 function initProcess(){
     console.log("setInterval");
@@ -402,6 +415,10 @@ function initEvents(eventJsonObject){
     eventEndorserIndex = quickSortEndorsement(eventEndorserIndex, 0, eventEndorserIndex.length-1).reverse();
     updateSlideshow(eventEndorserIndex);
     updateHTML(currentEvent);
+    if(getCookie("email").includes("hshl.de")) {
+        let price = parseInt(currentEvent.price) * 0.85;
+        updatePrice(price);
+    }
     return eventHolderIndex;
 }
 
