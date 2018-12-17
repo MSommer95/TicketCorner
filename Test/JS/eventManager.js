@@ -168,11 +168,15 @@ function getUpdatedData(cb, event) {
 function updateTicketCount(ticketUpdate, event){
     let tickets = document.createTextNode(ticketUpdate[0].eventTickets);
     let ticketHTML = document.getElementById(event.id);
+    let ticketDivider = document.createElement("div");
+    ticketDivider.className = "dropdown-divider";
+
     ticketHTML.textContent = "";
     let bTag = document.createElement("b");
     bTag.textContent = "Anzahl der Tickets: ";
     ticketHTML.appendChild(bTag);
     ticketHTML.appendChild(tickets);
+    ticketHTML.appendChild(ticketDivider);
     if(ticketUpdate[0].eventTickets === 0){
         ticketHTML.appendChild(document.createTextNode(" (AUSVERKAUFT)"));
     }
@@ -314,7 +318,7 @@ function createEventHTMLElements(event){
     eventName.textContent = event.name;
     btagDate.textContent = "Zeitpunkt: ";
     btagPrice.textContent = "Preis: ";
-    btagTickets.textContent = "Tickets: ";
+    btagTickets.textContent = "Anzahl der Tickets: ";
     btagLocation.textContent = "Veranstaltungsort: ";
     btagRating.textContent = "Bewertungen: ";
     eventLink.href = "https://intranet-secure.de/TicketCorner/Events/html/" + img.replace(".jpg",".html");

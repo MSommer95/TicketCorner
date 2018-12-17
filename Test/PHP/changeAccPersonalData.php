@@ -17,7 +17,7 @@ $dbname = "db758436568";
 
 //Start der Connection für die Datenbank + Preparation für das kontrollierende Select Statement
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-$requestPermissionToChange= $conn->prepare("SELECT * FROM users WHERE ID = $ID AND forename = '$forename' AND surname = '$surname' AND email = '$email' AND loggedIn = 1;");
+$requestPermissionToChange= $conn->prepare("SELECT * FROM users WHERE ID = $ID AND forename = '$forename' AND surname = '$surname' AND email = '$email';");
 
 if($requestPermissionToChange->execute()){
     $result=$requestPermissionToChange->fetchAll(PDO::FETCH_ASSOC);

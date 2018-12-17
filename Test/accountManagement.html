@@ -79,6 +79,7 @@
 				<div class="list-group ">
 					<a href="#" class="list-group-item list-group-item-action active" onclick="enablePData()" id="btn-pdata">Persönliche Daten</a>
 					<a href="#" class="list-group-item list-group-item-action" onclick="enablePW()" id="btn-pwchange">Passwort ändern</a>
+					<a href="#" class="list-group-item list-group-item-action" onclick="enableAccDelete()" id="btn-acc-delete">Account Löschen</a>
 				</div>
 			</div>
 			<div class="col-md-9">
@@ -136,6 +137,19 @@
 									<div class="form-group row">
 										<div class="offset-4 col-8">
 											<button name="submit" type="submit" class="flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4" >Passwort speichern</button>
+										</div>
+									</div>
+								</form>
+								<form id="acc-delete" method="post" role="form" action="PHP/deleteAcc.php" onsubmit="changeData('acc-delete')" style="display: block;padding-left: 50px;">
+									<div class="form-group row ">
+										<label for="confirm-delete" class="col-4 col-form-label acc-delete">Passwort zum Bestätigen eingeben</label>
+										<div class="col-8 ">
+											<input id="confirm-delete" name="confirm-delete" placeholder="Passwort zum Bestätigen eingeben" class="form-control here acc-delete" required="required" type="password">
+										</div>
+										<div class="form-group row">
+											<div class="offset-4 col-8">
+												<button name="delete-button" type="button" onclick="confirmeDeleted()" class="flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4" >Account Löschen</button>
+											</div>
 										</div>
 									</div>
 								</form>

@@ -145,6 +145,7 @@ div.EventContainer p{
     text-shadow: 0 0 4px #e65540;
 }
 
+
 @media only screen and (min-width: 1801px) {
     div.EventContainer{
         height: 600px;

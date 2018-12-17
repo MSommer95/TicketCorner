@@ -5,21 +5,36 @@ window.getCookie = function(name) {
 
 //Default Einstellung: pdata(Persönliche Daten) sichtbar, pwchange (Passwort change) nicht sichtbar
 document.getElementById("pwchange").style.display = "none";
+document.getElementById("acc-delete").style.display = "none";
 document.getElementById("pdata").style.display = "block";
 //Funktion zum "Aufdecken" des pdata Forms / Verdeckt das pwchange Form
 function enablePData(){
     document.getElementById("pwchange").style.display = "none";
+    document.getElementById("acc-delete").style.display = "none";
     document.getElementById("pdata").style.display = "block";
     document.getElementById("btn-pwchange").className = document.getElementById("btn-pwchange").className.replace(/ active/g, "");
+    document.getElementById("btn-acc-delete").className = document.getElementById("btn-pdata").className.replace(/ active/g, "");
     document.getElementById("btn-pdata").className += " active";
 }
 //Funktion zum "Aufdecken" des pwchange Forms / Verdeckt das pdata Form
 function enablePW(){
     document.getElementById("pdata").style.display = "none";
+    document.getElementById("acc-delete").style.display = "none";
     document.getElementById("pwchange").style.display = "block";
     document.getElementById("btn-pdata").className = document.getElementById("btn-pdata").className.replace(/ active/g, "");
+    document.getElementById("btn-acc-delete").className = document.getElementById("btn-pdata").className.replace(/ active/g, "");
     document.getElementById("btn-pwchange").className += " active";
 }
+
+function enableAccDelete(){
+    document.getElementById("pdata").style.display = "none";
+    document.getElementById("acc-delete").style.display = "block";
+    document.getElementById("pwchange").style.display = "none";
+    document.getElementById("btn-pdata").className = document.getElementById("btn-pdata").className.replace(/ active/g, "");
+    document.getElementById("btn-pwchange").className = document.getElementById("btn-pdata").className.replace(/ active/g, "");
+    document.getElementById("btn-acc-delete").className += " active";
+}
+
 //Funktion zum Kontrollieren, ob eine Änderung bei einem der Werte aufgetreten ist
 function checkForChange(){
     let forenameField = document.getElementById("change-forename").value;
@@ -30,7 +45,8 @@ function checkForChange(){
 
 }
 //Legt ein User Objekt an, bei dem die Funktion fillFields mitgegeben wird
-function User(forename, surname, email){
+function User(id,forename, surname, email){
+    this.id = id;
     this.forename = forename;
     this.surname = surname;
     this.email = email;
@@ -43,7 +59,7 @@ function User(forename, surname, email){
 }
 //erstellt ein User Objekt und wendet die Funktion fillFields() auf dieses Objekt an
 function initUser(){
-    let user = new User(getCookie("forename"), getCookie("surname"), getCookie("email"));
+    let user = new User(getCookie("ID"),getCookie("forename"), getCookie("surname"), getCookie("email"));
     user.fillFields();
     getLoggedIn(function (deviceCount) {
         updateLoggedInCount(deviceCount);
@@ -94,4 +110,34 @@ function getLoggedIn(cb, user) {
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("email="+ user.email);
 
+}
+
+function deleteAcc(cb) {
+    let user = new User(getCookie("ID"),getCookie("forename"), getCookie("surname"), getCookie("email"));
+    let deleteMessage;
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            deleteMessage = this.responseText;
+            if(typeof deleteMessage === 'string'){
+                cb(deleteMessage);
+                console.log(deleteMessage);
+            }
+        }
+    };
+    xmlhttp.open("POST", "PHP/deleteAcc.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("ID="+ user.id + "&forename=" + user.forename + "&surname=" + user.surname + "&email=" + user.email + "&confirm-delete=" + document.getElementById("confirm-delete").value);
+
+}
+
+function confirmeDeleted(){
+    deleteAcc(function (event){
+       console.log(event);
+       if(event == "accountDeleted"){
+           logout();
+           alert.log("Account erfolgreich gelöscht. Sie werden nun weitergeleitet!");
+           window.location = "https://intranet-secure.de/TicketCorner/index.html";
+       }
+    });
 }
