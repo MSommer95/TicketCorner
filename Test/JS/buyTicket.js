@@ -1,79 +1,3 @@
-//Funktion zum Erstellen eines Event Objekts
-/*function Event(id, img, name, date, price, description) {
-    this.id = id;
-    this.eventName = name;
-    this.img = img;
-    this.eventDate = date;
-    this.eventPrice = price;
-    this.eventDescription = description;
-    this.expired = false;
-    this.soldout = false;
-
-    // Funktion im Event Objekt zum Kontrollieren, ob das Events schon stattgefunden hat
-    this.checkIsExpired = function() {
-        console.log("checkIsExpired | got called");
-        if(!this.eventDate) {
-            console.log("checkIsExpired | no date defined, returning");
-            return;
-        }
-
-        let currentDate = new Date();
-
-        currentDate.setHours(0, 0, 0, 0);
-        let values = this.eventDate.split(".");
-
-        let eventDate = new Date(parseInt(values[2]), parseInt(values[1]) - 1, parseInt(values[0]));
-
-        console.log("checkIsExpired | eventDate is: " + eventDate);
-
-        if(eventDate < currentDate) {
-
-            console.log("checkIsExpired | event is expired, should mark");
-
-            //let expiredDiv = document.createElement("expiredDiv");
-            //expiredDiv.className = "centered";
-
-            //let text = document.createTextNode("ABGELAUFEN");
-            //expiredDiv.appendChild(text);
-
-            //this.imgElement.appendChild(expiredDiv);
-            this.eventName.textContent += " (ABGELAUFEN)";
-            this.expired = true;
-            console.log("checkIsExpired | should be marked as expired: " + this.eventName.textContent);
-        }
-        else{
-            console.log("checkIsExpired | event is not expired, do nothing");
-        }
-    };
-
-    this.checkIsSoldOut = function() {
-        if(this.currentTickets <= 0) {
-            this.name = this.name.replace(" (AUSVERKAUFT)","");
-            this.name += " (AUSVERKAUFT)";
-            this.soldout = true;
-        }
-    };
-
-    this.checkIsExpired();
-    this.checkIsSoldOut();
-}*/
-
-// Funktion zum Auslesen eines per ID bestimmten Events aus der Datenbank
-/*function getEventForPurchase(eventId, cb) {
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let eventJsonObject = this.responseText;
-            if(typeof eventJsonObject === 'string'){
-                eventJsonObject = JSON.parse(eventJsonObject);
-                cb(eventJsonObject);
-            }
-        }
-    };
-    xmlhttp.open("POST", "/../TicketCorner/PHP/getEventForPurchase.php", true);
-    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xmlhttp.send("ID="+ eventId);
-}*/
 
 // Funktion zum Umwandeln eines Events im HTML Code zur Javascript Eventklasse mit Abfrage, ob das Event noch verfügbar ist
 function getEventById(eventId) {
@@ -82,18 +6,6 @@ function getEventById(eventId) {
     console.log("eventManager | getEventById called with id: " + eventId);
 
     let foundEvent = null;
-
-    // Callback Aufruf der XMLHTTPRequest
-    /*getEventForPurchase(eventId, function(events) {
-        console.log("buyTicket | events.length: " + events.length);
-
-        // Umwandlung des Ergebnisses von String in Javascript Objekt
-        if(typeof events === 'string')
-            events = JSON.parse(events);
-
-        // Erstellen neuer Event Instanz aus Datenbankergebnis
-        let currentEvent = events[0];*/
-
 
         console.log("buyTicket | loop | EventId: " + currentEvent.id);
 
@@ -124,7 +36,6 @@ function getEventById(eventId) {
         }
         else
             window.alert("FEHLER: Die angegebene Veranstaltung konnte nicht gefunden werden!");
-    /*});*/
 }
 
 // Funktion zum Erstellen einer Form, um die Bestellung eines Tickets aufzurufen

@@ -348,13 +348,6 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
 
             console.log("checkIsExpired | event is expired, should mark");
 
-            //let expiredDiv = document.createElement("expiredDiv");
-            //expiredDiv.className = "centered";
-
-            //let text = document.createTextNode("ABGELAUFEN");
-            //expiredDiv.appendChild(text);
-
-            //this.imgElement.appendChild(expiredDiv);
             this.name = this.name.replace(" (ABGELAUFEN)","");
             this.name += " (ABGELAUFEN)";
             this.expired = true;
@@ -373,8 +366,21 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
         }
     };
 
+    //Funktion zum Überprüfen des Followstatus
+    this.checkIsFollowed = function() {
+        //Event instanz zwischenspeichern
+        const self = this;
+
+        getFollowedEvents(this.id, function(result) {
+            //In Callback bei ankommen des Resulatats zuweisen
+            self.followed = result;
+        });
+    };
+
+    //Aufruf der Prüffunktionen
     this.checkIsExpired();
     this.checkIsSoldOut();
+    this.checkIsFollowed();
 }
 
 function dateTransform(date){

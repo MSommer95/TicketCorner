@@ -8,7 +8,8 @@ let start = 0;
 let loadingIndex = 0;
 let orderMode= 1;
 let eventJsonObject = null;
-//loopIt(sortMode) kümmert sich um die korrekte Reihenfolge der Events, je nachdem welche Art der User gewählt hat
+const eventMap = new Map();
+
 function loopIt(sortMode) {
 
     //Sortiert das Event Array chronologisch nach den neusten
@@ -16,11 +17,6 @@ function loopIt(sortMode) {
         console.log("eventHolder 1: ");
         console.log(eventHolder);
         for(let i=0; i<=4; i++) {
-            //console.log("loopIt | arrayEvent[loadingIndex].ID: " +  eventHolder[loadingIndex].ID);
-            /*let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice, arrayEvent[loadingIndex].eventTickets, arrayEvent[loadingIndex].maxEventTickets);
-            event.checkIsExpired();
-            eventHolder.push(event);
-            console.log(event);*/
             if(loadingIndex <= eventHolder.length-1) {
                 eventHolder[loadingIndex].checkIsExpired();
                 createEventHTMLElements(eventHolder[loadingIndex]);
@@ -37,11 +33,6 @@ function loopIt(sortMode) {
         console.log("eventHolder 2: ");
         console.log(eventHolder);
         for (let i=eventHolder.length; i>=eventHolder.length-4; i--) {
-
-           /* let event = new Event(arrayEvent[loadingIndex].ID, arrayEvent[loadingIndex].imageSrc, arrayEvent[loadingIndex].eventName, arrayEvent[loadingIndex].eventDate, arrayEvent[loadingIndex].eventPrice, arrayEvent[loadingIndex].eventTickets, arrayEvent[loadingIndex].maxEventTickets);
-            event.checkIsExpired();
-            eventHolder.push(event);
-            console.log(event);*/
            if(loadingIndex >=0){
                eventHolder[loadingIndex].checkIsExpired();
                createEventHTMLElements(eventHolder[loadingIndex]);
@@ -58,11 +49,6 @@ function loopIt(sortMode) {
         console.log("EventEndorser: ");
         console.log(eventEndorser);
         for (let i=0; i<=4; i++) {
-            /*let event = new Event(eventHolder[loadingIndex].ID, eventHolder[loadingIndex].imageSrc, eventHolder[loadingIndex].eventName, eventHolder[loadingIndex].eventDate, eventHolder[loadingIndex].eventPrice, eventHolder[loadingIndex].eventTickets, eventHolder[loadingIndex].maxEventTickets);
-            event.checkIsExpired();
-            eventHolder.push(event);
-            console.log(event);*/
-
             if(loadingIndex <= eventPricer.length-1){
                 createEventHTMLElements(eventEndorser[loadingIndex]);
             }
@@ -80,10 +66,6 @@ function loopIt(sortMode) {
         console.log("EventPricer: ");
         console.log(eventPricer);
         for (let i=0; i<=4; i++) {
-            /*let event = new Event(eventHolder[loadingIndex].ID, eventHolder[loadingIndex].imageSrc, eventHolder[loadingIndex].eventName, eventHolder[loadingIndex].eventDate, eventHolder[loadingIndex].eventPrice, eventHolder[loadingIndex].eventTickets, eventHolder[loadingIndex].maxEventTickets);
-            event.checkIsExpired();
-            eventHolder.push(event);
-            console.log(event);*/
             if(loadingIndex <= eventPricer.length-1){
                 createEventHTMLElements(eventPricer[loadingIndex]);
             }
@@ -98,20 +80,6 @@ function loopIt(sortMode) {
     }
 }
 
-/*function bubbleSort(arr){
-    let arrTest = arr;
-    let len = arrTest.length;
-    for (let i = len-1; i>=0; i--){
-        for(let j = 1; j<=i; j++){
-            if(arrTest[j-1].endorsement>arrTest[j].endorsement){
-                let temp = arrTest[j-1];
-                arrTest[j-1] = arrTest[j];
-                arrTest[j] = temp;
-            }
-        }
-    }
-    return arrTest;
-}*/
 //Funktion zum Fetchen der Events
 function getEvents(cb) {
     let xmlhttp = new XMLHttpRequest();
@@ -164,6 +132,31 @@ function getUpdatedData(cb, event) {
     xmlhttp.send("ID="+ event.id);
     console.log("getUpdateDataCall");
 }
+
+function getFollowedEvents(id, cb) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let followedEvents = this.responseText;
+
+            for(let i = 0; i < followedEvents.length; i++) {
+                const currentFollowedEvent = followedEvents[i];
+
+                if(currentFollowedEvent.ID === id) {
+                    cb(true);
+                    return;
+                }
+
+                cb(false);
+            }
+        }
+    };
+
+    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/getFollowedEvents.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("ID="+ event.id);
+    console.log("getFollowedEvents");
+}
 //Updated die Ticket Anazhl in der DOM
 function updateTicketCount(ticketUpdate, event){
     let tickets = document.createTextNode(ticketUpdate[0].eventTickets);
@@ -195,60 +188,6 @@ function iterator(){
 }
 
 setInterval("iterator()", 10000);
-/*function checkIsEventExpired(event) {
-    if(!event.eventDate)
-        return;
-
-    let currentDate = new Date();
-
-    currentDate.setHours(0, 0, 0, 0);
-
-    if(event.eventDate < currentDate) {
-        let expiredDiv = document.createElement("div");
-        expiredDiv.className = "Centered";
-        expiredDiv.textContent = "ABGELAUFEN";
-        event.imgElement.appendChild(expiredDiv);
-    }
-}*/
-
-/*function getEvents() {
-    let arrayEventName = [];
-    let arrayImagePath = [];
-
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let split = this.responseText;
-            let testJson = JSON.parse(split);
-            console.log(testJson);
-            console.log(testJson[0].eventName);
-            split = clearString(split);
-            split = split.split(",");
-            [arrayEventName, arrayImagePath] = breakArray(split);
-            loopIt(arrayImagePath, arrayEventName);
-        }
-    };
-    xmlhttp.open("GET", "PHP/getEvents.php", true);
-    xmlhttp.send();
-}*/
-/*function clearString(str){
-    console.log(str);
-    str = str.replace(/{|}|"|imageSrc|:|eventName/g,"");
-    console.log(str);
-    str = str.slice(1,-3);
-    console.log(str);
-    return str;
-}*/
-/*function breakArray(arr){
-    let arrayEventName = [];
-    let arrayImagePath = [];
-
-    for(i=0; i<arr.length;i += 2){
-        arrayEventName.push(arr[i]);
-        arrayImagePath.push(arr[i+1]);
-    }
-    return [arrayEventName,arrayImagePath];
-}*/
 
 //CallBack Funktion zum Initialisieren der Event Arrays
 function initEvents(eventJsonObject){
@@ -273,6 +212,7 @@ function initEvents(eventJsonObject){
     eventEndorser = quickSortEndorsement(eventEndorser, 0, eventEndorser.length-1).reverse();
     eventPricer = quickSortPrice(eventPricer, 0, eventPricer.length-1);
     updateSlideshow(eventEndorser);
+    console.log(eventMap);
     return eventHolder;
 }
 //Funktion zum Erstellen der DOM Elemente für Events
@@ -492,6 +432,12 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
     };
     this.expired = false;
     this.soldout = false;
+    this.followed = false;
+
+    if(eventMap.has(this.id)) {
+        eventMap.delete(this.id);
+    }
+    eventMap.set(this.id, this);
 
     //Funktion zum Überprüfen des Datums
     this.checkIsExpired = function() {
@@ -513,16 +459,10 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
 
             console.log("checkIsExpired | event is expired, should mark");
 
-            //let expiredDiv = document.createElement("expiredDiv");
-            //expiredDiv.className = "centered";
-
-            //let text = document.createTextNode("ABGELAUFEN");
-            //expiredDiv.appendChild(text);
-
-            //this.imgElement.appendChild(expiredDiv);
             this.date = this.date.replace(" (ABGELAUFEN)","");
             this.date += " (ABGELAUFEN)";
             this.expired = true;
+
             console.log("checkIsExpired | should be marked as expired: " + this.name);
         }
         else{
@@ -531,6 +471,7 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
         }
     };
 
+    //Funktion zum Überprüfen des Ticketbestands
     this.checkIsSoldOut = function() {
         if(this.currentTickets <= 0) {
             this.currentTickets = this.currentTickets.toString().replace(" (AUSVERKAUFT)","");
@@ -539,8 +480,28 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
         }
     };
 
+    //Funktion zum Überprüfen des Followstatus
+    this.checkIsFollowed = function() {
+        //Event instanz zwischenspeichern
+        const self = this;
+
+        getFollowedEvents(this.id, function(result) {
+            //In Callback bei ankommen des Resulatats zuweisen
+            self.followed = result;
+        });
+    };
+
+    this.destroy = function() {
+        if(eventMap.has(this.id)) {
+            eventMap.delete(this.id);
+        }
+        delete this;
+    };
+
+    //Aufruf der Prüffunktionen
     this.checkIsExpired();
     this.checkIsSoldOut();
+    // ToDo: uncomment this once PHP and HTML Exists => this.checkIsFollowed();
 }
 
 function dateTransform(date){
@@ -550,76 +511,9 @@ function dateTransform(date){
     return preDateTranformed[0];
 }
 
-/*function getEventById(eventId) {
-    event.preventDefault();
-    console.log("eventManager | getEventById called with id: " + eventId);
-
-    let foundEvent = null;
-
-
-    getEvents(function(events) {
-        console.log("eventManager | eventHolder.length: " + events.length);
-
-        for (let i = 0; i < events.length; i++) {
-            let currentEvent = events[i];
-            let event = new Event(currentEvent.ID, currentEvent.imageSrc, currentEvent.eventName, currentEvent.eventDate);
-
-            event.checkIsExpired();
-
-            console.log("eventManager | loop | EventId: " + currentEvent.id);
-
-            if(event.id === eventId) {
-
-                console.log("eventManager | event was found in holder");
-
-                if(event.expired) {
-                    console.log("eventManager | event is expired, should show popup");
-                    window.alert("Die Veranstaltung hat bereits stattgefunden");
-                    return;
-                }
-
-                foundEvent = currentEvent;
-            }
-        }
-
-        if(foundEvent) {
-            buyProcess(foundEvent.id, foundEvent.eventName.textContent, foundEvent.eventPrice.textContent, foundEvent.eventDescription.textContent);
-            console.log("eventManager | Ticket should be bought");
-        }
-        else
-            window.alert("FEHLER: Die angegebene Veranstaltung konnte nicht gefunden werden!");
-    });
-}
-function sortEvents(int){
-    if(start == 0){
-        eventIndexer = Array.from(Array(eventHolder.length).keys());
-        start ++;
-    }
-
-    if(int == 1){
-        if(eventIndexer[0] != 0){
-            let wrapper = $('.container'),
-                items = wrapper.children('.EventContainer'),
-                arr = eventIndexer;
-            wrapper.append( $.map(arr, function (v){return items[v]}));
-            eventIndexer.reverse();
-
-        }
-    }*/
-    /*else if (int == 2){
-        if(eventIndexer[0] == 0){
-            let wrapper = $('.container'),
-                items = wrapper.children('.EventContainer'),
-                arr = eventIndexer.reverse();
-            wrapper.append( $.map(arr, function (v){return items[v]}));
-
-        }
-    }
-}
-
 getEvents(function(events) {
     loopIt(events, 1);
-});*/
+});
 
 //Scroll Funktion zum Nachladen der Events
 $(window).scroll(function() {
