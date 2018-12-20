@@ -1,8 +1,9 @@
 
+
 // Funktion zum Umwandeln eines Events im HTML Code zur Javascript Eventklasse mit Abfrage, ob das Event noch verfügbar ist
 function getEventById(eventId) {
     // Verhindern des automatischen Absendens durch HTML Button
-    event.preventDefault();
+    //event.preventDefault();
     console.log("eventManager | getEventById called with id: " + eventId);
 
     let foundEvent = null;
@@ -40,7 +41,7 @@ function getEventById(eventId) {
 
 // Funktion zum Erstellen einer Form, um die Bestellung eines Tickets aufzurufen
 function buyProcess(eventID, eventName, eventPrice, eventDescription) {
-    event.preventDefault();
+    //event.preventDefault();
     let form = document.createElement("form");
     document.body.appendChild(form);
     form.method = "POST";

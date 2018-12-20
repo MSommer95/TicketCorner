@@ -38,8 +38,9 @@ function getUpdatedData(cb) {
 }
 //Updated die Ticket Anazhl in der DOM
 function updateTicketCount(ticketUpdate){
-    let tickets = document.createTextNode(ticketUpdate[0].eventTickets);
     let ticketHTML = document.getElementById("eventTickets");
+    let tickets = document.createTextNode(ticketUpdate[0].eventTickets + " von " + currentEvent.maxTickets);
+
     ticketHTML.textContent = "";
     let bTag = document.createElement("b");
     bTag.textContent = "Anzahl der Tickets: ";
@@ -67,10 +68,6 @@ function updatePrice(price){
 //Initialisiert drei Callback Funktionen mit PHP Aufrufen
 function initProcess(){
     console.log("setInterval");
-    //Ruft CallBackFunktion zur Aktualisierung der Tickets auf
-    getUpdatedData(function(events){
-        updateTicketCount(events);
-    });
     //Ruft CallBackFunktion zur Aktualisierung der Kommentare auf
     getComments(function (comments) {
         createCommentSection(comments);
@@ -79,13 +76,12 @@ function initProcess(){
     getRating(function (events) {
         updateRating(events);
     });
-
-
+    //Ruft CallBackFunktion zur Aktualisierung der Tickets auf
+    getUpdatedData(function(events){
+        updateTicketCount(events);
+    });
 }
-//startet die erste Initialisierung
-initProcess();
-//startet ein Intervall, welches alle 10 Sekunden die InitProcess() Funktion aufruft
-setInterval("initProcess()", 10000);
+
 //Funktion zum Senden eines Kommentars an ein PHP uploadeComments.php Script auf dem Server
 function sendCommentForm(){
 
@@ -327,6 +323,7 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
     this.expired = false;
     this.soldout = false;
     this.currentTickets = parseInt(tickets);
+    this.maxTickets = parseInt(maxTickets);
 
     this.checkIsExpired = function() {
         console.log("checkIsExpired | got called");
@@ -380,7 +377,7 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
     //Aufruf der Prüffunktionen
     this.checkIsExpired();
     this.checkIsSoldOut();
-    this.checkIsFollowed();
+    //this.checkIsFollowed();
 }
 
 function dateTransform(date){
@@ -421,7 +418,7 @@ function initEvents(eventJsonObject){
     eventEndorserIndex = quickSortEndorsement(eventEndorserIndex, 0, eventEndorserIndex.length-1).reverse();
     updateSlideshow(eventEndorserIndex);
     updateHTML(currentEvent);
-    if(getCookie("email").includes("hshl.de")) {
+    if(getCookie("email") != null && getCookie("email").includes("hshl.de")) {
         let price = parseInt(currentEvent.price) * 0.85;
         updatePrice(price);
     }
@@ -498,3 +495,8 @@ getEvents(function (events) {
     initEvents(events);
 
 });
+
+//startet die erste Initialisierung
+initProcess();
+//startet ein Intervall, welches alle 10 Sekunden die InitProcess() Funktion aufruft
+setInterval("initProcess()", 10000);

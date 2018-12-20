@@ -159,7 +159,7 @@ function getFollowedEvents(id, cb) {
 }
 //Updated die Ticket Anazhl in der DOM
 function updateTicketCount(ticketUpdate, event){
-    let tickets = document.createTextNode(ticketUpdate[0].eventTickets);
+    let tickets = document.createTextNode(ticketUpdate[0].eventTickets + " von " + event.maxTickets);
     let ticketHTML = document.getElementById(event.id);
     let ticketDivider = document.createElement("div");
     ticketDivider.className = "dropdown-divider";
@@ -236,7 +236,7 @@ function createEventHTMLElements(event){
     let btagTickets = document.createElement("b");
     let btagRating = document.createElement("b");
     let price = 0;
-    if(getCookie("email").includes("hshl.de")){
+    if(getCookie("email") != null && getCookie("email").includes("hshl.de")){
          price = document.createTextNode(((event.price * 100) / 100)*0.85 + "€ (15% HSHL-Studenten Rabatt)");
     } else {
          price = document.createTextNode((event.price * 100) / 100 + "€");
@@ -244,7 +244,7 @@ function createEventHTMLElements(event){
 
     let date = document.createTextNode(event.date);
     let location = document.createTextNode(event.location);
-    let tickets = document.createTextNode(event.currentTickets);
+    let tickets = document.createTextNode(event.currentTickets + " von " + event.maxTickets);
     let rating = document.createTextNode(event.ratingCount);
 
     let eventLink = document.createElement("a");
@@ -538,6 +538,7 @@ function sortEvents(int){
         start ++;
     }
     $("div").remove(".EventContainer");
+    $("div").remove(".divider");
     switch (int) {
         case 1:
 
@@ -574,6 +575,7 @@ function search(value){
     }
 
     $("div").remove(".EventContainer");
+    $("div").remove(".divider");
     let indicator = 0;
     let searchInput = value.toLowerCase();
     for(let i= 0; i<=eventHolder.length-1; i++){
