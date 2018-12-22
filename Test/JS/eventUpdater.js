@@ -282,10 +282,10 @@ function updateRating(ratingJSON){
 
     } else {
         document.getElementById("rating").textContent = "Noch keine Bewertungen";
-        if(initPage === 1){
+        /*if(initPage === 1){
             document.getElementById("threeStars").checked = true;
             initPage++;
-        }
+        }*/
 
     }
 }
@@ -345,8 +345,8 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
 
             console.log("checkIsExpired | event is expired, should mark");
 
-            this.name = this.name.replace(" (ABGELAUFEN)","");
-            this.name += " (ABGELAUFEN)";
+            this.date = this.date.replace(" (ABGELAUFEN)","");
+            this.date += " (ABGELAUFEN)";
             this.expired = true;
             console.log("checkIsExpired | should be marked as expired: " + this.name);
         }
@@ -357,8 +357,8 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
     };
     this.checkIsSoldOut = function() {
         if(this.currentTickets <= 0) {
-            this.name = this.name.replace(" (AUSVERKAUFT)","");
-            this.name += " (AUSVERKAUFT)";
+            this.maxTickets = this.maxTickets.toString().replace(" (AUSVERKAUFT)","");
+            this.maxTickets += " (AUSVERKAUFT)";
             this.soldout = true;
         }
     };

@@ -61,7 +61,7 @@ function inputCreate(form, value ,name) {
     tag.type = 'hidden';
     form.appendChild(tag);
 }
-
+//Funktion um Parameter aus der URL auszulesen
 function parseURLParams(url) {
     let queryStart = url.indexOf("?") + 1,
         queryEnd   = url.indexOf("#") + 1 || url.length + 1,
@@ -81,6 +81,7 @@ function parseURLParams(url) {
     }
     return parms;
 }
+//Funktion zum Evaluieren der Parameter der URL
 if(window.location.href.includes("?")){
     let error = parseURLParams(window.location.href);
     if(error.Message[0] == "NoMoreTickets"){

@@ -171,13 +171,14 @@ function updateTicketCount(ticketUpdate, event){
     ticketHTML.appendChild(tickets);
     ticketHTML.appendChild(ticketDivider);
     if(ticketUpdate[0].eventTickets === 0){
-        ticketHTML.appendChild(document.createTextNode(" (AUSVERKAUFT)"));
+        let sold = " (AUSVERKAUFT)";
+        ticketHTML.appendChild(document.createTextNode(sold.bold()));
     }
 
     console.log("UpdateHTMLCall for Event: " + event.name + " Tickets now at: " + ticketUpdate[0].eventTickets);
 }
 
-function iterator(){
+function TicketIterator(){
     for(let i=0; i< eventPricer.length; i++){
         if(document.getElementById(eventPricer[i].id) != null){
             getUpdatedData(function(tickets){
@@ -187,7 +188,7 @@ function iterator(){
     }
 }
 
-setInterval("iterator()", 10000);
+
 
 //CallBack Funktion zum Initialisieren der Event Arrays
 function initEvents(eventJsonObject){
@@ -474,8 +475,8 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
     //Funktion zum Überprüfen des Ticketbestands
     this.checkIsSoldOut = function() {
         if(this.currentTickets <= 0) {
-            this.currentTickets = this.currentTickets.toString().replace(" (AUSVERKAUFT)","");
-            this.currentTickets += " (AUSVERKAUFT)";
+            this.maxTickets = this.maxTickets.toString().replace(" (AUSVERKAUFT)","");
+            this.maxTickets += " (AUSVERKAUFT)";
             this.soldout = true;
         }
     };
@@ -510,10 +511,6 @@ function dateTransform(date){
     let dateTransformed = preDateTranformed.join(" ");
     return preDateTranformed[0];
 }
-
-getEvents(function(events) {
-    loopIt(events, 1);
-});
 
 //Scroll Funktion zum Nachladen der Events
 $(window).scroll(function() {
@@ -689,4 +686,4 @@ function updateSlideshow(eventArray) {
 
 
 }
-
+setInterval("TicketIterator()", 10000);
