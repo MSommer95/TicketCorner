@@ -62,6 +62,40 @@ function appendDateAndLocation() {
     }
 }
 
+/* ToDo: see if needed
+function followEventLocal() {
+    const userId = getCookie("ID");
+    const eventId = ID;
+
+    if(!userId) {
+        console.log("followEventLocal | user not logged in, returning -> HIDE BUTTON LATER");
+        return;
+    }
+
+    if(!eventId) {
+        console.log("followEventLocal | event doesnt exist, returning -> HOW CAN THIS HAPPEN?");
+        return;
+    }
+
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let isFollowed = this.responseText;
+
+            if(isFollowed.insertId !== 0) {
+                console.log('followEventLocal | New entry for following event added: ' + isFollowed.insertId);
+
+                // ToDo: hide follow button
+            }
+        }
+    };
+
+    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/addFollowedEvent.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("userId="+ userId + "&eventId="+ eventId);
+    console.log("addFollowedEvent");
+}*/
+
 // Funktion zur Formatierung des eingetragenen Datums zur Verarbeitung als Javascript Date
 function reformatDate(dateString) {
     // Einzelwerte aus dem String lesen

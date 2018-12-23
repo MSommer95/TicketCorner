@@ -590,6 +590,7 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
         getFollowedEvent(this.id, function(result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
+            console.log("Event.checkIsFollowed | Event should be marked as followed");
         });
     };
 
@@ -603,7 +604,7 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
     //Aufruf der Prüffunktionen
     this.checkIsExpired();
     this.checkIsSoldOut();
-    // ToDo: uncomment this once PHP and HTML Exists => this.checkIsFollowed();
+    this.checkIsFollowed();
 }
 
 function dateTransform(date){
