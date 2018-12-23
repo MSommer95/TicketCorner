@@ -12,7 +12,6 @@ let eventLoader = 0;
 const eventMap = new Map();
 const followMap = new Map();
 
-
 function loopIt(sortMode) {
 
     //Sortiert das Event Array chronologisch nach den neusten
@@ -248,6 +247,7 @@ function updateTicketCount(ticketUpdate, event){
     console.log("UpdateHTMLCall for Event: " + event.name + " Tickets now at: " + ticketUpdate[0].eventTickets);
 }
 
+// Ticketanzahl aktualisieren
 function TicketIterator(){
     for(let i=0; i< eventPricer.length; i++){
         if(document.getElementById(eventPricer[i].id) != null){
@@ -258,6 +258,7 @@ function TicketIterator(){
     }
 }
 
+// Gefolgte Events aktualisieren
 function updateFollowMap(event) {
     if(followMap.has(event.id)) {
         followMap.delete(event.id);
@@ -317,6 +318,7 @@ function initEvents(eventJsonObject){
     console.log(eventMap);
     return eventHolder;
 }
+
 //Funktion zum Erstellen der DOM Elemente für Events
 function createEventHTMLElements(event){
     event.calculateRating(event.ratingCount, event.ratingValue);
@@ -340,12 +342,9 @@ function createEventHTMLElements(event){
     let price = 0;
     if(getCookie("email") != null && getCookie("email").includes("hshl.de")){
          price = document.createTextNode(((event.price * 100) / 100)*0.85 + "€ (15% HSHL-Studenten Rabatt)");
-
     } else {
          price = document.createTextNode((event.price * 100) / 100 + "€");
     }
-
-
 
     let date = document.createTextNode(event.date);
     let location = document.createTextNode(event.location);
@@ -438,6 +437,7 @@ function createEventHTMLElements(event){
     eventLoader++;
 }
 
+// Bewertungsdarstellung generieren
 function createRating(event) {
 
     let spanTag = document.createElement("span");
@@ -484,6 +484,7 @@ function createRating(event) {
     return spanTag;
 }
 
+// Eventbewertung für alle Events verarbeiten
 function rateEvents(ratings){
     let ratingValue;
     let ratingCount;
@@ -517,6 +518,7 @@ function rateEvents(ratings){
     console.log("rating complete");
 }
 
+// Datenbankeinträge für das Folgen von Events schreiben
 function followEventHome(eventId) {
     const userId = getCookie("ID");
 
@@ -559,6 +561,7 @@ function followEventHome(eventId) {
     console.log("addFollowedEvent");
 }
 
+// Betwertungsstern generieren und zurückgeben
 function createStar(id){
     let star = document.createElement("input");
     star.type = "radio";
@@ -567,6 +570,7 @@ function createStar(id){
     return star;
 }
 
+// Label erstellen und zurückgeben
 function createLabeli(id){
     let label = document.createElement("label");
     let iTag = document.createElement("i");
@@ -650,7 +654,7 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
         //Event instanz zwischenspeichern
         const self = this;
 
-        getFollowedEvent(this.id, function(id ,result) {
+        getFollowedEvent(this.id, function(result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
             console.log("Event.checkIsFollowed | Event should be marked as followed");
@@ -660,7 +664,6 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
             }
 
         });
-
     };
 
     this.destroy = function() {
@@ -676,6 +679,7 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
     this.checkIsFollowed();
 }
 
+// Datumsformatierung für Weiterverarbeitung anpassen
 function dateTransform(date){
     let preDateTranformed = date.split(",");
     preDateTranformed[0] = preDateTranformed[0].split(".").reverse().join(".");
@@ -801,6 +805,7 @@ function swapEndorsement(arr, i, j){
     arr[j] = temp;
 }
 
+// Sortieren nach Preis mit Quick Sort
 function quickSortPrice(arr, left, right){
     let len = arr.length,
         pivot,
@@ -837,6 +842,7 @@ function swapPrice(arr, i, j){
     arr[j] = temp;
 }
 
+// Slideshow darstellung erneuern
 function updateSlideshow(eventArray) {
     if(eventArray.length>=3){
         let firstSliderPath = "/TicketCorner"+ eventArray[0].img.replace("..","");
@@ -854,9 +860,9 @@ function updateSlideshow(eventArray) {
     }
 
 }
-function interators(){
+function iterators(){
     TicketIterator();
     followButtonsIterator();
 }
 
-setInterval("interators()", 10000);
+setInterval("iterators()", 10000);
