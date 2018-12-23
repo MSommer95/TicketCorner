@@ -215,7 +215,7 @@ function updateFollowButtons(followUpdate, event){
         document.getElementById(event.id + "FollowBTN").setAttribute("onclick", "unFollow(" + event.id + ")");
     }
 }
-
+//Iterator zum Updaten des Follow Buttons
 function followButtonsIterator(){
     for(let i=0; i< eventHolder.length; i++){
         if(document.getElementById(eventHolder[i].id  +  "FollowBTN") != null){
