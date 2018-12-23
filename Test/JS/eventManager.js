@@ -8,8 +8,10 @@ let start = 0;
 let loadingIndex = 0;
 let orderMode= 1;
 let eventJsonObject = null;
+let eventLoader = 0;
 const eventMap = new Map();
 const followMap = new Map();
+
 
 function loopIt(sortMode) {
 
@@ -167,12 +169,12 @@ function getFollowedEvent(id, cb) {
 
             console.log(currentFollowedEvent);
 
-            if(currentFollowedEvent.ID === followedEvent.id) {
-                cb(true);
+            if(currentFollowedEvent != null && currentFollowedEvent.ID === followedEvent.id) {
+                cb(id,true);
                 return;
             }
 
-            cb(false);
+            cb(id,false);
 
         }
     };
@@ -205,6 +207,24 @@ function getFollowedEvents(cb) {
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("userId="+ userId);
     console.log("getFollowedEvents");
+}
+
+//Updated die Ticket Anazhl in der DOM
+function updateFollowButtons(followUpdate, event){
+    if(followUpdate === true){
+        document.getElementById(event.id +  "FollowBTN").textContent = "Unfollow";
+        document.getElementById(event.id + "FollowBTN").setAttribute("onclick", "unFollow(" + event.id + ")");
+    }
+}
+
+function followButtonsIterator(){
+    for(let i=0; i< eventHolder.length; i++){
+        if(document.getElementById(eventHolder[i].id  +  "FollowBTN") != null){
+            getFollowedEvent(eventHolder[i].id, function(eventFollowStatus){
+                updateFollowButtons(eventFollowStatus, eventHolder[i]);
+            });
+        }
+    }
 }
 
 //Updated die Ticket Anazhl in der DOM
@@ -247,6 +267,24 @@ function updateFollowMap(event) {
     }
 
     followMap.set(event.id, event);
+}
+
+function unFollow(eventid){
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let eventJsonObject = this.responseText;
+            if(typeof eventJsonObject === 'string'){
+
+                document.getElementById(eventid +  "FollowBTN").textContent = "Follow";
+                document.getElementById(eventid + "FollowBTN").setAttribute("onclick", "followEventHome(" + eventid + ")");
+            }
+        }
+    };
+    xmlhttp.open("POST", "PHP/deleteFollowedEvent.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("userId="+ getCookie("ID")+ "&eventId="+ eventid);
+
 }
 
 //CallBack Funktion zum Initialisieren der Event Arrays
@@ -302,9 +340,12 @@ function createEventHTMLElements(event){
     let price = 0;
     if(getCookie("email") != null && getCookie("email").includes("hshl.de")){
          price = document.createTextNode(((event.price * 100) / 100)*0.85 + "€ (15% HSHL-Studenten Rabatt)");
+
     } else {
          price = document.createTextNode((event.price * 100) / 100 + "€");
     }
+
+
 
     let date = document.createTextNode(event.date);
     let location = document.createTextNode(event.location);
@@ -374,9 +415,27 @@ function createEventHTMLElements(event){
     eventImg.appendChild(eventLink);
     eventLink.appendChild(imgElement);
 
+    if(getCookie("email") != null){
+
+        let eventFollowBtn = document.createElement("button");
+
+        eventFollowBtn.className = "flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4";
+        eventFollowBtn.type = "button";
+        eventFollowBtn.id = event.id + "FollowBTN";
+
+        if(event.followed){
+            eventFollowBtn.setAttribute("onclick", "unFollow(" + event.id + ")");
+            eventFollowBtn.textContent = "Unfollow";
+        } else {
+            eventFollowBtn.setAttribute("onclick", "followEventHome(" + event.id + ")");
+            eventFollowBtn.textContent = "Follow";
+        }
+        eventInfo.appendChild(eventFollowBtn);
+    }
     eventDiv.appendChild(eventImg);
     eventDiv.appendChild(eventInfo);
     document.getElementById("maintext").appendChild(dividerEvent);
+    eventLoader++;
 }
 
 function createRating(event) {
@@ -487,6 +546,9 @@ function followEventHome(eventId) {
 
                 eventToFollow.isFollowed = true;
                 updateFollowMap(eventToFollow);
+                document.getElementById(eventId +  "FollowBTN").textContent = "Unfollow";
+                document.getElementById(eventId + "FollowBTN").setAttribute("onclick", "unFollow(" + eventId + ")");
+
             }
         }
     };
@@ -588,11 +650,17 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
         //Event instanz zwischenspeichern
         const self = this;
 
-        getFollowedEvent(this.id, function(result) {
+        getFollowedEvent(this.id, function(id ,result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
             console.log("Event.checkIsFollowed | Event should be marked as followed");
+            if(document.getElementById(id  +  "FollowBTN") != null && result === true){
+                document.getElementById(id +  "FollowBTN").textContent = "Unfollow";
+                document.getElementById(id + "FollowBTN").setAttribute("onclick", "unFollow(" + id + ")");
+            }
+
         });
+
     };
 
     this.destroy = function() {
@@ -785,8 +853,10 @@ function updateSlideshow(eventArray) {
         console.log("RERROR");
     }
 
-
-
-
 }
-setInterval("TicketIterator()", 10000);
+function interators(){
+    TicketIterator();
+    followButtonsIterator();
+}
+
+setInterval("interators()", 10000);
