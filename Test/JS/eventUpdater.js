@@ -368,7 +368,7 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
         //Event instanz zwischenspeichern
         const self = this;
 
-        getFollowedEvents(this.id, function(result) {
+        getFollowedEvent(this.id, function(result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
         });

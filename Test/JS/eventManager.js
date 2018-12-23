@@ -9,6 +9,7 @@ let loadingIndex = 0;
 let orderMode= 1;
 let eventJsonObject = null;
 const eventMap = new Map();
+const followMap = new Map();
 
 function loopIt(sortMode) {
 
@@ -133,30 +134,73 @@ function getUpdatedData(cb, event) {
     console.log("getUpdateDataCall");
 }
 
-function getFollowedEvents(id, cb) {
+// Gibt zurück, ob ein Nutzer einem Event folgt
+function getFollowedEvent(id, cb) {
+    const userId = getCookie("ID");
+
+    if(typeof id !== 'string') {
+        id = id.toString();
+    }
+
+    if(!userId) {
+        console.log("getFollowedEvent | user not logged in, returning");
+        return;
+    }
+
+    if(!eventMap.has(id)){
+        console.log("getFollowedEvent | Event doesnt exist, returning -> WHY?");
+        return;
+    }
+
+    const followedEvent = eventMap.get(id);
+
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let followedEvent = this.responseText;
+
+            const currentFollowedEvent = followedEvent[0];
+
+            if(currentFollowedEvent.ID === parseInt(id)) {
+                cb(true);
+                return;
+            }
+
+            cb(false);
+
+        }
+    };
+
+    xmlhttp.open("POST", "PHP/getFollowedEvent.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("eventId="+ followedEvent.id + "&userId="+ userId);
+    console.log("getFollowedEvent");
+}
+
+// Holt alle gefolgten Events des Nutzers aus der Datenbank
+function getFollowedEvents(cb) {
+    const userId = getCookie("ID");
+
+    if(!userId) {
+        console.log("getFollowedEvent | user not logged in, returning");
+        return;
+    }
+
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             let followedEvents = this.responseText;
 
-            for(let i = 0; i < followedEvents.length; i++) {
-                const currentFollowedEvent = followedEvents[i];
-
-                if(currentFollowedEvent.ID === id) {
-                    cb(true);
-                    return;
-                }
-
-                cb(false);
-            }
+            cb(followedEvents);
         }
     };
 
-    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/getFollowedEvents.php", true);
+    xmlhttp.open("POST", "PHP/getFollowedEvents.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xmlhttp.send("ID="+ event.id);
+    xmlhttp.send("userId="+ userId);
     console.log("getFollowedEvents");
 }
+
 //Updated die Ticket Anazhl in der DOM
 function updateTicketCount(ticketUpdate, event){
     let tickets = document.createTextNode(ticketUpdate[0].eventTickets + " von " + event.maxTickets);
@@ -188,15 +232,28 @@ function TicketIterator(){
     }
 }
 
+function updateFollowMap(event) {
+    if(followMap.has(event.id)) {
+        followMap.delete(event.id);
 
+        followMap.set(event.id, event);
+        return;
+    }
+
+    followMap.set(event.id, event);
+}
 
 //CallBack Funktion zum Initialisieren der Event Arrays
 function initEvents(eventJsonObject){
     for(let i=0; i<=eventJsonObject.length-1; i++){
         let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventLocation,eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
-        eventHolder.push(event);
-        console.log(event);
-
+        if(event.followed) {
+            updateFollowMap(event);
+        }
+        else {
+            eventHolder.push(event);
+            console.log(event);
+        }
     }
 
     for(let i= 0; i<=eventHolder.length-1; i++){
@@ -395,6 +452,44 @@ function rateEvents(ratings){
     console.log("rating complete");
 }
 
+function followEventHome(eventId) {
+    const userId = getCookie("ID");
+
+    if(typeof eventId !== 'string') {
+        eventId = eventId.toString();
+    }
+
+    if(!userId) {
+        console.log("followEventHome | user not logged in, returning -> HIDE BUTTON LATER");
+        return;
+    }
+
+    if(!eventMap.has(eventId.toString())) {
+        console.log("followEventHome | event doesnt exist, returning -> HOW CAN THIS HAPPEN?");
+        return;
+    }
+
+    const eventToFollow = eventMap.get(eventId);
+
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let isFollowed = this.responseText;
+
+            if(isFollowed.insertId !== 0) {
+                console.log('followEventHome | New entry for following event added: ' + isFollowed.insertId);
+
+                eventToFollow.isFollowed = true;
+            }
+        }
+    };
+
+    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/addFollowedEvent.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("userId="+ userId + "&eventId="+ eventToFollow.id);
+    console.log("addFollowedEvent");
+}
+
 function createStar(id){
     let star = document.createElement("input");
     star.type = "radio";
@@ -486,7 +581,7 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
         //Event instanz zwischenspeichern
         const self = this;
 
-        getFollowedEvents(this.id, function(result) {
+        getFollowedEvent(this.id, function(result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
         });
