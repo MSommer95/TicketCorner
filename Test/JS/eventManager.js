@@ -154,14 +154,20 @@ function getFollowedEvent(id, cb) {
 
     const followedEvent = eventMap.get(id);
 
+    console.log(followedEvent);
+
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            let followedEvent = this.responseText;
+            let result = JSON.parse(this.responseText);
 
-            const currentFollowedEvent = followedEvent[0];
+            console.log(result);
 
-            if(currentFollowedEvent.ID === parseInt(id)) {
+            const currentFollowedEvent = result[0];
+
+            console.log(currentFollowedEvent);
+
+            if(currentFollowedEvent.ID === followedEvent.id) {
                 cb(true);
                 return;
             }
@@ -173,7 +179,7 @@ function getFollowedEvent(id, cb) {
 
     xmlhttp.open("POST", "PHP/getFollowedEvent.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xmlhttp.send("eventId="+ followedEvent.id + "&userId="+ userId);
+    xmlhttp.send("eventId="+ parseInt(followedEvent.id) + "&userId="+ userId);
     console.log("getFollowedEvent");
 }
 
@@ -189,7 +195,7 @@ function getFollowedEvents(cb) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            let followedEvents = this.responseText;
+            let followedEvents = JSON.parse(this.responseText);
 
             cb(followedEvents);
         }

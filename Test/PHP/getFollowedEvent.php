@@ -11,7 +11,7 @@ $userId = $_POST["userId"];
 $eventId = $_POST["eventId"];
 
 //Select Statement zum Fetchen aller Events
-$stmt = $conn->prepare("SELECT events.* FROM events INNER JOIN users_events ON events.ID = users_events.eventId WHERE users_events.userId = $userId AND users_events.eventId = $eventId");
+$stmt = $conn->prepare("SELECT events.ID FROM users_events INNER JOIN events ON events.ID = users_events.eventId WHERE users_events.userId = $userId AND users_events.eventId = $eventId");
 
 if($stmt->execute()){
     $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
