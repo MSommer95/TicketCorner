@@ -80,7 +80,7 @@ function followEventLocal() {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            let isFollowed = this.responseText;
+            let isFollowed = JSON.parse(this.responseText);
 
             if(isFollowed.insertId !== 0) {
                 console.log('followEventLocal | New entry for following event added: ' + isFollowed.insertId);

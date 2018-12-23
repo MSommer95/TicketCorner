@@ -480,12 +480,13 @@ function followEventHome(eventId) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            let isFollowed = this.responseText;
+            let isFollowed = JSON.parse(this.responseText);
 
             if(isFollowed.insertId !== 0) {
                 console.log('followEventHome | New entry for following event added: ' + isFollowed.insertId);
 
                 eventToFollow.isFollowed = true;
+                updateFollowMap(eventToFollow);
             }
         }
     };
