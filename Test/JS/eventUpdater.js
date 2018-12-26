@@ -324,6 +324,7 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
     this.soldout = false;
     this.currentTickets = parseInt(tickets);
     this.maxTickets = parseInt(maxTickets);
+    this.followed = false;
 
     this.checkIsExpired = function() {
         console.log("checkIsExpired | got called");
@@ -368,16 +369,22 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
         //Event instanz zwischenspeichern
         const self = this;
 
-        getFollowedEvent(this.id, function(result) {
+        getFollowedEvent(this.id,function(result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
+            console.log("Event.checkIsFollowed | Event should be marked as followed");
+            if(document.getElementById(id  +  "FollowBTN") != null && result === true){
+                document.getElementById(id +  "FollowBTN").textContent = "Unfollow";
+                document.getElementById(id + "FollowBTN").setAttribute("onclick", "unFollow(" + id + ")");
+            }
+
         });
     };
 
     //Aufruf der Prüffunktionen
     this.checkIsExpired();
     this.checkIsSoldOut();
-    //this.checkIsFollowed();
+
 }
 
 function dateTransform(date){
@@ -409,6 +416,7 @@ function initEvents(eventJsonObject){
     for(let i= 0; i<=eventHolderIndex.length-1; i++){
         if(eventHolderIndex[i].id === getHTMLname()){
             currentEvent = eventHolderIndex[i];
+            currentEvent.checkIsFollowed();
         }
         if(!eventHolderIndex[i].expired){
             eventEndorserIndex.push(eventHolderIndex[i]);
@@ -416,7 +424,11 @@ function initEvents(eventJsonObject){
     }
 
     eventEndorserIndex = quickSortEndorsement(eventEndorserIndex, 0, eventEndorserIndex.length-1).reverse();
-    updateSlideshow(eventEndorserIndex);
+    if(eventEndorserIndex.length >= 3){
+        updateSlideshow(eventEndorserIndex);
+    } else if(eventHolderIndex.length >= 3) {
+        updateSlideshow(eventHolderIndex);
+    }
     updateHTML(currentEvent);
     if(getCookie("email") != null && getCookie("email").includes("hshl.de")) {
         let price = parseInt(currentEvent.price) * 0.85;
@@ -425,17 +437,22 @@ function initEvents(eventJsonObject){
     return eventHolderIndex;
 }
 
+// Slideshow darstellung erneuern
 function updateSlideshow(eventArray) {
-    let firstSliderPath = "/TicketCorner"+ eventArray[0].img.replace("..","");
-    let secondSliderPath = "/TicketCorner"+eventArray[1].img.replace("..","");
-    let thirdSliderPath = "/TicketCorner"+eventArray[2].img.replace("..","");
+    if(eventArray.length>=3){
+        let firstSliderPath = "/TicketCorner"+ eventArray[0].img.replace("..","");
+        let secondSliderPath = "/TicketCorner"+eventArray[1].img.replace("..","");
+        let thirdSliderPath = "/TicketCorner"+eventArray[2].img.replace("..","");
 
-    document.getElementById("firstSliderImg").src = firstSliderPath;
-    document.getElementById("firstSlideshowLink").href = firstSliderPath.replace(/jpg|img/g,"html");
-    document.getElementById("secondSliderImg").src = secondSliderPath;
-    document.getElementById("secondSlideshowLink").href = secondSliderPath.replace(/jpg|img/g,"html");
-    document.getElementById("thirdSliderImg").src = thirdSliderPath;
-    document.getElementById("thirdSlideshowLink").href = thirdSliderPath.replace(/jpg|img/g,"html");
+        document.getElementById("firstSliderImg").src = firstSliderPath;
+        document.getElementById("firstSlideshowLink").href = firstSliderPath.replace(/jpg|img/g,"html");
+        document.getElementById("secondSliderImg").src = secondSliderPath;
+        document.getElementById("secondSlideshowLink").href = secondSliderPath.replace(/jpg|img/g,"html");
+        document.getElementById("thirdSliderImg").src = thirdSliderPath;
+        document.getElementById("thirdSlideshowLink").href = thirdSliderPath.replace(/jpg|img/g,"html");
+    } else {
+        console.log("RERROR");
+    }
 
 }
 
@@ -491,11 +508,107 @@ function initRating(ratingJSON){
     }
 }
 
+
+
+// Datenbankeinträge für das Folgen von Events schreiben
+function followEventHome(eventId) {
+    const userId = getCookie("ID");
+
+    if(typeof eventId !== 'string') {
+        eventId = eventId.toString();
+    }
+
+    if(!userId) {
+        console.log("followEventHome | user not logged in, returning -> HIDE BUTTON LATER");
+        return;
+    }
+
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let isFollowed = JSON.parse(this.responseText);
+
+            if(isFollowed.insertId !== 0) {
+                console.log('followEventHome | New entry for following event added: ' + isFollowed.insertId);
+
+                currentEvent.isFollowed = true;
+                document.getElementById(eventId +  "FollowBTN").textContent = "Unfollow";
+                document.getElementById(eventId + "FollowBTN").setAttribute("onclick", "unFollow(" + eventId + ")");
+
+            }
+        }
+    };
+
+    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/addFollowedEvent.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("userId="+ userId + "&eventId="+ currentEvent.id);
+    console.log("addFollowedEvent");
+}
+
+function unFollow(eventid){
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let eventJsonObject = this.responseText;
+            if(typeof eventJsonObject === 'string'){
+
+                document.getElementById(eventid +  "FollowBTN").textContent = "Follow";
+                document.getElementById(eventid + "FollowBTN").setAttribute("onclick", "followEventHome(" + eventid + ")");
+            }
+        }
+    };
+    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/deleteFollowedEvent.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("userId="+ getCookie("ID")+ "&eventId="+ eventid);
+
+}
+
+// Gibt zurück, ob ein Nutzer einem Event folgt
+function getFollowedEvent(id, cb) {
+    const userId = getCookie("ID");
+
+    if(typeof id !== 'string') {
+        id = id.toString();
+    }
+
+    if(!userId) {
+        console.log("getFollowedEvent | user not logged in, returning");
+        return;
+    }
+
+    console.log(currentEvent);
+
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let result = JSON.parse(this.responseText);
+
+            console.log(result);
+
+            const currentFollowedEvent = result[0];
+
+            console.log(currentFollowedEvent);
+
+            if(currentFollowedEvent != null && currentFollowedEvent.ID === currentEvent.id) {
+                cb(true);
+                return;
+            }
+
+            cb(false);
+
+        }
+    };
+
+    xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/getFollowedEvent.php", true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send("eventId="+ parseInt(currentEvent.id) + "&userId="+ userId);
+    console.log("getFollowedEvent");
+}
+
 getEvents(function (events) {
     initEvents(events);
 
 });
-
 //startet die erste Initialisierung
 initProcess();
 //startet ein Intervall, welches alle 10 Sekunden die InitProcess() Funktion aufruft

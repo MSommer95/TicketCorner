@@ -169,11 +169,11 @@ function getFollowedEvent(id, cb) {
             console.log(currentFollowedEvent);
 
             if(currentFollowedEvent != null && currentFollowedEvent.ID === followedEvent.id) {
-                cb(id,true);
+                cb(true);
                 return;
             }
 
-            cb(id,false);
+            cb(false);
 
         }
     };
@@ -314,7 +314,13 @@ function initEvents(eventJsonObject){
 
     eventEndorser = quickSortEndorsement(eventEndorser, 0, eventEndorser.length-1).reverse();
     eventPricer = quickSortPrice(eventPricer, 0, eventPricer.length-1);
-    updateSlideshow(eventEndorser);
+    if(eventEndorser.length >= 3){
+        updateSlideshow(eventEndorser);
+    }
+    else if(eventHolder.length >= 3){
+        updateSlideshow(eventHolder);
+    }
+
     console.log(eventMap);
     return eventHolder;
 }
@@ -422,10 +428,10 @@ function createEventHTMLElements(event){
         eventFollowBtn.type = "button";
         eventFollowBtn.id = event.id + "FollowBTN";
 
-        if(event.followed){
+        if(event.followed === true){
             eventFollowBtn.setAttribute("onclick", "unFollow(" + event.id + ")");
             eventFollowBtn.textContent = "Unfollow";
-        } else {
+        } else if (event.followed === false){
             eventFollowBtn.setAttribute("onclick", "followEventHome(" + event.id + ")");
             eventFollowBtn.textContent = "Follow";
         }
@@ -654,7 +660,7 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
         //Event instanz zwischenspeichern
         const self = this;
 
-        getFollowedEvent(this.id, function(result) {
+        getFollowedEvent(this.id,function(result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
             console.log("Event.checkIsFollowed | Event should be marked as followed");

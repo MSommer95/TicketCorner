@@ -148,6 +148,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
     </div>
     <div class=\"submitEvent\">
         <button name=\"submit\" type=\"submit\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\" onclick='getEventById(\"$id\")'>Ticket bestellen</button>
+        <button class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4\" type=\"button\" id=\"$id.FollowBTN\" onclick=\"followEventHome($id)\">Follow</button>
         <div class=\"dropdown-divider\"></div>
     </div>
      <h5 class=\"ratings loggedInAcc marginSpacer\">--Deine Bewertung--</h5>
