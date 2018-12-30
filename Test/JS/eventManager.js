@@ -162,8 +162,6 @@ function getFollowedEvent(id, cb) {
         if (this.readyState === 4 && this.status === 200) {
             let result = JSON.parse(this.responseText);
 
-            console.log(result);
-
             const currentFollowedEvent = result[0];
 
             console.log(currentFollowedEvent);
@@ -172,9 +170,7 @@ function getFollowedEvent(id, cb) {
                 cb(true);
                 return;
             }
-
             cb(false);
-
         }
     };
 
@@ -244,6 +240,23 @@ function updateTicketCount(ticketUpdate, event){
         ticketHTML.appendChild(document.createTextNode(sold.bold()));
     }
 
+    eventMap.forEach((eventInMap) => {
+        if(eventInMap === event) {
+            console.log('updateTicketCount | Event found in map');
+            if(ticketUpdate[0].eventTickets !== eventInMap.currentTickets) {
+                console.log(`updateTicketCount | Event ticket count differs, should update from: ${eventInMap.currentTickets}`);
+                eventInMap.currentTickets = ticketUpdate[0].eventTickets;
+                if(eventInMap.currentTickets <= 0) {
+                    eventInMap.checkIsSoldOut();
+                }
+                if(eventInMap.followed) {
+                    updateFollowMap(eventInMap);
+                }
+                console.log(`updateTicketCount | Event tickets updated to: ${eventInMap.currentTickets}`);
+            }
+        }
+    });
+
     console.log("UpdateHTMLCall for Event: " + event.name + " Tickets now at: " + ticketUpdate[0].eventTickets);
 }
 
@@ -279,6 +292,10 @@ function unFollow(eventid){
 
                 document.getElementById(eventid +  "FollowBTN").textContent = "Follow";
                 document.getElementById(eventid + "FollowBTN").setAttribute("onclick", "followEventHome(" + eventid + ")");
+
+                if(followMap.has(eventid.toString())) {
+                    followMap.delete(eventid.toString());
+                }
             }
         }
     };
@@ -588,8 +605,9 @@ function createLabeli(id){
 
     return label;
 }
+
 //Constructor für die Events
-function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
+function Event(id, img, name, date, price, eventLocation, tickets, maxTickets) {
     this.id = id;
     this.endorsement = (maxTickets - tickets) / maxTickets;
     this.price = parseFloat(price);
@@ -660,15 +678,17 @@ function Event(id, img, name, date, price, eventLocation,tickets, maxTickets) {
         //Event instanz zwischenspeichern
         const self = this;
 
-        getFollowedEvent(this.id,function(result) {
+        getFollowedEvent(this.id, function(result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
             console.log("Event.checkIsFollowed | Event should be marked as followed");
-            if(document.getElementById(id  +  "FollowBTN") != null && result === true){
+            if(document.getElementById(id  +  "FollowBTN") != null && result){
                 document.getElementById(id +  "FollowBTN").textContent = "Unfollow";
                 document.getElementById(id + "FollowBTN").setAttribute("onclick", "unFollow(" + id + ")");
             }
-
+            if(result) {
+                updateFollowMap(self);
+            }
         });
     };
 
@@ -864,11 +884,105 @@ function updateSlideshow(eventArray) {
     } else {
         console.log("RERROR");
     }
-
 }
+
+let alreadyNotified = false;
+
+function notificationsIterator() {
+    const soldOutEvents = [];
+    const expiredEvents = [];
+    const upcomingEvents = [];
+    const shortageEvents = [];
+    const userId = getCookie("ID");
+
+    if(alreadyNotified) {
+        console.log('notification received recently, returning');
+        return;
+    }
+
+    if(!userId) {
+        console.log('notificationsIterator | user not logged in, returning');
+        return;
+    }
+
+    if(followMap.size <= 0) {
+        console.log('notificationsIterator | followMap empty, returning');
+        return;
+    }
+
+    followMap.forEach((event) => {
+        if(event.soldout) {
+            soldOutEvents.push(event.name);
+        }
+
+        if(event.expired) {
+            expiredEvents.push(event.name);
+        }
+
+        const eventDate = dateTransform(event.date);
+        const currentDate = new Date();
+
+        if(!event.expired && (eventDate.getDate() + 7) >= currentDate) {
+            console.log('notificationsIterator | Event should happen in a week or less');
+            upcomingEvents.push(event.name);
+        }
+
+        if(!event.soldout && event.currentTickets <= (Math.round(event.maxTickets / 2))) {
+            console.log('notificationsIterator | Event has at least 50% Tickets sold out');
+            shortageEvents.push(event.name);
+        }
+    });
+
+    let notificationString = 'Benachrichtigung für verfolgte Events: \n';
+
+    soldOutEvents.forEach((soldOutEvent, index) => {
+        if(index === 0) {
+            notificationString += 'Ausverkaufte Events: ';
+        }
+
+        notificationString += (soldOutEvent + ' \n');
+    });
+
+    expiredEvents.forEach((expiredEvent, index) => {
+        if(index === 0) {
+            notificationString += 'Vergangene Events: ';
+        }
+
+        notificationString += (expiredEvent + ' \n');
+    });
+
+    upcomingEvents.forEach((upcomingEvent, index) => {
+        if(index === 0) {
+            notificationString += 'Events in Kürze: ';
+        }
+
+        notificationString += (upcomingEvent + ' \n');
+    });
+
+    shortageEvents.forEach((shortageEvent, index) => {
+        if(index === 0) {
+            notificationString += 'Fast ausverkaufte Events: ';
+        }
+
+        notificationString += (shortageEvent + ' \n');
+    });
+
+    console.log(notificationString);
+
+    if(notificationString !== 'Benachrichtigung für verfolgte Events: \n') {
+        window.alert(notificationString);
+        alreadyNotified = true;
+
+        setTimeout(() => {
+            alreadyNotified = false;
+        }, 60000);
+    }
+}
+
 function iterators(){
     TicketIterator();
     followButtonsIterator();
+    notificationsIterator();
 }
 
 setInterval("iterators()", 10000);
