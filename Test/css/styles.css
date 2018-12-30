@@ -184,6 +184,50 @@ div.EventContainer p{
         width: 50%;
     }
 }
+
+@media only screen and (min-width: 1801px) {
+    h4 {
+        margin-top: 0;
+    }
+
+    div.EventContainer-Account{
+        height: 300px;
+        text-align: center;
+    }
+
+    div.eventImg-Account{
+        float: left;
+        margin: 8% 0 0 15% ;
+    }
+
+    div.eventInf-Account{
+        float: left;
+        margin: 2% 0 0 5%;
+        text-align: left;
+    }
+}
+
+@media only screen and (max-width: 1800px) {
+    div.EventContainer-Account{
+        margin: 3% 0 3% 0;
+        text-align: center;
+    }
+
+    div.eventImg-Account{
+        clear: both;
+    }
+
+    div.eventInf-Account{
+        clear: both;
+        text-align: center;
+    }
+
+    div.dropdown-divider-Account{
+        margin-left: 25%;
+        width: 50%;
+    }
+}
+
 .main-menu-link {
     display: block;
     transition: all .15s ease-in-out;

@@ -10,6 +10,7 @@ document.getElementById("acc-delete").style.display = "none";
 document.getElementById("event-Container").style.display = "none";
 //Funktion zum "Aufdecken" des pdata Forms / Verdeckt das pwchange Form
 function enablePData(){
+    document.getElementById("profil-change-headline").innerText = "Ihr Profil";
     document.getElementById("pwchange").style.display = "none";
     document.getElementById("acc-delete").style.display = "none";
     document.getElementById("event-Container").style.display = "none";
@@ -21,6 +22,7 @@ function enablePData(){
 }
 //Funktion zum "Aufdecken" des pwchange Forms / Verdeckt das pdata Form
 function enablePW(){
+    document.getElementById("profil-change-headline").innerText = "Passwort ändern";
     document.getElementById("pdata").style.display = "none";
     document.getElementById("acc-delete").style.display = "none";
     document.getElementById("pwchange").style.display = "block";
@@ -32,6 +34,7 @@ function enablePW(){
 }
 
 function enableAccDelete(){
+    document.getElementById("profil-change-headline").innerText = "Account löschen";
     document.getElementById("pdata").style.display = "none";
     document.getElementById("acc-delete").style.display = "block";
     document.getElementById("pwchange").style.display = "none";
@@ -43,6 +46,7 @@ function enableAccDelete(){
 }
 
 function enableEventFollow(){
+    document.getElementById("profil-change-headline").innerText = "Events denen du folgst";
     document.getElementById("pdata").style.display = "none";
     document.getElementById("acc-delete").style.display = "none";
     document.getElementById("pwchange").style.display = "none";
@@ -200,7 +204,7 @@ function unFollow(eventid){
             let eventJsonObject = this.responseText;
             if(typeof eventJsonObject === 'string'){
                 eventJsonObject = JSON.parse(eventJsonObject);
-                cb(eventJsonObject);
+                document.getElementById(eventid+"Follow").style.display = "none";
             }
         }
     };
@@ -289,7 +293,7 @@ function createHTML(event){
     let eventImg = document.createElement("div");
     let eventInfo = document.createElement("div");
 
-    let eventName = document.createElement("h2");
+    let eventName = document.createElement("h4");
     let eventDate = document.createElement("p");
     let eventLocation = document.createElement("p");
     let eventTickets = document.createElement("p");
@@ -311,9 +315,9 @@ function createHTML(event){
     let dividerEvent = document.createElement("div");
 
     eventTickets.id = event.id;
-    eventInfo.className = "eventInf";
-    eventImg.className = "eventImg";
-    eventDiv.className = "EventContainer";
+    eventInfo.className = "eventInf-Account";
+    eventImg.className = "eventImg-Account";
+    eventDiv.className = "EventContainer-Account";
     eventName.textContent = event.name;
     btagDate.textContent = "Zeitpunkt: ";
     btagTickets.textContent = "Anzahl der Tickets: ";
@@ -326,12 +330,12 @@ function createHTML(event){
     dividerDate.className = "dropdown-divider";
     dividerTickets.className = "dropdown-divider";
     dividerLocation.className = "dropdown-divider";
-    dividerEvent.className = "divider";
+    dividerEvent.className = "dropdown-divider";
     eventFollowBtn.className = "flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4";
     eventFollowBtn.type = "button";
     eventFollowBtn.setAttribute("onclick", "unFollow(" + event.id + ")");
     eventFollowBtn.textContent = "Unfollow";
-    eventFollowBtn.id = event.id;
+    eventFollowBtn.id = event.id + "Follow";
 
     document.getElementById("event-Container").appendChild(eventDiv);
     eventInfo.appendChild(eventName);
