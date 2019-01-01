@@ -11,22 +11,22 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="icon" href="images/icons/favicon.ico" type=image/x-icon">
 </head>
-<body>
+<body background="images/background1.jpg";">
 <!-- So würde das Logo eingebunden werden: -->
 <!-- PayPal Logo -->
 <div style="text-align: center; margin: 5% 0 5% 0">
-    <img src="https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-150px.png" border="0" alt="PayPal Logo" />
+    <img src="https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-200px.png" border="0" alt="PayPal Logo" />
 </div>
 <!-- PayPal Logo -->
 <div class="paypalWrapper">
     <div class="col-md-6 PaymentForm">
         <div class="order-Info">
-            <h2 style="margin-left: 2%">Ihr Ticket Kauf</h2>
+            <h2 style="margin-left: 2%; margin-top: 35px; margin-bottom: 35px;">Ihr Ticket Kauf</h2>
             <div class="dropdown-divider"></div>
-            <p style="margin-left: 2%" id="eventName">Veranstaltungsname: </p>
-            <p style="margin-left: 2%" id="eventPrice">Veranstaltungspreis: </p>
+            <p style="margin-left: 2%; color: #495057;" id="eventName">Veranstaltungsname: </p>
+            <p style="margin-left: 2%; color: #495057;" id="eventPrice">Veranstaltungspreis: </p>
         </div>
-        <div style="margin: 5% 0 0 5%">
+        <b><div style="margin: 5% 0 0 5%">
             <input id="paymentOne" type="radio" value="1" name="payment">
             <label for="paymentOne">PayPal Wallet 1</label>
         </div>
@@ -38,7 +38,7 @@
             <a href="https://intranet-secure.de/TicketCorner/index.html?Message=OK"> <button class="btn btn-primary">Kauf Bestätigen</button></a>
         </div>
 
-    </div>
+    </div></b>
 </div>
 <script src="JS/confirmBuy.js"></script>
 </body>

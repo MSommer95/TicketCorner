@@ -31,10 +31,11 @@ div.paypalWrapper {
     align-items: center;
     margin: 0 auto;
     max-width: 780px;
-    border: 2px solid grey;
+    border: 2px solid transparent;
     border-radius: 5px;
     overflow-y: visible;
     outline: none;
+    background-color: #e6e6e6cf;
 }
 
 div.eventForm{
@@ -44,7 +45,7 @@ div.eventForm{
 div.order-Info{
     margin: 10% 0 10% 5%;
     max-width: 1000px;
-    border: 2px solid grey;
+    border: 2px solid #567184;
     border-radius: 5px;
     overflow-y: visible;
     outline: none;
