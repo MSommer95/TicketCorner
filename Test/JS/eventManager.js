@@ -155,16 +155,12 @@ function getFollowedEvent(id, cb) {
 
     const followedEvent = eventMap.get(id);
 
-    console.log(followedEvent);
-
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             let result = JSON.parse(this.responseText);
 
             const currentFollowedEvent = result[0];
-
-            console.log(currentFollowedEvent);
 
             if(currentFollowedEvent != null && currentFollowedEvent.ID === followedEvent.id) {
                 cb(true);
@@ -177,7 +173,6 @@ function getFollowedEvent(id, cb) {
     xmlhttp.open("POST", "PHP/getFollowedEvent.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("eventId="+ parseInt(followedEvent.id) + "&userId="+ userId);
-    console.log("getFollowedEvent");
 }
 
 // Holt alle gefolgten Events des Nutzers aus der Datenbank
@@ -201,7 +196,6 @@ function getFollowedEvents(cb) {
     xmlhttp.open("POST", "PHP/getFollowedEvents.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("userId="+ userId);
-    console.log("getFollowedEvents");
 }
 
 //Updated die Ticket Anazhl in der DOM
@@ -243,7 +237,7 @@ function updateTicketCount(ticketUpdate, event){
     eventMap.forEach((eventInMap) => {
         if(eventInMap === event) {
             console.log('updateTicketCount | Event found in map');
-            if(ticketUpdate[0].eventTickets !== eventInMap.currentTickets) {
+            if(parseInt(ticketUpdate[0].eventTickets) !== eventInMap.currentTickets) {
                 console.log(`updateTicketCount | Event ticket count differs, should update from: ${eventInMap.currentTickets}`);
                 eventInMap.currentTickets = ticketUpdate[0].eventTickets;
                 if(eventInMap.currentTickets <= 0) {
@@ -314,7 +308,6 @@ function initEvents(eventJsonObject){
         }
         else {
             eventHolder.push(event);
-            console.log(event);
         }
     }
 
@@ -338,7 +331,6 @@ function initEvents(eventJsonObject){
         updateSlideshow(eventHolder);
     }
 
-    console.log(eventMap);
     return eventHolder;
 }
 
@@ -550,12 +542,12 @@ function followEventHome(eventId) {
     }
 
     if(!userId) {
-        console.log("followEventHome | user not logged in, returning -> HIDE BUTTON LATER");
+        console.log("followEventHome | user not logged in, returning");
         return;
     }
 
     if(!eventMap.has(eventId.toString())) {
-        console.log("followEventHome | event doesnt exist, returning -> HOW CAN THIS HAPPEN?");
+        console.log("followEventHome | event does not exist, returning");
         return;
     }
 
@@ -649,9 +641,6 @@ function Event(id, img, name, date, price, eventLocation, tickets, maxTickets) {
         console.log("checkIsExpired | eventDate is: " + eventDate);
 
         if(eventDate < currentDate) {
-
-            console.log("checkIsExpired | event is expired, should mark");
-
             this.date = this.date.replace(" (ABGELAUFEN)","");
             this.date += " (ABGELAUFEN)";
             this.expired = true;
@@ -659,7 +648,6 @@ function Event(id, img, name, date, price, eventLocation, tickets, maxTickets) {
             console.log("checkIsExpired | should be marked as expired: " + this.name);
         }
         else{
-
             console.log("checkIsExpired | event is not expired, do nothing");
         }
     };
@@ -886,8 +874,28 @@ function updateSlideshow(eventArray) {
     }
 }
 
+// Andauernde Benachrichtigungen vermeiden
 let alreadyNotified = false;
 
+// Funktion zum Anzeigen/Verstecken der Benachrichtigungsdiv
+function toggleNotification(toggle, text) {
+    const notificationBar = document.getElementById("notificationBar");
+
+    if(toggle && text !== '<b>Benachrichtigung für verfolgte Events:</b> <br>') {
+        notificationBar.innerHTML += text;
+        notificationBar.className = "show";
+    }
+    else {
+        notificationBar.className = "hide";
+
+        setTimeout(() => {
+            notificationBar.className = notificationBar.className.replace("hide", "");
+            notificationBar.innerHTML = "";
+        }, 450);
+    }
+}
+
+// Notification Text generieren und Notifications verwalten
 function notificationsIterator() {
     const soldOutEvents = [];
     const expiredEvents = [];
@@ -896,7 +904,7 @@ function notificationsIterator() {
     const userId = getCookie("ID");
 
     if(alreadyNotified) {
-        console.log('notification received recently, returning');
+        console.log('notificationsIterator | notification received recently, returning');
         return;
     }
 
@@ -919,63 +927,63 @@ function notificationsIterator() {
             expiredEvents.push(event.name);
         }
 
-        const eventDate = dateTransform(event.date);
+        const eventDate = new Date(dateTransform(event.date));
         const currentDate = new Date();
 
-        if(!event.expired && (eventDate.getDate() + 7) >= currentDate) {
+        if(!event.soldout && !event.expired && (eventDate.getDate() + 7) >= currentDate) {
             console.log('notificationsIterator | Event should happen in a week or less');
             upcomingEvents.push(event.name);
         }
 
-        if(!event.soldout && event.currentTickets <= (Math.round(event.maxTickets / 2))) {
+        if(!event.expired && !event.soldout && event.currentTickets <= (Math.round(event.maxTickets / 2))) {
             console.log('notificationsIterator | Event has at least 50% Tickets sold out');
             shortageEvents.push(event.name);
         }
     });
 
-    let notificationString = 'Benachrichtigung für verfolgte Events: \n';
+    let notificationString = '<b>Benachrichtigung für verfolgte Events:</b> <br>';
 
     soldOutEvents.forEach((soldOutEvent, index) => {
         if(index === 0) {
-            notificationString += 'Ausverkaufte Events: ';
+            notificationString += '<br><b>Ausverkaufte Events:</b> <br>';
         }
 
-        notificationString += (soldOutEvent + ' \n');
+        notificationString += (soldOutEvent + ' <br>');
     });
 
     expiredEvents.forEach((expiredEvent, index) => {
         if(index === 0) {
-            notificationString += 'Vergangene Events: ';
+            notificationString += '<br><b>Vergangene Events:</b> <br>';
         }
 
-        notificationString += (expiredEvent + ' \n');
+        notificationString += (expiredEvent + ' <br>');
     });
 
     upcomingEvents.forEach((upcomingEvent, index) => {
         if(index === 0) {
-            notificationString += 'Events in Kürze: ';
+            notificationString += '<br><b>Events in Kürze:</b> <br>';
         }
 
-        notificationString += (upcomingEvent + ' \n');
+        notificationString += (upcomingEvent + ' <br>');
     });
 
     shortageEvents.forEach((shortageEvent, index) => {
         if(index === 0) {
-            notificationString += 'Fast ausverkaufte Events: ';
+            notificationString += '<br><b>Fast ausverkaufte Events:</b> <br>';
         }
 
-        notificationString += (shortageEvent + ' \n');
+        notificationString += (shortageEvent + ' <br>');
     });
 
     console.log(notificationString);
 
-    if(notificationString !== 'Benachrichtigung für verfolgte Events: \n') {
-        window.alert(notificationString);
+    if(notificationString !== '<b>Benachrichtigung für verfolgte Events:</b> <br>') {
+        toggleNotification(true, notificationString);
         alreadyNotified = true;
 
         setTimeout(() => {
-            alreadyNotified = false;
-        }, 60000);
+            toggleNotification(false);
+        }, 20000);
     }
 }
 
