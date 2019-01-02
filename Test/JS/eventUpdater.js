@@ -373,9 +373,9 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
             console.log("Event.checkIsFollowed | Event should be marked as followed");
-            if(document.getElementById(id  +  "FollowBTN") != null && result === true){
-                document.getElementById(id +  "FollowBTN").textContent = "Unfollow";
-                document.getElementById(id + "FollowBTN").setAttribute("onclick", "unFollow(" + id + ")");
+            if(document.getElementById(id  +  ".FollowBTN") != null && result === true){
+                document.getElementById(id +  ".FollowBTN").textContent = "Unfollow";
+                document.getElementById(id + ".FollowBTN").setAttribute("onclick", "unFollow(" + id + ")");
             }
 
         });
@@ -532,8 +532,8 @@ function followEventHome(eventId) {
                 console.log('followEventHome | New entry for following event added: ' + isFollowed.insertId);
 
                 currentEvent.isFollowed = true;
-                document.getElementById(eventId +  "FollowBTN").textContent = "Unfollow";
-                document.getElementById(eventId + "FollowBTN").setAttribute("onclick", "unFollow(" + eventId + ")");
+                document.getElementById(eventId +  ".FollowBTN").textContent = "Unfollow";
+                document.getElementById(eventId + ".FollowBTN").setAttribute("onclick", "unFollow(" + eventId + ")");
 
             }
         }
@@ -552,8 +552,8 @@ function unFollow(eventid){
             let eventJsonObject = this.responseText;
             if(typeof eventJsonObject === 'string'){
 
-                document.getElementById(eventid +  "FollowBTN").textContent = "Follow";
-                document.getElementById(eventid + "FollowBTN").setAttribute("onclick", "followEventHome(" + eventid + ")");
+                document.getElementById(eventid +  ".FollowBTN").textContent = "Follow";
+                document.getElementById(eventid + ".FollowBTN").setAttribute("onclick", "followEventHome(" + eventid + ")");
             }
         }
     };
