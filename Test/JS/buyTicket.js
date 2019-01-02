@@ -18,12 +18,14 @@ function getEventById(eventId) {
             // Wenn das Event bereits stattgefunden hat oder ausverkauft ist kein Kauf möglich
             if(currentEvent.expired) {
                 console.log("buyTicket | event is expired, should show popup");
-                window.alert("Die Veranstaltung hat bereits stattgefunden");
+                //window.alert("Die Veranstaltung hat bereits stattgefunden");
+                toggleNotification(true, "<b> Die Veranstaltung hat bereits stattgefunden!");
                 return;
             }
             else if(currentEvent.soldout) {
                 console.log("buyTicket | event is soldout, should show popup");
-                window.alert("Die Veranstaltung ist bereits ausverkauft");
+                //window.alert("Die Veranstaltung ist bereits ausverkauft");
+                toggleNotification(true, "<b>Die Veranstaltung ist bereits ausverkauft!");
                 return;
             }
 
@@ -35,8 +37,79 @@ function getEventById(eventId) {
             buyProcess(foundEvent.id, foundEvent.name, foundEvent.price, foundEvent.description);
             console.log("buyTicket | Ticket should be bought");
         }
-        else
+        else {
             window.alert("FEHLER: Die angegebene Veranstaltung konnte nicht gefunden werden!");
+            toggleNotification(true, "<b>Die angegebene Veranstaltung konnte nicht gefunden werden!");
+        }
+}
+
+// Funktion zum Einblenden/Ausblenden von Notifications
+function toggleNotification(toggle, text) {
+    let notificationBar = document.getElementById("notificationBar");
+
+    if(notificationBar && toggle) {
+        notificationBar.innerHTML = "";
+
+        const anchor = document.createElement("closeNotification");
+        anchor.setAttribute("id", "closeNotification");
+        anchor.setAttribute("onclick", "toggleNotification(false)");
+        anchor.innerHTML = "x";
+
+        notificationBar.appendChild(anchor);
+    }
+
+    if(!notificationBar) {
+        notificationBar = createNotification();
+    }
+
+    if(toggle && text !== '<b>Benachrichtigung für verfolgte Events:</b> <br>') {
+        notificationBar.innerHTML += text;
+        notificationBar.className = "show";
+    }
+    else if(notificationBar.className.includes("show")) {
+        notificationBar.className = "hide";
+
+        setTimeout(() => {
+            notificationBar.className = notificationBar.className.replace("hide", "");
+            notificationBar.innerHTML = "";
+        }, 450);
+    }
+    else {
+        setTimeout(() => {
+            if(notificationBar.className.includes("hide"))
+                notificationBar.className = notificationBar.className.replace("hide", "");
+
+            notificationBar.innerHTML = "";
+        }, 450);
+    }
+}
+
+// Funktion zum erstellen der Notification HTML
+function createNotification() {
+    const head = document.head;
+    const link = document.createElement("link");
+
+    link.setAttribute("type", "text/css");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("href", "../../css/notification.css");
+
+    head.appendChild(link);
+
+    const notificationBar = document.createElement("notificationBar");
+    notificationBar.setAttribute("id", "notificationBar");
+
+    const anchor = document.createElement("closeNotification");
+    anchor.setAttribute("id", "closeNotification");
+    anchor.setAttribute("onclick", "toggleNotification(false)");
+    anchor.innerHTML = "x";
+
+    notificationBar.appendChild(anchor);
+
+    const body = document.body;
+
+    body.appendChild(notificationBar);
+
+    return document.getElementById("notificationBar");
 }
 
 // Funktion zum Erstellen einer Form, um die Bestellung eines Tickets aufzurufen

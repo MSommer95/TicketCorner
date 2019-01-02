@@ -628,7 +628,7 @@ function Event(id, img, name, date, price, eventLocation, tickets, maxTickets) {
     this.checkIsExpired = function() {
         console.log("checkIsExpired | got called");
         if(!this.date) {
-            console.log("checkIsExpired | no date defined, returning");
+            console.log("Event.checkIsExpired | no date defined, returning");
             return;
         }
 
@@ -638,17 +638,17 @@ function Event(id, img, name, date, price, eventLocation, tickets, maxTickets) {
 
         let eventDate = new Date(dateTransform(this.date));
 
-        console.log("checkIsExpired | eventDate is: " + eventDate);
+        console.log("Event.checkIsExpired | eventDate is: " + eventDate);
 
         if(eventDate < currentDate) {
             this.date = this.date.replace(" (ABGELAUFEN)","");
             this.date += " (ABGELAUFEN)";
             this.expired = true;
 
-            console.log("checkIsExpired | should be marked as expired: " + this.name);
+            console.log("Event.checkIsExpired | should be marked as expired: " + this.name);
         }
         else{
-            console.log("checkIsExpired | event is not expired, do nothing");
+            console.log("Event.checkIsExpired | event is not expired, do nothing");
         }
     };
 
