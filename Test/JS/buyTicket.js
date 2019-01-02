@@ -19,13 +19,13 @@ function getEventById(eventId) {
             if(currentEvent.expired) {
                 console.log("buyTicket | event is expired, should show popup");
                 //window.alert("Die Veranstaltung hat bereits stattgefunden");
-                toggleNotification(true, "<b> Die Veranstaltung hat bereits stattgefunden!");
+                toggleNotification(true, "<b> Die Veranstaltung hat bereits stattgefunden!", "information");
                 return;
             }
             else if(currentEvent.soldout) {
                 console.log("buyTicket | event is soldout, should show popup");
                 //window.alert("Die Veranstaltung ist bereits ausverkauft");
-                toggleNotification(true, "<b>Die Veranstaltung ist bereits ausverkauft!");
+                toggleNotification(true, "<b>Die Veranstaltung ist bereits ausverkauft!", "information");
                 return;
             }
 
@@ -44,7 +44,7 @@ function getEventById(eventId) {
 }
 
 // Funktion zum Einblenden/Ausblenden von Notifications
-function toggleNotification(toggle, text) {
+function toggleNotification(toggle, text, type) {
     let notificationBar = document.getElementById("notificationBar");
 
     if(notificationBar && toggle) {
@@ -60,6 +60,22 @@ function toggleNotification(toggle, text) {
 
     if(!notificationBar) {
         notificationBar = createNotification();
+    }
+
+    if(notificationBar && type) {
+        switch (type) {
+            case "warning":
+                notificationBar.style.backgroundColor = "#ff8533";
+                break;
+            case "error":
+                notificationBar.style.backgroundColor = "#e65540";
+                break;
+            case "information":
+                notificationBar.style.backgroundColor = "#0099ff";
+                break;
+            default:
+                break;
+        }
     }
 
     if(toggle && text !== '<b>Benachrichtigung für verfolgte Events:</b> <br>') {

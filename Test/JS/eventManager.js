@@ -878,8 +878,24 @@ function updateSlideshow(eventArray) {
 let alreadyNotified = false;
 
 // Funktion zum Anzeigen/Verstecken der Benachrichtigungsdiv
-function toggleNotification(toggle, text) {
+function toggleNotification(toggle, text, type) {
     const notificationBar = document.getElementById("notificationBar");
+
+    if(notificationBar && type) {
+        switch (type) {
+            case "warning":
+                notificationBar.style.backgroundColor = "#ff8533";
+                break;
+            case "error":
+                notificationBar.style.backgroundColor = "#e65540";
+                break;
+            case "information":
+                notificationBar.style.backgroundColor = "#0099ff";
+                break;
+            default:
+                break;
+        }
+    }
 
     if(toggle && text !== '<b>Benachrichtigung für verfolgte Events:</b> <br>') {
         notificationBar.innerHTML += text;
