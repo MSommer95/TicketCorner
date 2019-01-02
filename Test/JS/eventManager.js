@@ -885,11 +885,19 @@ function toggleNotification(toggle, text) {
         notificationBar.innerHTML += text;
         notificationBar.className = "show";
     }
-    else {
+    else if(notificationBar.className.includes("show")) {
         notificationBar.className = "hide";
 
         setTimeout(() => {
             notificationBar.className = notificationBar.className.replace("hide", "");
+            notificationBar.innerHTML = "";
+        }, 450);
+    }
+    else {
+        setTimeout(() => {
+            if(notificationBar.className.includes("hide"))
+                notificationBar.className = notificationBar.className.replace("hide", "");
+
             notificationBar.innerHTML = "";
         }, 450);
     }
