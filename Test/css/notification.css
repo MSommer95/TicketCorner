@@ -14,6 +14,7 @@
     z-index: 1;
     left: 85%; /* Am unteren-rechten Bildschrimrand positionieren */
     bottom: 10%; /* 10% Abstand vom unteren Rand, über scrollUp Button */
+    font-size: smaller;
 }
 
 /* notificationBar anzeigen (Klasse in JavaScript -> eventManager.js) */
@@ -24,11 +25,24 @@
     animation: fadein 0.5s;
 }
 
+/* notificationBar verbergen (Klasse in Javascript -> eventManager.js) */
 #notificationBar.hide {
     visibility: visible;
 
     -webkit-animation: fadeout 0.5s;
     animation: fadeout 0.5s;
+}
+
+/* X zum schließen der notificationBar */
+#closeNotification {
+    position: absolute;
+    top: 1%;
+    right: 5%;
+    font-size: medium;
+    font-weight: bold;
+    color: #333;
+    transition: all 200ms;
+    cursor: pointer;
 }
 
 /* Animationen für Fade-in und Fade-out der notificationBar*/
