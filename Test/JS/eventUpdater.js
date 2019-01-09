@@ -34,7 +34,6 @@ function getUpdatedData(cb) {
     xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/getUpdatedData.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("ID="+ ID);
-    console.log("getUpdateDataCall");
 }
 //Updated die Ticket Anazhl in der DOM
 function updateTicketCount(ticketUpdate){
@@ -49,8 +48,6 @@ function updateTicketCount(ticketUpdate){
     if(ticketUpdate[0].eventTickets === 0){
         ticketHTML.appendChild(document.createTextNode(" (AUSVERKAUFT)"));
     }
-
-    console.log("UpdateHTMLCall");
 }
 
 function updatePrice(price){
@@ -62,12 +59,10 @@ function updatePrice(price){
     bTag.textContent = "Preis: ";
     priceTag.appendChild(bTag);
     priceTag.appendChild(priceText);
-    console.log("price updated");
 }
 
 //Initialisiert drei Callback Funktionen mit PHP Aufrufen
 function initProcess(){
-    console.log("setInterval");
     //Ruft CallBackFunktion zur Aktualisierung der Kommentare auf
     getComments(function (comments) {
         createCommentSection(comments);
@@ -111,7 +106,6 @@ function createCommentSection(commentsJSON) {
         let comment = new Comment(commentsJSON[i].userName, commentsJSON[i].datetime, commentsJSON[i].message, commentsJSON[i].ID);
         createComment(comment);
         commentHolder.push(comment);
-        console.log(comment);
     }
 }
 //Funktion zum Fetchen der Kommentare des jeweiligen Events
@@ -123,14 +117,12 @@ function getComments(cb) {
             if(typeof commentsJSON === 'string'){
                 commentsJSON = JSON.parse(commentsJSON);
                 cb(commentsJSON);
-                console.log(commentsJSON);
             }
         }
     };
     xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/getComments.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("postID="+ ID);
-    console.log("getUpdateDataCall");
 }
 
 function createComment(comment){
@@ -187,7 +179,6 @@ function deleteComment(commentID){
     xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/deleteComment.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("postID="+ ID + "&commentID=" + commentID + "&userID=" + getCookie("ID"));
-    console.log("deleteCommentCall");
 }
 
 //Objekt Comment ist dafür zuständig, die Felder und Attribute eines Kommentarfeldes zu pflegen
@@ -206,8 +197,6 @@ function getRating(cb) {
             if(typeof ratingJSON === 'string'){
                 ratingJSON = JSON.parse(ratingJSON);
                 cb(ratingJSON);
-                console.log(ratingJSON);
-                console.log("getRatingDataCall");
             }
         }
     };
@@ -225,8 +214,6 @@ function sendRatingForm(){
 
 //Funktion mit der Logik zum Aufspalten des RatingsArray (Hält alle Bewertungen in einer Matrix) und zur Berechnung des Ratings
 function updateRating(ratingJSON){
-    console.log(ratingJSON);
-
     if(ratingJSON.length >= 1){
         initRating(ratingJSON);
         let ratingcounts = 0;
@@ -249,18 +236,12 @@ function updateRating(ratingJSON){
             five += parseInt(ratingJSON[i].fiveStars);
         }
         ratingcounts = ratingcounts/ratingJSON.length;
-        console.log(ratingcounts);
-        console.log("one "+one);
-        console.log("two "+one);
-        console.log("three "+three);
-        console.log("four "+four);
-        console.log("five "+five);
 
         if(ratingJSON.length>1){
-            document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
+            document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + "Sterne";
 
         }else{
-            document.getElementById("rating").textContent ="Es hat eine Person das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " gute Nudel Sterne";
+            document.getElementById("rating").textContent ="Es hat eine Person das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + "Sterne";
         }
         switch(Math.round(ratingcounts)){
             case 1:
@@ -327,9 +308,7 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
     this.followed = false;
 
     this.checkIsExpired = function() {
-        console.log("checkIsExpired | got called");
         if(!this.date) {
-            console.log("checkIsExpired | no date defined, returning");
             return;
         }
 
@@ -340,20 +319,14 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
 
         let eventDate = new Date(dateTransform(this.date));
 
-        console.log("checkIsExpired | eventDate is: " + eventDate);
 
         if(eventDate < currentDate) {
-
-            console.log("checkIsExpired | event is expired, should mark");
 
             this.date = this.date.replace(" (ABGELAUFEN)","");
             this.date += " (ABGELAUFEN)";
             this.expired = true;
-            console.log("checkIsExpired | should be marked as expired: " + this.name);
         }
         else{
-
-            console.log("checkIsExpired | event is not expired, do nothing");
         }
     };
     this.checkIsSoldOut = function() {
@@ -372,7 +345,6 @@ function Event(id, img, name, date, price, description, tickets, maxTickets) {
         getFollowedEvent(this.id,function(result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
-            console.log("Event.checkIsFollowed | Event should be marked as followed");
             if(document.getElementById(id  +  ".FollowBTN") != null && result === true){
                 document.getElementById(id +  ".FollowBTN").textContent = "Unfollow";
                 document.getElementById(id + ".FollowBTN").setAttribute("onclick", "unFollow(" + id + ")");
@@ -395,7 +367,6 @@ function dateTransform(date){
 }
 
 function updateHTML(event){
-    console.log("now update HTML");
     if(event.soldout){
         document.getElementById("eventTickets").appendChild(document.createTextNode(" (AUSVERKAUFT)"));
     }
@@ -409,7 +380,6 @@ function initEvents(eventJsonObject){
     for(let i=0; i<=eventJsonObject.length-1; i++){
         let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventDescription , eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
         eventHolderIndex.push(event);
-        console.log(event);
 
     }
 
@@ -451,7 +421,6 @@ function updateSlideshow(eventArray) {
         document.getElementById("thirdSliderImg").src = thirdSliderPath;
         document.getElementById("thirdSlideshowLink").href = thirdSliderPath.replace(/jpg|img/g,"html");
     } else {
-        console.log("RERROR");
     }
 
 }
@@ -497,7 +466,6 @@ function initRating(ratingJSON){
     let userID = getCookie("ID");
     for(let i = 0;i < ratingJSON.length; i++){
         if(ratingJSON[i].userID == userID && initPage === 1){
-            console.log(ratingJSON);
             let result = getKeyByValue(ratingJSON[i],"1");
             document.getElementById(result).checked = true;
             initPage++;
@@ -519,7 +487,6 @@ function followEventHome(eventId) {
     }
 
     if(!userId) {
-        console.log("followEventHome | user not logged in, returning -> HIDE BUTTON LATER");
         return;
     }
 
@@ -529,8 +496,6 @@ function followEventHome(eventId) {
             let isFollowed = JSON.parse(this.responseText);
 
             if(isFollowed.insertId !== 0) {
-                console.log('followEventHome | New entry for following event added: ' + isFollowed.insertId);
-
                 currentEvent.isFollowed = true;
                 document.getElementById(eventId +  ".FollowBTN").textContent = "Unfollow";
                 document.getElementById(eventId + ".FollowBTN").setAttribute("onclick", "unFollow(" + eventId + ")");
@@ -542,7 +507,6 @@ function followEventHome(eventId) {
     xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/addFollowedEvent.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("userId="+ userId + "&eventId="+ currentEvent.id);
-    console.log("addFollowedEvent");
 }
 
 function unFollow(eventid){
@@ -572,22 +536,16 @@ function getFollowedEvent(id, cb) {
     }
 
     if(!userId) {
-        console.log("getFollowedEvent | user not logged in, returning");
         return;
     }
 
-    console.log(currentEvent);
 
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             let result = JSON.parse(this.responseText);
 
-            console.log(result);
-
             const currentFollowedEvent = result[0];
-
-            console.log(currentFollowedEvent);
 
             if(currentFollowedEvent != null && currentFollowedEvent.ID === currentEvent.id) {
                 cb(true);
@@ -602,7 +560,6 @@ function getFollowedEvent(id, cb) {
     xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/getFollowedEvent.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("eventId="+ parseInt(currentEvent.id) + "&userId="+ userId);
-    console.log("getFollowedEvent");
 }
 
 getEvents(function (events) {

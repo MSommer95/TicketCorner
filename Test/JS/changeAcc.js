@@ -140,7 +140,6 @@ function getLoggedIn(cb, user) {
             if(typeof deviceCount === 'string'){
                 deviceCount = JSON.parse(deviceCount);
                 cb(deviceCount);
-                console.log(deviceCount);
             }
         }
     };
@@ -159,7 +158,6 @@ function deleteAcc(cb) {
             deleteMessage = this.responseText;
             if(typeof deleteMessage === 'string'){
                 cb(deleteMessage);
-                console.log(deleteMessage);
             }
         }
     };
@@ -171,7 +169,6 @@ function deleteAcc(cb) {
 
 function confirmeDeleted(){
     deleteAcc(function (event){
-       console.log(event);
        if(event == "accountDeleted"){
            logout();
            alert.log("Account erfolgreich gelöscht. Sie werden nun weitergeleitet!");
@@ -226,9 +223,7 @@ function Event(id, img, name, date, location, tickets, maxTickets){
     this.maxTickets = parseInt(maxTickets);
 
     this.checkIsExpired = function() {
-        console.log("checkIsExpired | got called");
         if(!this.date) {
-            console.log("checkIsExpired | no date defined, returning");
             return;
         }
 
@@ -238,20 +233,15 @@ function Event(id, img, name, date, location, tickets, maxTickets){
 
         let eventDate = new Date(dateTransform(this.date));
 
-        console.log("checkIsExpired | eventDate is: " + eventDate);
-
         if(eventDate < currentDate) {
 
-            console.log("checkIsExpired | event is expired, should mark");
 
             this.date = this.date.replace(" (ABGELAUFEN)","");
             this.date += " (ABGELAUFEN)";
             this.expired = true;
-            console.log("checkIsExpired | should be marked as expired: " + this.name);
         }
         else{
 
-            console.log("checkIsExpired | event is not expired, do nothing");
         }
     };
     this.checkIsSoldOut = function() {

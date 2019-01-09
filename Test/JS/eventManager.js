@@ -6,7 +6,7 @@ let eventPricer = [];
 let eventRatingsAll = [];
 let start = 0;
 let loadingIndex = 0;
-let orderMode= 1;
+let orderMode= 'new';
 let eventJsonObject = null;
 let eventLoader = 0;
 const eventMap = new Map();
@@ -15,15 +15,12 @@ const followMap = new Map();
 function loopIt(sortMode) {
 
     //Sortiert das Event Array chronologisch nach den neusten
-    if(sortMode === 1){
-        console.log("eventHolder 1: ");
-        console.log(eventHolder);
+    if(sortMode === 'new'){
         for(let i=0; i<=4; i++) {
             if(loadingIndex <= eventHolder.length-1) {
                 eventHolder[loadingIndex].checkIsExpired();
                 createEventHTMLElements(eventHolder[loadingIndex]);
             } else {
-                console.log("out of bound");
                 break;
             }
 
@@ -31,31 +28,25 @@ function loopIt(sortMode) {
         }
     }
     //Sortiert das Event Array chronologisch nach den ältesten
-    if(sortMode === 2) {
-        console.log("eventHolder 2: ");
-        console.log(eventHolder);
+    if(sortMode === 'old') {
         for (let i=eventHolder.length; i>=eventHolder.length-4; i--) {
            if(loadingIndex >=0){
                eventHolder[loadingIndex].checkIsExpired();
                createEventHTMLElements(eventHolder[loadingIndex]);
            } else {
-               console.log("out of bound");
                break;
            }
             loadingIndex--;
         }
     }
     //Sortiert das Event Array chronologisch nach den meist verkauften
-    if(sortMode === 3) {
+    if(sortMode === 'endorsement') {
 
-        console.log("EventEndorser: ");
-        console.log(eventEndorser);
         for (let i=0; i<=4; i++) {
             if(loadingIndex <= eventPricer.length-1){
                 createEventHTMLElements(eventEndorser[loadingIndex]);
             }
             else{
-                console.log("Out of Bound");
                 break;
             }
             loadingIndex++;
@@ -63,16 +54,13 @@ function loopIt(sortMode) {
         }
     }
     //Sortiert das Event Array chronologisch nach dem Preis
-    if(sortMode === 4) {
+    if(sortMode === 'price') {
 
-        console.log("EventPricer: ");
-        console.log(eventPricer);
         for (let i=0; i<=4; i++) {
             if(loadingIndex <= eventPricer.length-1){
                 createEventHTMLElements(eventPricer[loadingIndex]);
             }
             else{
-                console.log("Out of Bound");
                 break;
             }
 
@@ -108,7 +96,6 @@ function getRatings(cb) {
             if(typeof ratingJsonObject === 'string'){
                 ratingJsonObject = JSON.parse(ratingJsonObject);
                 cb(ratingJsonObject);
-                console.log("rating received");
             }
         }
     };
@@ -132,7 +119,6 @@ function getUpdatedData(cb, event) {
     xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/getUpdatedData.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("ID="+ event.id);
-    console.log("getUpdateDataCall");
 }
 
 // Gibt zurück, ob ein Nutzer einem Event folgt
@@ -144,12 +130,10 @@ function getFollowedEvent(id, cb) {
     }
 
     if(!userId) {
-        console.log("getFollowedEvent | user not logged in, returning");
         return;
     }
 
     if(!eventMap.has(id)){
-        console.log("getFollowedEvent | Event doesnt exist, returning -> WHY?");
         return;
     }
 
@@ -180,7 +164,6 @@ function getFollowedEvents(cb) {
     const userId = getCookie("ID");
 
     if(!userId) {
-        console.log("getFollowedEvent | user not logged in, returning");
         return;
     }
 
@@ -236,9 +219,7 @@ function updateTicketCount(ticketUpdate, event){
 
     eventMap.forEach((eventInMap) => {
         if(eventInMap === event) {
-            console.log('updateTicketCount | Event found in map');
             if(parseInt(ticketUpdate[0].eventTickets) !== eventInMap.currentTickets) {
-                console.log(`updateTicketCount | Event ticket count differs, should update from: ${eventInMap.currentTickets}`);
                 eventInMap.currentTickets = ticketUpdate[0].eventTickets;
                 if(eventInMap.currentTickets <= 0) {
                     eventInMap.checkIsSoldOut();
@@ -246,12 +227,10 @@ function updateTicketCount(ticketUpdate, event){
                 if(eventInMap.followed) {
                     updateFollowMap(eventInMap);
                 }
-                console.log(`updateTicketCount | Event tickets updated to: ${eventInMap.currentTickets}`);
             }
         }
     });
 
-    console.log("UpdateHTMLCall for Event: " + event.name + " Tickets now at: " + ticketUpdate[0].eventTickets);
 }
 
 // Ticketanzahl aktualisieren
@@ -530,7 +509,6 @@ function rateEvents(ratings){
         eventHolder[i].ratingValue += ratingValue;
         eventHolder[i].ratingCount += ratingCount;
     }
-    console.log("rating complete");
 }
 
 // Datenbankeinträge für das Folgen von Events schreiben
@@ -542,12 +520,10 @@ function followEventHome(eventId) {
     }
 
     if(!userId) {
-        console.log("followEventHome | user not logged in, returning");
         return;
     }
 
     if(!eventMap.has(eventId.toString())) {
-        console.log("followEventHome | event does not exist, returning");
         return;
     }
 
@@ -559,7 +535,6 @@ function followEventHome(eventId) {
             let isFollowed = JSON.parse(this.responseText);
 
             if(isFollowed.insertId !== 0) {
-                console.log('followEventHome | New entry for following event added: ' + isFollowed.insertId);
 
                 eventToFollow.isFollowed = true;
                 updateFollowMap(eventToFollow);
@@ -573,7 +548,6 @@ function followEventHome(eventId) {
     xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/addFollowedEvent.php", true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xmlhttp.send("userId="+ userId + "&eventId="+ eventToFollow.id);
-    console.log("addFollowedEvent");
 }
 
 // Betwertungsstern generieren und zurückgeben
@@ -626,9 +600,7 @@ function Event(id, img, name, date, price, eventLocation, tickets, maxTickets) {
 
     //Funktion zum Überprüfen des Datums
     this.checkIsExpired = function() {
-        console.log("checkIsExpired | got called");
         if(!this.date) {
-            console.log("Event.checkIsExpired | no date defined, returning");
             return;
         }
 
@@ -638,17 +610,14 @@ function Event(id, img, name, date, price, eventLocation, tickets, maxTickets) {
 
         let eventDate = new Date(dateTransform(this.date));
 
-        console.log("Event.checkIsExpired | eventDate is: " + eventDate);
 
         if(eventDate < currentDate) {
             this.date = this.date.replace(" (ABGELAUFEN)","");
             this.date += " (ABGELAUFEN)";
             this.expired = true;
 
-            console.log("Event.checkIsExpired | should be marked as expired: " + this.name);
         }
         else{
-            console.log("Event.checkIsExpired | event is not expired, do nothing");
         }
     };
 
@@ -669,7 +638,6 @@ function Event(id, img, name, date, price, eventLocation, tickets, maxTickets) {
         getFollowedEvent(this.id, function(result) {
             //In Callback bei ankommen des Resulatats zuweisen
             self.followed = result;
-            console.log("Event.checkIsFollowed | Event should be marked as followed");
             if(document.getElementById(id  +  "FollowBTN") != null && result){
                 document.getElementById(id +  "FollowBTN").textContent = "Unfollow";
                 document.getElementById(id + "FollowBTN").setAttribute("onclick", "unFollow(" + id + ")");
@@ -703,52 +671,48 @@ function dateTransform(date){
 
 //Scroll Funktion zum Nachladen der Events
 $(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 1) {
-        console.log("Bottom reached mode 1");
-        loopIt(1);
-    } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 2) {
-        console.log("Bottom reached mode 2");
-        loopIt(2);
-    } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 3) {
-        console.log("Bottom reached mode 3");
-        loopIt(3);
-    }if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 4) {
-        console.log("Bottom reached mode 4");
-        loopIt(4);
+    if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 'new') {
+        loopIt('new');
+    } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 'old') {
+        loopIt('old');
+    } else if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 'endorsement') {
+        loopIt('endorsement');
+    }if($(window).scrollTop() + $(window).height() == $(document).height() && orderMode === 'price') {
+        loopIt('price');
     }
 });
 //Funktion zum Aufrufen der jeweiligen Sortier Funktion
-function sortEvents(int){
+function sortEvents(sortMode){
     if(start === 0){
         eventIndexer = Array.from(Array(eventHolder.length).keys());
         start ++;
     }
     $("div").remove(".EventContainer");
     $("div").remove(".divider");
-    switch (int) {
-        case 1:
+    switch (sortMode) {
+        case 'new':
 
             loadingIndex = 0;
-            loopIt(int);
-            orderMode = 1;
+            loopIt(sortMode);
+            orderMode = 'new';
             break;
-        case 2:
+        case 'old':
 
             loadingIndex = eventHolder.length-1;
-            loopIt(int);
-            orderMode = 2;
+            loopIt(sortMode);
+            orderMode = 'old';
             break;
-        case 3:
+        case 'endorsement':
 
             loadingIndex = 0;
-            loopIt(int);
-            orderMode = 3;
+            loopIt(sortMode);
+            orderMode = 'endorsement';
             break;
-        case 4:
+        case 'price':
 
             loadingIndex = 0;
-            loopIt(int);
-            orderMode = 4;
+            loopIt(sortMode);
+            orderMode = 'price';
             break;
     }
 }
@@ -870,7 +834,6 @@ function updateSlideshow(eventArray) {
         document.getElementById("thirdSliderImg").src = thirdSliderPath;
         document.getElementById("thirdSlideshowLink").href = thirdSliderPath.replace(/jpg|img/g,"html");
     } else {
-        console.log("RERROR");
     }
 }
 
@@ -928,17 +891,14 @@ function notificationsIterator() {
     const userId = getCookie("ID");
 
     if(alreadyNotified) {
-        console.log('notificationsIterator | notification received recently, returning');
         return;
     }
 
     if(!userId) {
-        console.log('notificationsIterator | user not logged in, returning');
         return;
     }
 
     if(followMap.size <= 0) {
-        console.log('notificationsIterator | followMap empty, returning');
         return;
     }
 
@@ -955,12 +915,10 @@ function notificationsIterator() {
         const currentDate = new Date();
 
         if(!event.soldout && !event.expired && (eventDate.getDate() + 7) >= currentDate) {
-            console.log('notificationsIterator | Event should happen in a week or less');
             upcomingEvents.push(event.name);
         }
 
         if(!event.expired && !event.soldout && event.currentTickets <= (Math.round(event.maxTickets / 2))) {
-            console.log('notificationsIterator | Event has at least 50% Tickets sold out');
             shortageEvents.push(event.name);
         }
     });
@@ -999,7 +957,6 @@ function notificationsIterator() {
         notificationString += (shortageEvent + ' <br>');
     });
 
-    console.log(notificationString);
 
     if(notificationString !== '<b>Benachrichtigung für verfolgte Events:</b> <br>') {
         toggleNotification(true, notificationString);
