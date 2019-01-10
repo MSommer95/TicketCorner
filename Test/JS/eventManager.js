@@ -280,6 +280,7 @@ function unFollow(eventid){
 
 //CallBack Funktion zum Initialisieren der Event Arrays
 function initEvents(eventJsonObject){
+    document.getElementById("no-content-message").style.display = "none";
     for(let i=0; i<=eventJsonObject.length-1; i++){
         let event = new Event(eventJsonObject[i].ID, eventJsonObject[i].imageSrc, eventJsonObject[i].eventName, eventJsonObject[i].eventDate, eventJsonObject[i].eventPrice, eventJsonObject[i].eventLocation,eventJsonObject[i].eventTickets, eventJsonObject[i].maxEventTickets);
         if(event.followed) {
