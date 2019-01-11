@@ -452,7 +452,12 @@ function createRating(event) {
     let starArray = [inputStarFive,labelFive ,inputStarFour,labelFour ,inputStarThree,labelThree ,inputStarTwo,labelTwo ,inputStarOne,labelOne];
 
     spanTag.className = "star-rating-overall";
-    spanTag.title = "Bewertungsschnitt: " + event.rating;
+    if(isNaN(event.rating)){
+        spanTag.title = "Keine Bewertung";
+
+    } else {
+        spanTag.title = "Bewertungsschnitt: " + event.rating;
+    }
 
     for(let i = 0; i<starArray.length; i++){
         spanTag.appendChild(starArray[i]);
