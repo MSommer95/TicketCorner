@@ -142,5 +142,8 @@ if(window.location.href.includes("?")){
         case "NoComment":
             alert("Kommentar nicht vorhanden oder keine Befugnis");
             break;
+        case "NotUploaded":
+            alert("Error beim Erstellen des Events. Gehe sicher, dass alle Felder ausgefüllt sind und ein Bild angefügt wurde.")
+            break;
     }
 }

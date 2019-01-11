@@ -186,7 +186,7 @@ function createHTML($id, $eventName, $date, $location, $target_file, $price, $ev
     <div class=\"Comments loggedInAcc\">
             <div>
                 <h5>Kommentare</h5>
-                <textarea id=\"comment-section\" name=\"comment-section\" rows=\"5\" cols=\"100\" maxlength=\"234\"></textarea>
+                <textarea id=\"comment-section\" name=\"comment-section\" rows=\"5\" cols=\"100\" maxlength=\"234\" requiered></textarea>
             </div>
         <button onclick=\"sendCommentForm()\" class=\"flex-c-m btn bg1 bo-rad-23 hov1 m-text3 trans-0-4 marginSpacer\">Kommentieren</button>
     </div>
@@ -238,28 +238,37 @@ if ($stmt->execute()){
                     $sql = "INSERT INTO events (ID, eventName, eventPrice, eventTickets, maxEventTickets, eventDescription, eventDate, eventLocation, imageSrc, creatorID)
                              VALUES ($id, '$eventName', '$price', $eventTickets, $eventTickets, '$description', '$date', '$location', '$target_file', $creatorID)";
                     // use exec() because no results are returned
-                    $conn->exec($sql);
+
                     // Check if $uploadOk is set to 0 by an error
                     if ($uploadOk == 0) {
-                        echo "Sorry, your file was not uploaded.";
+                        $protocol='http';
+                        if (isset($_SERVER['HTTPS']))
+                            if (strtoupper($_SERVER['HTTPS'])=='ON')
+                                $protocol='https';
+
+                        header("location: $protocol://intranet-secure.de/TicketCorner/create.html?Message=NotUploaded");
                         // if everything is ok, try to upload file
                     } else {
                         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                            //echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+                            move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $_FILES["fileUpload"]["name"]);
+                            createHTML($id, $eventName, $date, $location, $target_file, $price, $eventTickets, $description);
+                            $conn->exec($sql);
+                            $protocol='http';
+                            if (isset($_SERVER['HTTPS']))
+                                if (strtoupper($_SERVER['HTTPS'])=='ON')
+                                    $protocol='https';
+
+                            header("location: $protocol://intranet-secure.de/TicketCorner/Events/html/".$id.".html");
+
                         } else {
-                            echo "Sorry, there was an error uploading your file.";
+                            $protocol='http';
+                            if (isset($_SERVER['HTTPS']))
+                                if (strtoupper($_SERVER['HTTPS'])=='ON')
+                                    $protocol='https';
+
+                            header("location: $protocol://intranet-secure.de/TicketCorner/create.html?Message=NotUploaded");
                         }
                     }
-                    move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $_FILES["fileUpload"]["name"]);
-                    createHTML($id, $eventName, $date, $location, $target_file, $price, $eventTickets, $description);
-
-                    $protocol='http';
-                    if (isset($_SERVER['HTTPS']))
-                        if (strtoupper($_SERVER['HTTPS'])=='ON')
-                            $protocol='https';
-
-                    header("location: $protocol://intranet-secure.de/TicketCorner/Events/html/".$id.".html");
-
 
 
                 }
