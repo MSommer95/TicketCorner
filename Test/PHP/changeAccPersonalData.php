@@ -30,10 +30,10 @@ if($requestPermissionToChange->execute()){
         setrawcookie("surname", $changeSurname, time() + (86400*30), "/");
         setrawcookie("email", $changeEmail, time() + (86400*30), "/");
 
-        header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html=?OK");
+        header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html?Message=DataChanged");
     }
     else{
-        header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html=?SQLError");
+        header("Location: https://intranet-secure.de/TicketCorner/accountManagement.html?Messsage=SQLError");
     }
 }
 $conn = null;

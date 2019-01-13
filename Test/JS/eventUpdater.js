@@ -88,7 +88,7 @@ function sendCommentForm(){
     xmlhttp.onload = function () {
         initProcess();
         messageField.value = "";
-        alert("Kommentar erfolgreich gepostet");
+        toggleNotification(true, "<b>Kommentar wurde gepostet.", "information");
     }
 }
 //Funktion zur schnellen Generierung von form Tags
@@ -173,7 +173,7 @@ function deleteComment(commentID){
     xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             initProcess();
-            alert("Kommentar erfolgreich gelöscht");
+            toggleNotification(true, "<b>Kommentar erfolgreich gelöscht.", "information");
         }
     };
     xmlhttp.open("POST", "https://intranet-secure.de/TicketCorner/PHP/deleteComment.php", true);
@@ -207,16 +207,18 @@ function getRating(cb) {
 //Funktion zum Absenden einer vergebenen Bewertung
 function sendRatingForm(){
     let form = document.getElementById("ratingForm");
+
     inputCreate(form, ID, "postID");
     inputCreate(form, getCookie("ID"), "userID");
+
     form.submit();
 }
 
 //Funktion mit der Logik zum Aufspalten des RatingsArray (Hält alle Bewertungen in einer Matrix) und zur Berechnung des Ratings
 function updateRating(ratingJSON){
+    let ratingcounts = 0;
     if(ratingJSON.length >= 1){
         initRating(ratingJSON);
-        let ratingcounts = 0;
         let one =0;
         let two =0;
         let three =0;
@@ -237,12 +239,18 @@ function updateRating(ratingJSON){
         }
         ratingcounts = ratingcounts/ratingJSON.length;
 
-        if(ratingJSON.length>1){
-            document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + "Sterne";
-
-        }else{
-            document.getElementById("rating").textContent ="Es hat eine Person das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + "Sterne";
+        switch (true) {
+            case (ratingcounts === 0):
+                document.getElementById("rating").textContent = "Noch keine Bewertungen";
+                break;
+            case (ratingJSON.length===1):
+                document.getElementById("rating").textContent ="Es hat eine Person das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " Sterne";
+                break;
+            case (ratingJSON.length>1):
+                document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " Sterne";
+                break;
         }
+
         switch(Math.round(ratingcounts)){
             case 1:
                 document.getElementById("oneStarOverAll").checked = true;
@@ -261,7 +269,7 @@ function updateRating(ratingJSON){
                 break;
         }
 
-    } else {
+    } else{
         document.getElementById("rating").textContent = "Noch keine Bewertungen";
         /*if(initPage === 1){
             document.getElementById("threeStars").checked = true;
@@ -467,7 +475,9 @@ function initRating(ratingJSON){
     for(let i = 0;i < ratingJSON.length; i++){
         if(ratingJSON[i].userID == userID && initPage === 1){
             let result = getKeyByValue(ratingJSON[i],"1");
-            document.getElementById(result).checked = true;
+            if(result != null){
+                document.getElementById(result).checked = true;
+            }
             initPage++;
         } else if(i === ratingJSON.length-1 && initPage === 1){
             document.getElementById("threeStars").checked = true;
@@ -499,7 +509,7 @@ function followEventHome(eventId) {
                 currentEvent.isFollowed = true;
                 document.getElementById(eventId +  ".FollowBTN").textContent = "Unfollow";
                 document.getElementById(eventId + ".FollowBTN").setAttribute("onclick", "unFollow(" + eventId + ")");
-
+                toggleNotification(true, "<b>Du folgst nun dem Event.", "information");
             }
         }
     };
@@ -515,9 +525,9 @@ function unFollow(eventid){
         if (this.readyState === 4 && this.status === 200) {
             let eventJsonObject = this.responseText;
             if(typeof eventJsonObject === 'string'){
-
                 document.getElementById(eventid +  ".FollowBTN").textContent = "Follow";
                 document.getElementById(eventid + ".FollowBTN").setAttribute("onclick", "followEventHome(" + eventid + ")");
+                toggleNotification(true, "<b>Du folgst dem Event nun nicht mehr.", "information");
             }
         }
     };

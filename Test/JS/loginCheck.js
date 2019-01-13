@@ -104,43 +104,135 @@ function parseURLParams(url) {
     }
     return parms;
 }
+
+// Funktion zum Einblenden/Ausblenden von Notifications
+function toggleNotification(toggle, text, type) {
+    let notificationBar = document.getElementById("notificationBar");
+
+    if(notificationBar && toggle) {
+        notificationBar.innerHTML = "";
+
+        const anchor = document.createElement("closeNotification");
+        anchor.setAttribute("id", "closeNotification");
+        anchor.setAttribute("onclick", "toggleNotification(false)");
+        anchor.innerHTML = "x";
+
+        notificationBar.appendChild(anchor);
+    }
+
+    if(!notificationBar) {
+        notificationBar = createNotification();
+    }
+
+    if(notificationBar && type) {
+        switch (type) {
+            case "warning":
+                notificationBar.style.backgroundColor = "#ff8533";
+                break;
+            case "error":
+                notificationBar.style.backgroundColor = "#e65540";
+                break;
+            case "information":
+                notificationBar.style.backgroundColor = "#0099ff";
+                break;
+            default:
+                break;
+        }
+    }
+
+    if(toggle) {
+        notificationBar.innerHTML += text;
+        notificationBar.className = "show";
+    }
+    else if(notificationBar.className.includes("show")) {
+        notificationBar.className = "hide";
+
+        setTimeout(() => {
+            notificationBar.className = notificationBar.className.replace("hide", "");
+            notificationBar.innerHTML = "";
+        }, 100);
+    }
+    else {
+        setTimeout(() => {
+            if(notificationBar.className.includes("hide"))
+                notificationBar.className = notificationBar.className.replace("hide", "");
+
+            notificationBar.innerHTML = "";
+        }, 100);
+    }
+}
+
+// Funktion zum erstellen der Notification HTML
+function createNotification() {
+    const head = document.head;
+    const link = document.createElement("link");
+
+    link.setAttribute("type", "text/css");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("href", "../../css/notification.css");
+
+    head.appendChild(link);
+
+    const notificationBar = document.createElement("notificationBar");
+    notificationBar.setAttribute("id", "notificationBar");
+
+    const anchor = document.createElement("closeNotification");
+    anchor.setAttribute("id", "closeNotification");
+    anchor.setAttribute("onclick", "toggleNotification(false)");
+    anchor.innerHTML = "x";
+
+    notificationBar.appendChild(anchor);
+
+    const body = document.body;
+
+    body.appendChild(notificationBar);
+
+    return document.getElementById("notificationBar");
+}
+
+
+
+
 //Error Handling
 if(window.location.href.includes("?")){
     let error = parseURLParams(window.location.href);
 
     switch (error.Message[0]) {
         case "UserAlreadyExists":
-            alert("User already exists");
+            toggleNotification(true, "<b>User already exists!", "error");
             break;
         case "UserDoesntExists":
-            alert("User doesnt exist");
+            toggleNotification(true, "<b>User doesnt exist!", "error");
             break;
         case "WrongLoginData":
-            alert("Wrong Login Data");
+            toggleNotification(true, "<b>Wrong Login Data!", "error");
             break;
         case "OK":
-            alert("Ticket gekauft");
+            toggleNotification(true, "<b>Ticket gekauft!", "information");
             break;
         case "Changed":
-            alert("Bewertung wurde aktualisiert");
+            toggleNotification(true, "<b>Bewertung wurde aktualisiert", "information");
             break;
         case "RatingCommitted":
-            alert("Bewertung abgegeben");
+            toggleNotification(true, "<b>Bewertung abgegeben", "information");
             break;
         case "SQLError":
-            alert("Bei uns ist ein Fehler aufgetreten, bitte versuch es nochmal.");
+            toggleNotification(true, "<b>Bei uns ist ein Fehler aufgetreten, bitte versuch es nochmal.", "error");
             break;
         case "pwChanged":
-            alert("Passwort erfolgreich geändert");
+            toggleNotification(true, "<b>Passwort erfolgreich geändert", "warning");
             break;
         case "NoPwGiven":
-            alert("Passwort nicht korrekt eingegeben");
+            toggleNotification(true, "<b>Passwort nicht korrekt eingegeben", "error");
             break;
         case "loggedOut":
-            alert("Erfolgreich ausgeloggt");
+            toggleNotification(true, "<b>Erfolgreich ausgeloggt", "information");
             break;
         case "NoComment":
-            alert("Kommentar nicht vorhanden oder keine Befugnis");
+            toggleNotification(true, "<b>Kommentar nicht vorhanden oder keine Befugnis", "error");
+            break;
+        case "DataChanged":
+            toggleNotification(true, "<b>Deine Daten wurden aktualisiert", "information");
             break;
     }
 }
