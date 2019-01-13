@@ -169,7 +169,7 @@ function createNotification() {
 
     link.setAttribute("type", "text/css");
     link.setAttribute("rel", "stylesheet");
-    link.setAttribute("href", "../../css/notification.css");
+    link.setAttribute("href", "https://intranet-secure.de/TicketCorner/css/notification.css");
 
     head.appendChild(link);
 
@@ -196,7 +196,9 @@ function createNotification() {
 //Error Handling
 if(window.location.href.includes("?")){
     let error = parseURLParams(window.location.href);
-
+    setTimeout(() => {
+        toggleNotification(false);
+    }, 5000);
     switch (error.Message[0]) {
         case "UserAlreadyExists":
             toggleNotification(true, "<b>User already exists!", "error");
@@ -235,7 +237,7 @@ if(window.location.href.includes("?")){
             toggleNotification(true, "<b>Deine Daten wurden aktualisiert", "information");
             break;
         case "NotUploaded":
-            alert("Error beim Erstellen des Events. Gehe sicher, dass alle Felder ausgefüllt sind und ein Bild angefügt wurde.")
+            toggleNotification(true, "<b>Error beim Erstellen des Events. Gehe sicher, dass alle Felder ausgefüllt sind und ein Bild angefügt wurde.", "error");
             break;
     }
 }

@@ -265,7 +265,7 @@ function unFollow(eventid){
 
                 document.getElementById(eventid +  "FollowBTN").textContent = "Follow";
                 document.getElementById(eventid + "FollowBTN").setAttribute("onclick", "followEventHome(" + eventid + ")");
-
+                toggleNotification(true, "<b>Du folgst dem Event nun nicht mehr.", "information");
                 if(followMap.has(eventid.toString())) {
                     followMap.delete(eventid.toString());
                 }
@@ -546,7 +546,7 @@ function followEventHome(eventId) {
                 updateFollowMap(eventToFollow);
                 document.getElementById(eventId +  "FollowBTN").textContent = "Unfollow";
                 document.getElementById(eventId + "FollowBTN").setAttribute("onclick", "unFollow(" + eventId + ")");
-
+                toggleNotification(true, "<b>Du folgst nun dem Event.", "information");
             }
         }
     };
