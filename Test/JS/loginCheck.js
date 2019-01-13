@@ -234,5 +234,8 @@ if(window.location.href.includes("?")){
         case "DataChanged":
             toggleNotification(true, "<b>Deine Daten wurden aktualisiert", "information");
             break;
+        case "NotUploaded":
+            alert("Error beim Erstellen des Events. Gehe sicher, dass alle Felder ausgefüllt sind und ein Bild angefügt wurde.")
+            break;
     }
 }

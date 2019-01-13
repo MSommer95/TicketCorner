@@ -207,10 +207,8 @@ function getRating(cb) {
 //Funktion zum Absenden einer vergebenen Bewertung
 function sendRatingForm(){
     let form = document.getElementById("ratingForm");
-
     inputCreate(form, ID, "postID");
     inputCreate(form, getCookie("ID"), "userID");
-
     form.submit();
 }
 
@@ -250,7 +248,6 @@ function updateRating(ratingJSON){
                 document.getElementById("rating").textContent ="Es haben " + ratingJSON.length + " Personen das Event bewertet. Bewertung: " + Math.round(ratingcounts*100)/100 + " Sterne";
                 break;
         }
-
         switch(Math.round(ratingcounts)){
             case 1:
                 document.getElementById("oneStarOverAll").checked = true;
@@ -269,7 +266,7 @@ function updateRating(ratingJSON){
                 break;
         }
 
-    } else{
+    } else {
         document.getElementById("rating").textContent = "Noch keine Bewertungen";
         /*if(initPage === 1){
             document.getElementById("threeStars").checked = true;
